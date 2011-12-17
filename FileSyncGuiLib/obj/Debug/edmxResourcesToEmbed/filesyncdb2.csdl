@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="filesyncModel2" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="filesyncEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Contents" EntityType="filesyncModel2.Contents" />
+    <EntitySet Name="Dirs" EntityType="filesyncModel2.Dirs" />
+    <EntitySet Name="DirUsers" EntityType="filesyncModel2.DirUsers" />
+    <EntitySet Name="Files" EntityType="filesyncModel2.Files" />
+    <EntitySet Name="ProfileDirs" EntityType="filesyncModel2.ProfileDirs" />
+    <EntitySet Name="Profiles" EntityType="filesyncModel2.Profiles" />
+    <EntitySet Name="Types" EntityType="filesyncModel2.Types" />
+    <EntitySet Name="Users" EntityType="filesyncModel2.Users" />
+    <AssociationSet Name="FK_Files_Contents" Association="filesyncModel2.FK_Files_Contents">
+      <End Role="Contents" EntitySet="Contents" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DirUsers_Dirs" Association="filesyncModel2.FK_DirUsers_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="DirUsers" EntitySet="DirUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Files_Dirs" Association="filesyncModel2.FK_Files_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProfileDirs_Dirs" Association="filesyncModel2.FK_ProfileDirs_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="ProfileDirs" EntitySet="ProfileDirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DirUsers_Users" Association="filesyncModel2.FK_DirUsers_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="DirUsers" EntitySet="DirUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Files_Types" Association="filesyncModel2.FK_Files_Types">
+      <End Role="Types" EntitySet="Types" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProfileDirs_Profiles" Association="filesyncModel2.FK_ProfileDirs_Profiles">
+      <End Role="Profiles" EntitySet="Profiles" />
+      <End Role="ProfileDirs" EntitySet="ProfileDirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profiles_Users" Association="filesyncModel2.FK_Profiles_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Profiles" EntitySet="Profiles" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="filesyncModel2.sysdiagrams" />
+  </EntityContainer>
+  <EntityType Name="Contents">
+    <Key>
+      <PropertyRef Name="content_id" />
+    </Key>
+    <Property Name="content_id" Type="Int32" Nullable="false" />
+    <Property Name="content_data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Files" Relationship="filesyncModel2.FK_Files_Contents" FromRole="Contents" ToRole="Files" />
+  </EntityType>
+  <EntityType Name="Dirs">
+    <Key>
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="dir_id" Type="Int32" Nullable="false" />
+    <Property Name="dir_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="user_ownerid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DirUsers" Relationship="filesyncModel2.FK_DirUsers_Dirs" FromRole="Dirs" ToRole="DirUsers" />
+    <NavigationProperty Name="Files" Relationship="filesyncModel2.FK_Files_Dirs" FromRole="Dirs" ToRole="Files" />
+    <NavigationProperty Name="ProfileDirs" Relationship="filesyncModel2.FK_ProfileDirs_Dirs" FromRole="Dirs" ToRole="ProfileDirs" />
+  </EntityType>
+  <EntityType Name="DirUsers">
+    <Key>
+      <PropertyRef Name="user_id" />
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="dir_id" Type="Int32" Nullable="false" />
+    <Property Name="diruser_rights" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dirs" Relationship="filesyncModel2.FK_DirUsers_Dirs" FromRole="DirUsers" ToRole="Dirs" />
+    <NavigationProperty Name="Users" Relationship="filesyncModel2.FK_DirUsers_Users" FromRole="DirUsers" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Name="file_id" Type="Int32" Nullable="false" />
+    <Property Name="dir_id" Type="Int32" Nullable="false" />
+    <Property Name="type_id" Type="Int32" Nullable="false" />
+    <Property Name="content_id" Type="Int32" Nullable="false" />
+    <Property Name="file_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="file_size" Type="Int64" Nullable="false" />
+    <Property Name="file_hash" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="file_uploaded" Type="DateTime" Nullable="false" />
+    <Property Name="file_modified" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Contents" Relationship="filesyncModel2.FK_Files_Contents" FromRole="Files" ToRole="Contents" />
+    <NavigationProperty Name="Dirs" Relationship="filesyncModel2.FK_Files_Dirs" FromRole="Files" ToRole="Dirs" />
+    <NavigationProperty Name="Types" Relationship="filesyncModel2.FK_Files_Types" FromRole="Files" ToRole="Types" />
+  </EntityType>
+  <EntityType Name="ProfileDirs">
+    <Key>
+      <PropertyRef Name="profile_id" />
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="profile_id" Type="Int32" Nullable="false" />
+    <Property Name="dir_id" Type="Int32" Nullable="false" />
+    <Property Name="dir_realpath" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Dirs" Relationship="filesyncModel2.FK_ProfileDirs_Dirs" FromRole="ProfileDirs" ToRole="Dirs" />
+    <NavigationProperty Name="Profiles" Relationship="filesyncModel2.FK_ProfileDirs_Profiles" FromRole="ProfileDirs" ToRole="Profiles" />
+  </EntityType>
+  <EntityType Name="Profiles">
+    <Key>
+      <PropertyRef Name="profile_id" />
+    </Key>
+    <Property Name="profile_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="profile_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="ProfileDirs" Relationship="filesyncModel2.FK_ProfileDirs_Profiles" FromRole="Profiles" ToRole="ProfileDirs" />
+    <NavigationProperty Name="Users" Relationship="filesyncModel2.FK_Profiles_Users" FromRole="Profiles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Types">
+    <Key>
+      <PropertyRef Name="type_id" />
+    </Key>
+    <Property Name="type_id" Type="Int32" Nullable="false" />
+    <Property Name="type_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Files" Relationship="filesyncModel2.FK_Files_Types" FromRole="Types" ToRole="Files" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="user_login" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="user_pass" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="user_lastlogin" Type="DateTime" />
+    <Property Name="user_fullname" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="user_email" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="DirUsers" Relationship="filesyncModel2.FK_DirUsers_Users" FromRole="Users" ToRole="DirUsers" />
+    <NavigationProperty Name="Profiles" Relationship="filesyncModel2.FK_Profiles_Users" FromRole="Users" ToRole="Profiles" />
+  </EntityType>
+  <Association Name="FK_Files_Contents">
+    <End Role="Contents" Type="filesyncModel2.Contents" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel2.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contents">
+        <PropertyRef Name="content_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="content_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DirUsers_Dirs">
+    <End Role="Dirs" Type="filesyncModel2.Dirs" Multiplicity="1" />
+    <End Role="DirUsers" Type="filesyncModel2.DirUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="DirUsers">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Files_Dirs">
+    <End Role="Dirs" Type="filesyncModel2.Dirs" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel2.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProfileDirs_Dirs">
+    <End Role="Dirs" Type="filesyncModel2.Dirs" Multiplicity="1" />
+    <End Role="ProfileDirs" Type="filesyncModel2.ProfileDirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="ProfileDirs">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DirUsers_Users">
+    <End Role="Users" Type="filesyncModel2.Users" Multiplicity="1" />
+    <End Role="DirUsers" Type="filesyncModel2.DirUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="DirUsers">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Files_Types">
+    <End Role="Types" Type="filesyncModel2.Types" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel2.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Types">
+        <PropertyRef Name="type_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProfileDirs_Profiles">
+    <End Role="Profiles" Type="filesyncModel2.Profiles" Multiplicity="1" />
+    <End Role="ProfileDirs" Type="filesyncModel2.ProfileDirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profiles">
+        <PropertyRef Name="profile_id" />
+      </Principal>
+      <Dependent Role="ProfileDirs">
+        <PropertyRef Name="profile_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profiles_Users">
+    <End Role="Users" Type="filesyncModel2.Users" Multiplicity="1" />
+    <End Role="Profiles" Type="filesyncModel2.Profiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Profiles">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="principal_id" Nullable="false" />
+    <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="version" />
+    <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+</Schema>

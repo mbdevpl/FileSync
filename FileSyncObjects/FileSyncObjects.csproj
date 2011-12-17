@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC11D152-DE13-4752-9517-AA5CC03586CD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileSyncObjects</RootNamespace>
+    <AssemblyName>FileSyncObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="StringEnum.cs" />
+    <Compile Include="StringValueAttribute.cs" />
+    <Compile Include="ActionException.cs" />
+    <Compile Include="ActionResult.cs" />
+    <Compile Include="Security.cs" />
+    <Compile Include="FileSyncModel.cs" />
+    <Compile Include="Credentials.cs" />
+    <Compile Include="DirectoryContents.cs" />
+    <Compile Include="DirectoryIdentity.cs" />
+    <Compile Include="FileContents.cs" />
+    <Compile Include="FileIdentity.cs" />
+    <Compile Include="FileType.cs" />
+    <Compile Include="MachineContents.cs" />
+    <Compile Include="MachineIdentity.cs" />
+    <Compile Include="UserContents.cs" />
+    <Compile Include="UserIdentity.cs" />
+    <Compile Include="IFileSyncModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_tempLIB\ContentModel.cs" />
+    <Compile Include="_tempLIB\DiruserModel.cs" />
+    <Compile Include="_tempLIB\MachdirModel.cs" />
+    <Compile Include="_tempLIB\RightModel.cs" />
+    <Compile Include="_tempLIB\TypeModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,16 @@
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\bin\WcfServiceTest.dll
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\bin\WcfServiceTest.pdb
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\bin\FileSyncLib.dll
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\bin\FileSyncLib.pdb
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\obj\Debug\WcfServiceTest.dll
+C:\Users\mck\Documents\Visual Studio 2010\Projects\FileSync\FileSyncWcfService\obj\Debug\WcfServiceTest.pdb
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\WcfServiceTest.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\WcfServiceTest.pdb
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\FileSyncLib.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\FileSyncLib.pdb
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\obj\Debug\WcfServiceTest.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\obj\Debug\WcfServiceTest.pdb
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\FileSyncObjects.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncWcfService\bin\FileSyncObjects.pdb

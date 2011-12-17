@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="filesyncModelStoreContainer" CdmEntityContainer="filesyncEntities">
+    <EntitySetMapping Name="Contents">
+      <EntityTypeMapping TypeName="filesyncModel.Content">
+        <MappingFragment StoreEntitySet="Contents">
+          <ScalarProperty Name="content_id" ColumnName="content_id" />
+          <ScalarProperty Name="content_data" ColumnName="content_data" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Dirs">
+      <EntityTypeMapping TypeName="filesyncModel.Dir">
+        <MappingFragment StoreEntitySet="Dirs">
+          <ScalarProperty Name="dir_id" ColumnName="dir_id" />
+          <ScalarProperty Name="dir_rootdirid" ColumnName="dir_rootdirid" />
+          <ScalarProperty Name="dir_name" ColumnName="dir_name" />
+          <ScalarProperty Name="user_ownerid" ColumnName="user_ownerid" />
+          <ScalarProperty Name="dir_description" ColumnName="dir_description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DirUsers">
+      <EntityTypeMapping TypeName="filesyncModel.DirUser">
+        <MappingFragment StoreEntitySet="DirUsers">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="dir_id" ColumnName="dir_id" />
+          <ScalarProperty Name="right_id" ColumnName="right_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="filesyncModel.File">
+        <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="file_id" ColumnName="file_id" />
+          <ScalarProperty Name="dir_id" ColumnName="dir_id" />
+          <ScalarProperty Name="type_id" ColumnName="type_id" />
+          <ScalarProperty Name="content_id" ColumnName="content_id" />
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="file_size" ColumnName="file_size" />
+          <ScalarProperty Name="file_hash" ColumnName="file_hash" />
+          <ScalarProperty Name="file_uploaded" ColumnName="file_uploaded" />
+          <ScalarProperty Name="file_modified" ColumnName="file_modified" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MachineDirs">
+      <EntityTypeMapping TypeName="filesyncModel.MachineDir">
+        <MappingFragment StoreEntitySet="MachineDirs">
+          <ScalarProperty Name="machine_id" ColumnName="machine_id" />
+          <ScalarProperty Name="dir_id" ColumnName="dir_id" />
+          <ScalarProperty Name="dir_realpath" ColumnName="dir_realpath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Machines">
+      <EntityTypeMapping TypeName="filesyncModel.Machine">
+        <MappingFragment StoreEntitySet="Machines">
+          <ScalarProperty Name="machine_id" ColumnName="machine_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="machine_name" ColumnName="machine_name" />
+          <ScalarProperty Name="machine_description" ColumnName="machine_description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rights">
+      <EntityTypeMapping TypeName="filesyncModel.Right">
+        <MappingFragment StoreEntitySet="Rights">
+          <ScalarProperty Name="right_id" ColumnName="right_id" />
+          <ScalarProperty Name="right_name" ColumnName="right_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Types">
+      <EntityTypeMapping TypeName="filesyncModel.Type">
+        <MappingFragment StoreEntitySet="Types">
+          <ScalarProperty Name="type_id" ColumnName="type_id" />
+          <ScalarProperty Name="type_name" ColumnName="type_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="filesyncModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_login" ColumnName="user_login" />
+          <ScalarProperty Name="user_pass" ColumnName="user_pass" />
+          <ScalarProperty Name="user_fullname" ColumnName="user_fullname" />
+          <ScalarProperty Name="user_email" ColumnName="user_email" />
+          <ScalarProperty Name="user_lastlogin" ColumnName="user_lastlogin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

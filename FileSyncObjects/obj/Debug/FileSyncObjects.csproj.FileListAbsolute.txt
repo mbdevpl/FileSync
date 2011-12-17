@@ -1,0 +1,5 @@
+D:\Projects\Visual Studio 2010\FileSync\FileSyncObjects\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio 2010\FileSync\FileSyncObjects\bin\Debug\FileSyncObjects.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncObjects\bin\Debug\FileSyncObjects.pdb
+D:\Projects\Visual Studio 2010\FileSync\FileSyncObjects\obj\Debug\FileSyncObjects.dll
+D:\Projects\Visual Studio 2010\FileSync\FileSyncObjects\obj\Debug\FileSyncObjects.pdb
