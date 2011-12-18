@@ -1,0 +1,8 @@
+﻿<Application x:Class="FileSyncGui.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+  <Application.Resources>
+    <!--MainWindow LoginWindow MachineWindow SystemMessage-->
+  </Application.Resources>
+</Application>

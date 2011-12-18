@@ -1,0 +1,186 @@
+﻿<Window x:Class="FileSyncGui.MachineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:con="http://schemas.kent.boogaart.com/converters"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:guiobj="clr-namespace:FileSyncGui.GuiObjects"
+        Name="windowMachine" Title="FileSync: Select machine"
+        Width="250" Height="350"
+        MinWidth="250" MinHeight="350" MaxWidth="600" MaxHeight="600"
+        Icon="/FileSyncGui;component/Images/filesyncIcon.png">
+  <Window.Resources>
+    <Style TargetType="{x:Type Button}">
+      <Setter Property="Margin" Value="1,0,1,0" />
+    </Style>
+    <Style TargetType="ListViewItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <!--<guiobj:MachineIdentityCollectionConverter x:Key="MachinesConverter" />-->
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <!-- background -->
+    <Image Grid.ColumnSpan="4" Grid.RowSpan="2" 
+           MinWidth="600" MinHeight="600" Opacity="0.10"
+           Source="/FileSyncGui;component/Images/filesyncBackground1.png" />
+    <!-- list of machines -->
+    <ListView Grid.ColumnSpan="4" Name="viewDirs" SelectionMode="Single"
+              SelectionChanged="viewDirs_SelectionChanged" Background="Transparent"
+              ItemsSource="{Binding ElementName=windowMachine, Path=Machines}">
+      <ListView.View>
+        <GridView>
+          <GridViewColumn Header="Name"
+                          DisplayMemberBinding="{Binding Name}" />
+          <GridViewColumn Header="Description"
+                          DisplayMemberBinding="{Binding Description}" />
+        </GridView>
+      </ListView.View>
+    </ListView>
+    <!-- new machine pane -->
+    <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="10,10,10,10"
+          HorizontalAlignment="Center">
+      <Grid.Visibility>
+        <Binding ElementName="UserCreatingMachine" Path="IsChecked">
+          <Binding.Converter>
+            <con:MapConverter>
+              <con:Mapping To="{x:Static Visibility.Collapsed}">
+                <con:Mapping.From>
+                  <sys:Boolean>
+                    False
+                  </sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+              <con:Mapping To="{x:Static Visibility.Visible}">
+                <con:Mapping.From>
+                  <sys:Boolean>
+                    True
+                  </sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+            </con:MapConverter>
+          </Binding.Converter>
+        </Binding>
+      </Grid.Visibility>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="100" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="New machine data"/>
+      <TextBlock Grid.Column="0" Grid.Row="1" Text="Name: " 
+                 VerticalAlignment="Center" />
+      <TextBox Grid.Column="1" Grid.Row="1" Text="" 
+               Name="NewMachineName" TextChanged="NewMachineData_Changed" />
+      <TextBlock Grid.Column="0" Grid.Row="2" Text="Description: " 
+                 VerticalAlignment="Center" />
+      <TextBox Grid.Column="1" Grid.Row="2" Text=""
+               Name="NewMachineDesc" TextChanged="NewMachineData_Changed" />
+      <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Grid.Row="0" Name="buttonCreateSubmit" Content="Create"
+                Click="buttonCreateSubmit_Click"
+                IsEnabled="{Binding ElementName=UserEnteredRequiredData, Path=IsChecked}" />
+        <Button Grid.Column="1" Grid.Row="0" Name="buttonCreateCancel" Content="Cancel"
+                Click="buttonCreateCancel_Click" />
+        <Button Grid.Row="2" Grid.Column="3" Name="buttonCreateHelp" Content=" ? "
+                Click="buttonCreateHelp_Click" />
+      </Grid>
+
+    </Grid>
+    <Button Grid.Row="2" Grid.Column="0" Name="buttonCreate" Click="buttonCreate_Click">
+      <Button.Content>
+        <Binding ElementName="UserCreatingMachine" Path="IsChecked">
+          <Binding.Converter>
+            <con:MapConverter>
+              <con:Mapping To="Create machine">
+                <con:Mapping.From>
+                  <sys:Boolean>False</sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+              <con:Mapping To="creating...">
+                <con:Mapping.From>
+                  <sys:Boolean>True</sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+            </con:MapConverter>
+            
+          </Binding.Converter>
+          <!--Content="Create machine" -->
+        </Binding>
+      </Button.Content>
+      <Button.IsEnabled>
+        <Binding ElementName="UserCreatingMachine" Path="IsChecked">
+          <Binding.Converter>
+            <con:MapConverter>
+              <con:Mapping>
+                <con:Mapping.From>
+                  <sys:Boolean>True</sys:Boolean>
+                </con:Mapping.From>
+                <con:Mapping.To>
+                  <sys:Boolean>False</sys:Boolean>
+                </con:Mapping.To>
+              </con:Mapping>
+              <con:Mapping>
+                <con:Mapping.From>
+                  <sys:Boolean>False</sys:Boolean>
+                </con:Mapping.From>
+                <con:Mapping.To>
+                  <sys:Boolean>true</sys:Boolean>
+                </con:Mapping.To>
+              </con:Mapping>
+            </con:MapConverter>
+          </Binding.Converter>
+        </Binding>
+      </Button.IsEnabled>
+    </Button>
+    <!--<Button Grid.Row="1" Grid.Column="0"
+            Name="buttonRefresh" Content="Refresh" Click="buttonRefresh_Click" />-->
+    <Button Grid.Row="2" Grid.Column="1"
+            Name="buttonSelect" Content="Select" Click="buttonSelect_Click"
+            IsEnabled="{Binding ElementName=UserSelectedMachine, Path=IsChecked}"/>
+    <Button Grid.Row="2" Grid.Column="2"
+            Name="buttonCancel" Content="Cancel" Click="buttonCancel_Click" />
+    <Button Grid.Row="2" Grid.Column="3"
+            Name="buttonHelp" Content=" ? "
+            Click="buttonHelp_Click" />
+    <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
+      <TextBlock Text="Choose active machine profile. " />
+    </StackPanel>-->
+    <StackPanel Grid.ColumnSpan="4" VerticalAlignment="Bottom"
+                IsEnabled="False" Visibility="Collapsed">
+      <StackPanel Orientation="Horizontal">
+        <CheckBox Name="UserSelectedMachine" Content="choice?"
+                  IsChecked="{Binding ElementName=windowMachine, Path=MachineIsSelected}" />
+        <TextBlock Text=" index=" />
+        <TextBlock Name="viewDirsSelectedIndex"
+                   Text="{Binding ElementName=windowMachine, Path=SelectedMachineIndex}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal">
+        <CheckBox Name="UserCreatingMachine" Content="creating?"
+                  IsChecked="{Binding ElementName=windowMachine, Path=CreatingMachine}" />
+        <CheckBox Name="UserEnteredRequiredData" Content="enterd?"
+                  IsChecked="{Binding ElementName=windowMachine, Path=EnteredRequiredData}" />
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>

@@ -1,0 +1,531 @@
+﻿<Window x:Class="FileSyncGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ex="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:con="http://schemas.kent.boogaart.com/converters"
+        xmlns:my="clr-namespace:FileSyncGui.GuiObjects"
+        xmlns:c="comment"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="c"
+        Title="FileSync" Name="windowMain"
+        Height="450" Width="450"
+        MinHeight="450" MinWidth="450"
+        Icon="/FileSyncGui;component/Images/filesyncIcon.png">
+  <Window.Resources>
+    <Style TargetType="Button">
+      <Setter Property="Margin" Value="1,0,1,0" />
+    </Style>
+    <Style x:Key="NearButton" TargetType="FrameworkElement">
+      <Setter Property="Margin" Value="0,0,4,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <sys:String x:Key="Text_LoginOrCreate">Before you continue using FileSync, you need to:</sys:String>
+    <sys:String x:Key="Text_CreateOrSelectMachine">You've logged in, to continue please:</sys:String>
+    <sys:String x:Key="Text_Logout">Have you finished your sync?</sys:String>
+    <sys:String x:Key="Text_ChangeMachine">Did you select a wrong machine profile?</sys:String>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- Main menu -->
+    <Menu Grid.Row="0" Name="menuMain">
+      <MenuItem Name="menuApplication" Header="Application">
+        <!--<MenuItem Name="optionAbout" Header="About" IsEnabled="False" />
+        <MenuItem Name="optionSettings" Header="Settings" />-->
+        <MenuItem Name="optionExit" Header="Exit" Click="optionExit_Click" />
+      </MenuItem>
+      <MenuItem Name="menuUser" Header="User">
+        <MenuItem Name="optionLogin" Header="Log in or create account"
+                  Click="buttonLoginCreate_Click">
+          <MenuItem.IsEnabled>
+            <Binding ElementName="UserLoggedIn" Path="IsChecked">
+              <Binding.Converter>
+                <con:MapConverter>
+                  <con:Mapping>
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        True
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                    <con:Mapping.To>
+                      <sys:Boolean>
+                        False
+                      </sys:Boolean>
+                    </con:Mapping.To>
+                  </con:Mapping>
+                  <con:Mapping>
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        False
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                    <con:Mapping.To>
+                      <sys:Boolean>
+                        True
+                      </sys:Boolean>
+                    </con:Mapping.To>
+                  </con:Mapping>
+                </con:MapConverter>
+              </Binding.Converter>
+            </Binding>
+          </MenuItem.IsEnabled>
+        </MenuItem>
+        <MenuItem Name="optionLogout" Header="Log out" Click="buttonLogout_Click"
+                  IsEnabled="{Binding ElementName=UserLoggedIn, Path=IsChecked}" />
+        <!--<MenuItem Name="optionChangePassword" Header="Change password"
+                  Click="optionChangePassword_Click"
+                  IsEnabled="{Binding ElementName=UserLoggedIn, Path=IsChecked}" />
+        <MenuItem Name="optionResetPassword" Header="Reset password"
+                  Click="optionResetPassword_Click"
+                  IsEnabled="False" />-->
+      </MenuItem>
+      <MenuItem Name="menuMachine" Header="Machine"
+                IsEnabled="{Binding ElementName=UserLoggedIn, Path=IsChecked}">
+        <MenuItem Name="optionUploadMachine" Header="Backup to server"
+                  Click="optionUploadMachine_Click"
+                  IsEnabled="{Binding ElementName=UserLoggedInAndChosenMachine, Path=IsChecked}" />
+        <MenuItem Name="optionDownloadMachine" Header="Download from server"
+                  Click="optionDownloadMachine_Click"
+                  IsEnabled="{Binding ElementName=UserLoggedInAndChosenMachine,
+                  Path=IsChecked}" />
+        <!--<MenuItem Name="optionModifyMachine" Header="Modify"
+                  IsEnabled="{Binding ElementName=UserLoggedInAndChosenMachine,
+                  Path=IsChecked}" />
+        <MenuItem Name="optionSelectMachine" Header="Select active"
+                  Click="optionSelectMachine_Click" />
+        <MenuItem Name="optionCreateMachine" Header="Create new"
+                  Click="optionCreateMachine_Click" />
+        <MenuItem Name="optionDeleteMachine" Header="Delete" Click="optionDeleteMachine_Click" />-->
+        <MenuItem Name="optionAddDir" Header="Add directory" Click="optionAddDir_Click"
+                  IsEnabled="{Binding ElementName=UserLoggedInAndChosenMachine,
+                  Path=IsChecked}" />
+      </MenuItem>
+      <MenuItem Header="Directory"
+                IsEnabled="{Binding ElementName=UserSelectedDirectory, Path=IsChecked}">
+        <MenuItem Name="optionUploadDir" Header="Backup to server" Click="optionUploadDir_Click" />
+        <MenuItem Name="optionDownloadDir" Header="Download from server"
+                  Click="optionDownloadDir_Click" />
+        <!--<MenuItem Name="optionModifyRights" Header="Modify access rights"
+                  Click="optionModifyRights_Click" />
+        <MenuItem Name="optionDeleteDir" Header="Delete" Click="optionDeleteDir_Click" />
+        <MenuItem Name="optionAddFile" Header="Add file" Click="optionAddFile_Click" 
+                  IsEnabled="False" />
+        <MenuItem Name="optionRemoveFile" Header="Remove file" Click="optionRemoveFile_Click" 
+                  IsEnabled="False" />-->
+      </MenuItem>
+      <!--<MenuItem Header="File"
+                IsEnabled="{Binding ElementName=UserSelectedFile, Path=IsChecked}">
+        <MenuItem Name="optionUploadFile" Header="Backup to server" 
+                  Click="optionUploadFile_Click" />
+        <MenuItem Name="optionDownloadFile"  Header="Download from server" 
+                  Click="optionDownloadFile_Click" />
+        <MenuItem Name="optionViewMetadata"  Header="View metadata" 
+                  Click="optionViewMetadata_Click" />
+        <MenuItem Name="optionChangeType" Header="Change content type" 
+                  Click="optionChangeType_Click" />
+        <MenuItem Name="optionDeleteFile" Header="Delete" Click="optionDeleteFile_Click" />
+      </MenuItem>-->
+    </Menu>
+    <!-- Background -->
+    <Image Grid.Row="1" Opacity="0.15"
+             HorizontalAlignment="Right" VerticalAlignment="Bottom"
+             Width="600" Height="600" Margin="0,0,-250,-250"
+             Source="/FileSyncGui;component/Images/filesyncMiniLogo.png" />
+    <!-- Content grid-->
+    <Grid Grid.Row="1" Name="gridDirectories">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <!-- Content after login -->
+      <Grid Name="gridMachineContents" Grid.Row="0">
+        <Grid.Visibility>
+          <Binding ElementName="UserLoggedInAndChosenMachine" Path="IsChecked">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>
+                      False
+                    </sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>
+                      True
+                    </sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </Grid.Visibility>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- List of directories-->
+        <Grid Grid.Row="0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Name="MachineIntroductoryLabel">
+            <TextBlock.Text>
+              <Binding ElementName="ActiveMachineName" Path="Text">
+                <Binding.Converter>
+                  <con:FormatConverter FormatString="Directories defined to sync on {0}">
+                  </con:FormatConverter>
+                </Binding.Converter>
+              </Binding>
+            </TextBlock.Text>
+          </TextBlock>
+          <TreeView Name="MachineDirsTree" Grid.Row="1" Background="Transparent"
+                    ItemsSource="{Binding ElementName=windowMain, Path=Directories}"
+                    SelectedItemChanged="MachineDirsTree_SelectedItemChanged">
+            <TreeView.Resources>
+              <HierarchicalDataTemplate DataType="{x:Type my:FileIdentity}">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding Path=Name}" />
+                  <TextBlock Text=" " />
+                  <TextBlock Text="{Binding Path=Size}" />
+                  <TextBlock Text=" bytes" />
+                  <!--<TextBlock Text=" " />
+                  <TextBlock Text="{Binding Path=Modified}" />
+                  <TextBlock Text=" " />
+                  <TextBlock Text="{Binding Path=Hash}" />-->
+                </StackPanel>
+              </HierarchicalDataTemplate>
+              <HierarchicalDataTemplate DataType="{x:Type my:DirContents}" 
+                                        ItemsSource="{Binding Path=Files}">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding Path=Name}" />
+                  <TextBlock Text=" from " />
+                  <TextBlock Text="{Binding Path=LocalPath}" />
+                </StackPanel>
+              </HierarchicalDataTemplate>
+            </TreeView.Resources>
+            <TreeView.IsEnabled>
+              true
+
+              <!--<TreeViewItem IsExpanded="True" Selected="MachineDirsTreeItem_Selected"
+                          Unselected="MachineDirsTreeItem_Unselected">
+              <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock VerticalAlignment="Center"
+                             Text="'C:/Docs/Example/Directory'" />
+                  <TextBlock VerticalAlignment="Center" Text=" as " />
+                  <TextBlock VerticalAlignment="Center" Text="'DirName'" />
+                </StackPanel>
+              </TreeViewItem.Header>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListView>
+                  <ListView.View>
+                    <GridView>
+                      <GridViewColumn Header="Name" />
+                      <GridViewColumn Header="Size" />
+                      <GridViewColumn Header="Uploaded" />
+                      <GridViewColumn Header="Modified" />
+                    </GridView>
+                  </ListView.View>
+                  <ListViewItem>Readme.txt</ListViewItem>
+                  <ListViewItem>Music.mp3</ListViewItem>
+                  <ListViewItem>Doc.rtf</ListViewItem>
+                  <ListViewItem>Movie.avi</ListViewItem>
+                  <ListViewItem>Doc2.pdf</ListViewItem>
+                </ListView>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Remote name:" />
+                    <TextBox Text="DirName" />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Local path:" />
+                    <TextBox Text="C:/Docs/Example/Directory" />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal">
+                    <Button Content="Save changes" />
+                    <Button Content="Cancel" />
+                    <ex:DropDownButton Content="Modify access rights">
+                      <ex:DropDownButton.DropDownContent>
+                        <StackPanel>
+                          <ListView>
+                            <ListView.View>
+                              <GridView>
+                                <GridViewColumn Header="User" />
+                                <GridViewColumn Header="Rights" />
+                              </GridView>
+                            </ListView.View>
+                            <ListViewItem>Read/Write</ListViewItem>
+                            <ListViewItem>Read/Write</ListViewItem>
+                          </ListView>
+                          <Button Content="Save changes" />
+                          <Button Content="Cancel" />
+                        </StackPanel>
+                      </ex:DropDownButton.DropDownContent>
+                    </ex:DropDownButton>
+                  </StackPanel>
+                </StackPanel>
+              </Grid>
+            </TreeViewItem>
+            <TreeViewItem>
+              <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock VerticalAlignment="Center"
+                             Text="'C:/Docs/Example/Directory'" />
+                  <TextBlock VerticalAlignment="Center" Text=" as " />
+                  <TextBlock VerticalAlignment="Center" Text="'DirName'" />
+                </StackPanel>
+              </TreeViewItem.Header>
+              <TextBlock Text="Dir contents and options..."/>
+            </TreeViewItem>
+            <TreeViewItem IsExpanded="True">
+              <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock VerticalAlignment="Center"
+                             Text="'C:/Docs/Example/Directory'" />
+                  <TextBlock VerticalAlignment="Center" Text=" as " />
+                  <TextBlock VerticalAlignment="Center" Text="'DirName'" />
+                </StackPanel>
+              </TreeViewItem.Header>
+              <TextBlock Text="Contents and options..."/>
+            </TreeViewItem>
+            <TreeViewItem IsExpanded="True">
+              <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock VerticalAlignment="Center"
+                             Text="'C:/Docs/Example/Directory'" />
+                  <TextBlock VerticalAlignment="Center" Text=" as " />
+                  <TextBlock VerticalAlignment="Center" Text="'DirName'" />
+                </StackPanel>
+              </TreeViewItem.Header>
+              <TextBlock Text="And options..."/>
+            </TreeViewItem>
+            <TreeViewItem IsExpanded="True">
+              <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock VerticalAlignment="Center"
+                             Text="'C:/Docs/Example/Directory'" />
+                  <TextBlock VerticalAlignment="Center" Text=" as " />
+                  <TextBlock VerticalAlignment="Center" Text="'DirName'" />
+                </StackPanel>
+              </TreeViewItem.Header>
+              <TextBlock Text="Options..."/>
+            </TreeViewItem>-->
+            </TreeView.IsEnabled>
+          </TreeView>
+        </Grid>
+        <!-- Machine options -->
+        <Grid Name="gridMachineOptions" Grid.Row="1">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="Machine details" />
+            <TextBlock Grid.Row="1" Style="{StaticResource NearButton}" Text="Name:" />
+            <TextBox Grid.Row="1" Grid.Column="1" Name="ActiveMachineName" 
+                     Text="{Binding ElementName=windowMain, Path=MachineName}" />
+            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource NearButton}" 
+                     Text=" Description:" />
+            <TextBox Grid.Row="1" Grid.Column="3" Name="ActiveMachineDesc" 
+                     Text="{Binding ElementName=windowMain, Path=MachineDesc}" />
+          </Grid>
+          <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="buttonSaveChanges"  Content="Save details changes" 
+                    Click="buttonSaveChanges_Click" />
+            <Button Name="buttonCancel" Content="Cancel" Click="buttonCancel_Click" />
+            <!--<Button Name="buttonDelete" Content="Delete machine" Click="buttonDelete_Click" />-->
+          </StackPanel>
+          <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Name="buttonAddDir" Content="Add directory" Click="buttonAddDir_Click" />
+            <!--<Button Name="buttonAddFile" Content="Add file" />-->
+          </StackPanel>
+        </Grid>
+      </Grid>
+      <!-- Content before login -->
+      <Grid Name="gridLoginOrCreate" Grid.Row="0" Grid.RowSpan="3"
+            VerticalAlignment="Center" HorizontalAlignment="Center">
+        <!--Opacity="0.0"--> 
+        <Grid.Visibility>
+          <Binding ElementName="UserLoggedInAndChosenMachine" Path="IsChecked">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>
+                      True
+                    </sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>
+                      False
+                    </sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </Grid.Visibility>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+          <StackPanel.Visibility>
+            <Binding ElementName="UserLoggedIn" Path="IsChecked">
+              <Binding.Converter>
+                <con:MapConverter>
+                  <con:Mapping To="{x:Static Visibility.Collapsed}">
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        True
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                  </con:Mapping>
+                  <con:Mapping To="{x:Static Visibility.Visible}">
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        False
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                  </con:Mapping>
+                </con:MapConverter>
+              </Binding.Converter>
+            </Binding>
+          </StackPanel.Visibility>
+          <TextBlock Style="{StaticResource NearButton}"
+                     Text="{StaticResource Text_LoginOrCreate}" />
+          <Button Name="buttonLoginCreate" Content="Log in or create account"
+                  Click="buttonLoginCreate_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+          <StackPanel.Visibility>
+            <Binding ElementName="UserLoggedIn" Path="IsChecked">
+              <Binding.Converter>
+                <con:MapConverter>
+                  <con:Mapping To="{x:Static Visibility.Visible}">
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        True
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                  </con:Mapping>
+                  <con:Mapping To="{x:Static Visibility.Collapsed}">
+                    <con:Mapping.From>
+                      <sys:Boolean>
+                        False
+                      </sys:Boolean>
+                    </con:Mapping.From>
+                  </con:Mapping>
+                </con:MapConverter>
+              </Binding.Converter>
+            </Binding>
+          </StackPanel.Visibility>
+          <TextBlock Style="{StaticResource NearButton}"
+                     Text="{StaticResource Text_CreateOrSelectMachine}" />
+          <Button Name="buttonCreateSelectMachine" Content="Create or select machine"
+                  Click="buttonCreateSelectMachine_Click" />
+        </StackPanel>
+      </Grid>
+      <!-- Logout panel -->
+      <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel.Visibility>
+          <Binding ElementName="UserLoggedInAndChosenMachine" Path="IsChecked">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>False</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>True</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </StackPanel.Visibility>
+        <!--<TextBlock Style="{StaticResource NearButton}"
+                   Text="{StaticResource Text_ChangeMachine}" />
+        <Button Name="buttonChangeMachine" Content="Change machine"
+                Click="buttonChangeMachine_Click"
+                IsEnabled="{Binding ElementName=UserLoggedInAndChosenMachine, Path=IsChecked}" />-->
+      </StackPanel>
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel.Visibility>
+          <Binding ElementName="UserLoggedIn" Path="IsChecked">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>False</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>True</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </StackPanel.Visibility>
+        <TextBlock Style="{StaticResource NearButton}" Text="{StaticResource Text_Logout}" />
+        <Button Name="buttonLogout" Content="Log out" Click="buttonLogout_Click"
+                IsEnabled="{Binding ElementName=UserLoggedIn, Path=IsChecked}" />
+      </StackPanel>
+      <!-- Bindings control-->
+      <Grid Grid.Row="0" Grid.RowSpan="3" Name="gridBindingsControl"
+            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+            IsEnabled="False" Visibility="Collapsed">
+        <StackPanel Orientation="Vertical">
+          <StackPanel Orientation="Horizontal">
+            <!--<TextBlock Name="UserSelectedMachineIndex"
+                      Text="{Binding ElementName=windowMain, Path=SelectedMachineIndex}" />-->
+            <CheckBox Name="UserSelectedMachine" Content="machine? "
+                      IsChecked="{Binding ElementName=windowMain, Path=SelectedMachine}" />
+            <TextBlock Name="UserSelectedDirectoryIndex"
+                      Text="{Binding ElementName=windowMain, Path=SelectedDirectoryIndex}" />
+            <CheckBox Name="UserSelectedDirectory" Content="dir? "
+                      IsChecked="{Binding ElementName=windowMain, Path=SelectedDirectory}" />
+            <CheckBox Name="UserSelectedFile" Content="file? "
+                      IsChecked="{Binding ElementName=windowMain, Path=SelectedFile}" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <CheckBox Name="UserLoggedIn" Content="logged?"
+                      IsChecked="{Binding ElementName=windowMain, Path=LoggedIn}" />
+            <CheckBox Name="UserLoggedInAndChosenMachine" Content="chosen?"
+                      IsChecked="{Binding ElementName=windowMain, 
+                      Path=LoggedInAndChosenMachine}" />
+          </StackPanel>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

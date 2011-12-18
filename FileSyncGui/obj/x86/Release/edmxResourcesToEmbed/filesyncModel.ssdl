@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="filesyncModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="filesyncModelStoreContainer">
+    <EntitySet Name="Contents" EntityType="filesyncModel.Store.Contents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Dirs" EntityType="filesyncModel.Store.Dirs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DirUsers" EntityType="filesyncModel.Store.DirUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Files" EntityType="filesyncModel.Store.Files" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MachineDirs" EntityType="filesyncModel.Store.MachineDirs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Machines" EntityType="filesyncModel.Store.Machines" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Rights" EntityType="filesyncModel.Store.Rights" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Types" EntityType="filesyncModel.Store.Types" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="filesyncModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Dirs_Dirs" Association="filesyncModel.Store.FK_Dirs_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="Dirs1" EntitySet="Dirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Dirs_Users" Association="filesyncModel.Store.FK_Dirs_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Dirs" EntitySet="Dirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DirUsers_Dirs" Association="filesyncModel.Store.FK_DirUsers_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="DirUsers" EntitySet="DirUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DirUsers_Rights" Association="filesyncModel.Store.FK_DirUsers_Rights">
+      <End Role="Rights" EntitySet="Rights" />
+      <End Role="DirUsers" EntitySet="DirUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DirUsers_Users" Association="filesyncModel.Store.FK_DirUsers_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="DirUsers" EntitySet="DirUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Files_Contents" Association="filesyncModel.Store.FK_Files_Contents">
+      <End Role="Contents" EntitySet="Contents" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Files_Dirs" Association="filesyncModel.Store.FK_Files_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Files_Types" Association="filesyncModel.Store.FK_Files_Types">
+      <End Role="Types" EntitySet="Types" />
+      <End Role="Files" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MachineDirs_Dirs" Association="filesyncModel.Store.FK_MachineDirs_Dirs">
+      <End Role="Dirs" EntitySet="Dirs" />
+      <End Role="MachineDirs" EntitySet="MachineDirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MachineDirs_Machines" Association="filesyncModel.Store.FK_MachineDirs_Machines">
+      <End Role="Machines" EntitySet="Machines" />
+      <End Role="MachineDirs" EntitySet="MachineDirs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Machines_Users" Association="filesyncModel.Store.FK_Machines_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Machines" EntitySet="Machines" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contents">
+    <Key>
+      <PropertyRef Name="content_id" />
+    </Key>
+    <Property Name="content_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="content_data" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dirs">
+    <Key>
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="dir_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="dir_rootdirid" Type="int" />
+    <Property Name="dir_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="user_ownerid" Type="int" Nullable="false" />
+    <Property Name="dir_description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="DirUsers">
+    <Key>
+      <PropertyRef Name="user_id" />
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="dir_id" Type="int" Nullable="false" />
+    <Property Name="right_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="file_id" />
+    </Key>
+    <Property Name="file_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="dir_id" Type="int" Nullable="false" />
+    <Property Name="type_id" Type="int" Nullable="false" />
+    <Property Name="content_id" Type="int" Nullable="false" />
+    <Property Name="file_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="file_size" Type="bigint" Nullable="false" />
+    <Property Name="file_hash" Type="varchar(max)" Nullable="false" />
+    <Property Name="file_uploaded" Type="datetime" Nullable="false" />
+    <Property Name="file_modified" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MachineDirs">
+    <Key>
+      <PropertyRef Name="machine_id" />
+      <PropertyRef Name="dir_id" />
+    </Key>
+    <Property Name="machine_id" Type="int" Nullable="false" />
+    <Property Name="dir_id" Type="int" Nullable="false" />
+    <Property Name="dir_realpath" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Machines">
+    <Key>
+      <PropertyRef Name="machine_id" />
+    </Key>
+    <Property Name="machine_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="machine_name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="machine_description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Rights">
+    <Key>
+      <PropertyRef Name="right_id" />
+    </Key>
+    <Property Name="right_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="right_name" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Types">
+    <Key>
+      <PropertyRef Name="type_id" />
+    </Key>
+    <Property Name="type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="type_name" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="user_login" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="user_pass" Type="varchar(max)" Nullable="false" />
+    <Property Name="user_fullname" Type="varchar" MaxLength="50" />
+    <Property Name="user_email" Type="varchar" MaxLength="50" />
+    <Property Name="user_lastlogin" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Dirs_Dirs">
+    <End Role="Dirs" Type="filesyncModel.Store.Dirs" Multiplicity="0..1" />
+    <End Role="Dirs1" Type="filesyncModel.Store.Dirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="Dirs1">
+        <PropertyRef Name="dir_rootdirid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Dirs_Users">
+    <End Role="Users" Type="filesyncModel.Store.Users" Multiplicity="1" />
+    <End Role="Dirs" Type="filesyncModel.Store.Dirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Dirs">
+        <PropertyRef Name="user_ownerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DirUsers_Dirs">
+    <End Role="Dirs" Type="filesyncModel.Store.Dirs" Multiplicity="1" />
+    <End Role="DirUsers" Type="filesyncModel.Store.DirUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="DirUsers">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DirUsers_Rights">
+    <End Role="Rights" Type="filesyncModel.Store.Rights" Multiplicity="1" />
+    <End Role="DirUsers" Type="filesyncModel.Store.DirUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rights">
+        <PropertyRef Name="right_id" />
+      </Principal>
+      <Dependent Role="DirUsers">
+        <PropertyRef Name="right_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DirUsers_Users">
+    <End Role="Users" Type="filesyncModel.Store.Users" Multiplicity="1" />
+    <End Role="DirUsers" Type="filesyncModel.Store.DirUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="DirUsers">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Files_Contents">
+    <End Role="Contents" Type="filesyncModel.Store.Contents" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel.Store.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contents">
+        <PropertyRef Name="content_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="content_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Files_Dirs">
+    <End Role="Dirs" Type="filesyncModel.Store.Dirs" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel.Store.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Files_Types">
+    <End Role="Types" Type="filesyncModel.Store.Types" Multiplicity="1" />
+    <End Role="Files" Type="filesyncModel.Store.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Types">
+        <PropertyRef Name="type_id" />
+      </Principal>
+      <Dependent Role="Files">
+        <PropertyRef Name="type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MachineDirs_Dirs">
+    <End Role="Dirs" Type="filesyncModel.Store.Dirs" Multiplicity="1" />
+    <End Role="MachineDirs" Type="filesyncModel.Store.MachineDirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dirs">
+        <PropertyRef Name="dir_id" />
+      </Principal>
+      <Dependent Role="MachineDirs">
+        <PropertyRef Name="dir_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MachineDirs_Machines">
+    <End Role="Machines" Type="filesyncModel.Store.Machines" Multiplicity="1" />
+    <End Role="MachineDirs" Type="filesyncModel.Store.MachineDirs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machines">
+        <PropertyRef Name="machine_id" />
+      </Principal>
+      <Dependent Role="MachineDirs">
+        <PropertyRef Name="machine_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Machines_Users">
+    <End Role="Users" Type="filesyncModel.Store.Users" Multiplicity="1" />
+    <End Role="Machines" Type="filesyncModel.Store.Machines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Machines">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

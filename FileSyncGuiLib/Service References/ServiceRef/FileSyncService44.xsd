@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/FileSyncObjects.File" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/FileSyncObjects.File" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfFileContents">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileContents" nillable="true" type="tns:FileContents" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileContents" nillable="true" type="tns:ArrayOfFileContents" />
+  <xs:complexType name="FileContents">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:FileIdentity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Contents" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FileContents" nillable="true" type="tns:FileContents" />
+  <xs:complexType name="FileIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="hash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="modified" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="size" type="xs:long" />
+      <xs:element minOccurs="0" name="type" type="tns:FileType" />
+      <xs:element minOccurs="0" name="uploaded" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileIdentity" nillable="true" type="tns:FileIdentity" />
+  <xs:simpleType name="FileType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PlainText" />
+      <xs:enumeration value="FormattedText" />
+      <xs:enumeration value="Audio" />
+      <xs:enumeration value="Video" />
+      <xs:enumeration value="Image" />
+      <xs:enumeration value="Archive" />
+      <xs:enumeration value="Executable" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FileType" nillable="true" type="tns:FileType" />
+</xs:schema>

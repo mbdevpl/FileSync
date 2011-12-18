@@ -1,0 +1,151 @@
+﻿<Window x:Class="FileSyncGui.SystemMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:con="http://schemas.kent.boogaart.com/converters"
+        xmlns:my="clr-namespace:FileSyncGui.GuiAbstracts"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="comment" mc:Ignorable="c"
+        Name="windowSystemMessage" 
+        Title="{Binding ElementName=windowSystemMessage, Path=WindowTitle}" 
+        Width="Auto" MinWidth="250" MaxWidth="900" Height="Auto" MinHeight="100" 
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" c:Topmost="True"
+        ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+  <Window.Resources>
+    <Style x:Key="ButtonContent" TargetType="TextBlock">
+      <Setter Property="Margin" Value="15,0,15,0" />
+    </Style>
+    <Style x:Key="DialogButton" TargetType="Button">
+      <Setter Property="Margin" Value="5,5,5,5" />
+    </Style>
+  </Window.Resources>
+  <Grid VerticalAlignment="Top">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+           MinWidth="150" MaxWidth="250" MinHeight="50" 
+           HorizontalAlignment="Center" VerticalAlignment="Top">
+      <Image.Visibility>
+        <Binding ElementName="windowSystemMessage" Path="ToggleImage">
+          <Binding.Converter>
+            <con:MapConverter>
+              <con:Mapping To="{x:Static Visibility.Collapsed}">
+                <con:Mapping.From>
+                  <sys:Boolean>False</sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+              <con:Mapping To="{x:Static Visibility.Visible}">
+                <con:Mapping.From>
+                  <sys:Boolean>True</sys:Boolean>
+                </con:Mapping.From>
+              </con:Mapping>
+            </con:MapConverter>
+          </Binding.Converter>
+        </Binding>
+      </Image.Visibility>
+      <Image.Source>
+        <Binding ElementName="windowSystemMessage" Path="MessageImage">
+          <Binding.Converter>
+            <con:ConverterGroup>
+              <con:MapConverter>
+                <con:Mapping To="AreYouFuckingKiddingMe.png">
+                  <con:Mapping.From>
+                    <my:MemeType>AreYouFuckingKiddingMe</my:MemeType>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="Fuuuuu.jpg">
+                  <con:Mapping.From>
+                    <my:MemeType>Fuuuuu</my:MemeType>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="FuckYea.png">
+                  <con:Mapping.From>
+                    <my:MemeType>FuckYea</my:MemeType>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+              <con:FormatConverter FormatString="/FileSyncGui;component/Images/Memes/meme{0}" />
+            </con:ConverterGroup>
+          </Binding.Converter>
+        </Binding>
+      </Image.Source>
+    </Image>
+    <TextBlock Grid.Column="1" Grid.Row="0" 
+               MinWidth="200" Focusable="True"
+               FontWeight="Bold" TextWrapping="WrapWithOverflow"
+               Text="{Binding ElementName=windowSystemMessage, Path=MessageTitle}" />
+    <TextBlock Grid.Column="1" Grid.Row="1" 
+               MinWidth="200" Focusable="True"
+               TextWrapping="WrapWithOverflow"
+               Text="{Binding ElementName=windowSystemMessage, Path=MessageText}" />
+    <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
+                Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+      <Button Name="Ok" Style="{StaticResource DialogButton}" Click="Ok_Click">
+        <Button.Visibility>
+          <Binding ElementName="windowSystemMessage" Path="ToggleOk">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>False</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>True</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </Button.Visibility>
+        <TextBlock Text="Ok" Style="{StaticResource ButtonContent}" />
+      </Button>
+      <Button Name="Cancel" Style="{StaticResource DialogButton}" Click="Cancel_Click">
+        <Button.Visibility>
+          <Binding ElementName="windowSystemMessage" Path="ToggleCancel">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From>
+                    <sys:Boolean>False</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From>
+                    <sys:Boolean>True</sys:Boolean>
+                  </con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </Button.Visibility>
+        <TextBlock Text="Cancel" Style="{StaticResource ButtonContent}" />
+      </Button>
+      <Button Name="Help" Style="{StaticResource DialogButton}" Click="Help_Click">
+        <Button.Visibility>
+          <Binding ElementName="windowSystemMessage" Path="ToggleHelp">
+            <Binding.Converter>
+              <con:MapConverter>
+                <con:Mapping To="{x:Static Visibility.Collapsed}">
+                  <con:Mapping.From><sys:Boolean>False</sys:Boolean></con:Mapping.From>
+                </con:Mapping>
+                <con:Mapping To="{x:Static Visibility.Visible}">
+                  <con:Mapping.From><sys:Boolean>True</sys:Boolean></con:Mapping.From>
+                </con:Mapping>
+              </con:MapConverter>
+            </Binding.Converter>
+          </Binding>
+        </Button.Visibility>
+        <TextBlock Text="Help" Style="{StaticResource ButtonContent}" />
+      </Button>
+    </StackPanel>
+  </Grid>
+</Window>
