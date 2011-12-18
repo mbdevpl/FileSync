@@ -16,7 +16,7 @@ namespace FileSyncObjects {
 
 		private string password;
 		[DataMember]
-		internal string Password {
+		public string Password { // TODO: make this internal
 			get { return password; }
 		}
 
@@ -35,6 +35,16 @@ namespace FileSyncObjects {
 		public Credentials(Credentials cr)
 			: this(cr.Login, cr.Password) {
 			//nothing needed here
+		}
+
+		public bool Equals(string login, string password) {
+			if (!this.Login.Equals(login))
+				return false;
+
+			if (!this.Password.Equals(password))
+				return false;
+
+			return true;
 		}
 
 		public override bool Equals(object o) {

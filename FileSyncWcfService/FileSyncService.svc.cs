@@ -15,15 +15,16 @@ namespace WcfServiceTest {
 	/// </summary>
 	public class FileSyncService : IFileSyncModel {
 
-		#region User
+		#region User (public)
 
 		public void AddUser(Credentials c, UserContents u) {
 			if (UserManipulator.LoginExists(u.Login)) {
 				throw new Exception("user already exists");
 			} else {
-				User u1 = User.CreateUser(1, u.Login, u.Pass);
+				//TODO: don't use password directly
+				User u1 = User.CreateUser(1, u.Login, u.Password);
 				u1.user_email = u.Email;
-				u1.user_fullname = u.Fullname;
+				u1.user_fullname = u.Name;
 				u1.user_lastlogin = DateTime.Now;
 				using (filesyncEntities context = new filesyncEntities()) {
 
@@ -39,7 +40,7 @@ namespace WcfServiceTest {
 				User u1;
 				try {
 					u1 = (from u in context.Users
-						  where u.user_login == c.Login && u.user_pass == c.Pass
+						  where c.Equals(u.user_login,u.user_pass)
 						  select u).Single();
 					UserManipulator.UpdateLastLogin(LoginToId(c.Login));
 
@@ -73,8 +74,25 @@ namespace WcfServiceTest {
 		}
 
 		public void GetMachineList(Credentials c, UserContents u) {
-			throw new Exception("not implemented");
+			List<MachineContents> machinelist = new List<MachineContents>();
+			u.Id = LoginToId(u.Login);
+			using (filesyncEntities context = new filesyncEntities()) {
+				List<Machine> ml = (from o in context.Machines
+									where o.user_id == u.Id
+									select o).ToList();
+				foreach (Machine m in ml) {
+					MachineContents m1 = new MachineContents(m.machine_name, m.machine_description);
+					m1.Id = m.machine_id;
+					m1.User = m.user_id;
+					machinelist.Add(m1);
+				}
+				u.Machines = machinelist;
+			}
 		}
+
+		#endregion
+
+		#region User (private)
 
 		private int LoginToId(string login) {
 			if (UserManipulator.LoginExists(login)) {
@@ -87,6 +105,28 @@ namespace WcfServiceTest {
 			} else {
 				throw new Exception("no such user");
 			}
+		}
+
+		private bool LoginExists(string login) {
+
+
+			using (filesyncEntities context = new filesyncEntities()) {
+				User u1;
+				try {
+
+
+					u1 = (from o in context.Users
+						  where o.user_login == login
+						  select o).Single();
+
+
+				} catch {
+					return false;
+				}
+
+				return true;
+			}
+
 		}
 
 		private bool Authenticate(Credentials c) {
@@ -107,16 +147,80 @@ namespace WcfServiceTest {
 		#region Machine
 
 		public void AddMachine(Credentials c, MachineContents m) {
-			throw new Exception("not implemented");
+			if (MachineNameExists(m.Name)) {
+				throw new Exception("machine with given name already exists");
+			} else {
+				int user_id = LoginToId(c.Login);
+				Machine m1 = Machine.CreateMachine(1, user_id, m.Name);
+				m1.machine_description = m.Description;
+
+				using (filesyncEntities context = new filesyncEntities()) {
+					context.Machines.AddObject(m1);
+					context.SaveChanges();
+				}
+			}
 		}
 
 		public void ChangeMachineDetails(Credentials c, MachineContents newM,
 				MachineContents oldM) {
-			throw new Exception("not implemented");
+			oldM.Id = MachineNameToId(oldM.Name);
+			using (filesyncEntities context = new filesyncEntities()) {
+				Machine m1 = (from o in context.Machines
+							  where o.machine_id == oldM.Id
+							  select o).Single();
+				m1.machine_name = newM.Name;
+				m1.machine_description = newM.Description;
+				context.SaveChanges();
+			}
 		}
 
 		public void GetDirList(Credentials c, MachineContents m) {
-			throw new Exception("not implemented");
+			int mach_id = MachineNameToId(m.Name);
+			List<DirectoryContents> dirlist = new List<DirectoryContents>();
+			using (filesyncEntities context = new filesyncEntities()) {
+
+				foreach (var x in (from md in context.MachineDirs
+								   join d in context.Dirs on md.dir_id equals d.dir_id
+								   where md.machine_id == mach_id
+								   select new { md.dir_realpath, d })) {
+					var dir = new DirectoryContents(x.d.dir_name, x.d.dir_description, x.dir_realpath);
+					dir.Id = x.d.dir_id;
+					dir.Owner = x.d.user_ownerid;
+					dirlist.Add(dir);
+				}
+				m.Directories = dirlist;
+			}
+		}
+
+		private int MachineNameToId(string name) {
+			if (MachineNameExists(name)) {
+				using (filesyncEntities context = new filesyncEntities()) {
+
+					Machine m1 = (from o in context.Machines
+								  where o.machine_name == name
+								  select o).Single();
+
+					return m1.machine_id;
+				}
+			}
+
+			throw new Exception("no machine with given name found" + name.ToString());
+		}
+
+		private static bool MachineNameExists(string name) {
+			bool result = true;
+			using (filesyncEntities context = new filesyncEntities()) {
+				Machine m1;
+				try {
+					m1 = (from o in context.Machines
+						  where o.machine_name == name
+						  select o).Single();
+				} catch {
+					result = false;
+				}
+
+			}
+			return result;
 		}
 
 		#endregion
@@ -124,11 +228,47 @@ namespace WcfServiceTest {
 		#region Directory
 
 		public void AddDirectory(Credentials c, MachineContents m, DirectoryContents d) {
-			throw new Exception("not implemented");
+			GetDirList(c, m);
+			int NoSuchNameYet = (from o in m.Directories where o.Name == d.Name select o).Count();
+			if (NoSuchNameYet != 0) {
+				// throw new Exception("directory with given name already exists");
+				//no action needed
+			} else {
+				d.Owner = UserManipulator.LoginToId(c.Login);
+				AddDir(d);
+				m.Id = MachManipulator.MachineNameToId(m.Name);
+				AddMachDir(m, d);
+			}
 		}
 
 		public void GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
 			throw new Exception("not implemented");
+		}
+
+		private static void AddDir(DirectoryContents d) {
+			int AddedDirId;
+			Dir d1 = Dir.CreateDir(1, d.Name, d.Owner);
+			d1.dir_description = d.Description;
+
+			using (filesyncEntities context = new filesyncEntities()) {
+				context.Dirs.AddObject(d1);
+				context.SaveChanges();
+				AddedDirId = (from z in context.Dirs select z).ToList().Last().dir_id;
+			}
+
+			d.Id = AddedDirId;
+
+		}
+
+		private static void AddMachDir(MachineContents m, DirectoryContents d) {
+
+			MachineDir md1 = MachineDir.CreateMachineDir(m.Id, d.Id, d.Path);
+			using (filesyncEntities context = new filesyncEntities()) {
+				context.MachineDirs.AddObject(md1);
+				context.SaveChanges();
+
+			}
+
 		}
 
 		#endregion

@@ -57,28 +57,7 @@ namespace FileSyncEntityFramework
             }
 
         }
-        internal static int MachineNameToId(string name)
-        {
-
-            if (MachineNameExists(name))
-            {
-                using (filesyncEntities context = new filesyncEntities())
-                {
-
-                    Machine m1 = (from o in context.Machines
-                                  where o.machine_name == name
-                                  select o).Single();
-
-                    return m1.machine_id;
-                }
-            }
-            else
-            {
-                throw new Exception("no machine with given name found"+name.ToString());
-            }
-
-
-        }
+        
         public static void ChangeMachineDetails(CredentialsLib c, MachineModel newMachine, MachineModel oldMachine)
         {
 
@@ -98,32 +77,6 @@ namespace FileSyncEntityFramework
 
             }
 
-
-        }
-        private static bool MachineNameExists(string name)
-        {
-
-
-            using (filesyncEntities context = new filesyncEntities())
-            {
-                Machine m1;
-                try
-                {
-
-
-                    m1 = (from o in context.Machines
-                          where o.machine_name == name
-                          select o).Single();
-
-
-                }
-                catch
-                {
-                    return false;
-                }
-
-                return true;
-            }
 
         }
     }

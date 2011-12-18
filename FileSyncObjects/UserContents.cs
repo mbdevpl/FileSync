@@ -14,6 +14,7 @@ namespace FileSyncObjects {
 		[DataMember]
 		public List<MachineContents> Machines {
 			get { return machines; }
+			set { machines = value; }
 		}
 
 		/// <summary>
