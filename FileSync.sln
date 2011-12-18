@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSyncGui", "FileSyncGui\FileSyncGui.csproj", "{24B5CDF5-B8C5-482F-A775-65C0297DD71B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FABB89A8-DD7B-4055-AA39-4BC11B3D5C79} = {FABB89A8-DD7B-4055-AA39-4BC11B3D5C79}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSyncLib", "FileSyncLib\FileSyncLib.csproj", "{9AF69362-2A37-4F63-A88C-B4B864513AEE}"
 EndProject

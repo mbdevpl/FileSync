@@ -59,45 +59,45 @@ namespace FileSyncGui.GuiObjects {
 				ActionType.User);
 		}
 
-		public ActionResult UpdateInDatabase(Credentials newCr) {
-			//try {
-			//    //UserManipulator.Update()
-			//} catch (Exception ex) {
-			//    throw new ActionException("Unable to update credentials.", ActionType.User,
-			//        MemeType.Fuuuuu, ex);
-			//}
-			//return new ActionResult("Credentials updated.", "",
-			//    ActionType.User);
-			throw new ActionException("Updating credentials is not properly handled...",
-				ActionType.User, MemeType.Fuuuuu);
-		}
+		//public ActionResult UpdateInDatabase(Credentials newCr) {
+		//    //try {
+		//    //    //UserManipulator.Update()
+		//    //} catch (Exception ex) {
+		//    //    throw new ActionException("Unable to update credentials.", ActionType.User,
+		//    //        MemeType.Fuuuuu, ex);
+		//    //}
+		//    //return new ActionResult("Credentials updated.", "",
+		//    //    ActionType.User);
+		//    throw new ActionException("Updating credentials is not properly handled...",
+		//        ActionType.User, MemeType.Fuuuuu);
+		//}
 
-		private ActionResult DeleteFromDatabase() {
-			try {
-				//UserManipulator.DelUser(this.ToLib());
-			} catch (Exception ex) {
-				throw new ActionException("Unable to delete the user account.", ActionType.User,
-					MemeType.Fuuuuu, ex);
-			}
-			return new ActionResult("Acount deleted.", "Your account was deleted successfully.",
-				ActionType.User);
-		}
+		//private ActionResult DeleteFromDatabase() {
+		//    try {
+		//        //UserManipulator.DelUser(this.ToLib());
+		//    } catch (Exception ex) {
+		//        throw new ActionException("Unable to delete the user account.", ActionType.User,
+		//            MemeType.Fuuuuu, ex);
+		//    }
+		//    return new ActionResult("Acount deleted.", "Your account was deleted successfully.",
+		//        ActionType.User);
+		//}
 
-		public ActionResult LogIn() {
-			try {
-				if (!UserManipulator.LoginIn(this.ToLib()))
-					throw new Exception("incorrect credentials");
-			} catch (Exception ex) {
-				throw new ActionException("Login was not successful.", ActionType.User,
-					MemeType.AreYouFuckingKiddingMe, ex);
-			}
-			return new ActionResult("Logged in.", "You are now logged in.", ActionType.User);
-		}
+		//public ActionResult LogIn() {
+		//    try {
+		//        if (!UserManipulator.LoginIn(this.ToLib()))
+		//            throw new Exception("incorrect credentials");
+		//    } catch (Exception ex) {
+		//        throw new ActionException("Login was not successful.", ActionType.User,
+		//            MemeType.AreYouFuckingKiddingMe, ex);
+		//    }
+		//    return new ActionResult("Logged in.", "You are now logged in.", ActionType.User);
+		//}
 
-		public ActionResult LogOut() {
-			throw new ActionException("Logout is not properly handled...", ActionType.User,
-				MemeType.Fuuuuu);
-		}
+		//public ActionResult LogOut() {
+		//    throw new ActionException("Logout is not properly handled...", ActionType.User,
+		//        MemeType.Fuuuuu);
+		//}
 
 	}
 

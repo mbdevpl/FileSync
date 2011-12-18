@@ -27,6 +27,10 @@ namespace FileSyncObjects {
 			throw new Exception("not implemented");
 		}
 
+		public void DelUser(Credentials c) {
+			throw new Exception("not implemented");
+		}
+
 		#endregion
 
 		#region Machine

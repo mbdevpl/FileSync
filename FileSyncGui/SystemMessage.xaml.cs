@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-using FileSyncGui.GuiAbstracts;
 using System;
 using System.Text;
+
+using FileSyncGui.Local;
 
 namespace FileSyncGui {
 
@@ -146,12 +147,12 @@ namespace FileSyncGui {
 			//nothing needed here
 		}
 
-		public SystemMessage(ActionResult actionResult, bool toggleOk = true,
-				bool toggleCancel = false, bool toggleHelp = false)
-			: this("Achievement GET!", actionResult.Title, actionResult.Desc, MemeType.FuckYea,
-				toggleOk, toggleCancel, toggleHelp) {
-			//nothing needed here
-		}
+		//public SystemMessage(ActionResult actionResult, bool toggleOk = true,
+		//        bool toggleCancel = false, bool toggleHelp = false)
+		//    : this("Achievement GET!", actionResult.Title, actionResult.Desc, MemeType.FuckYea,
+		//        toggleOk, toggleCancel, toggleHelp) {
+		//    //nothing needed here
+		//}
 
 		private void Ok_Click(object sender, RoutedEventArgs e) {
 			this.DialogResult = true;

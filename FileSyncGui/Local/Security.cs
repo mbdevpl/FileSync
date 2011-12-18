@@ -1,12 +1,12 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace FileSyncGui.GuiActions {
+namespace FileSyncGui.Local {
 
 	/// <summary>
 	/// Defines actions that are untertaken to ensure safety of the data.
 	/// </summary>
-	public static class SafetyActions {
+	public static class Security {
 
 		/// <summary>
 		/// Computes a hash of a given arbitrary string

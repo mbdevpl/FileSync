@@ -31,18 +31,21 @@ namespace FileSyncObjects {
 		[DataMember]
 		public string Name {
 			get { return name; }
+			set { name = value; }
 		}
 
 		private string localPath;
 		[DataMember]
 		public string LocalPath {
 			get { return localPath; }
+			set { localPath = value; }
 		}
 
 		private string description;
 		[DataMember]
 		public string Description {
 			get { return description; }
+			set { description = value; }
 		}
 
 		/// <summary>

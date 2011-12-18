@@ -11,18 +11,18 @@ namespace FileSyncEntityFramework
     /// </summary>
     public class MachDirManipulator
     {
-        public static void Add(MachdirModel md)
-        {
-            MachineDir md1=MachineDir.CreateMachineDir(1,md.Dir,md.Path);
+		//public static void Add(MachdirModel md)
+		//{
+		//    MachineDir md1=MachineDir.CreateMachineDir(1,md.Dir,md.Path);
             
-            using (filesyncEntities context = new filesyncEntities())
-            {
+		//    using (filesyncEntities context = new filesyncEntities())
+		//    {
 
-                context.MachineDirs.AddObject(md1);
-                context.SaveChanges();
+		//        context.MachineDirs.AddObject(md1);
+		//        context.SaveChanges();
 
-            }
-        }
+		//    }
+		//}
         
 
     }

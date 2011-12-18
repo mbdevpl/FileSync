@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Text;
 
-namespace FileSyncGui.GuiAbstracts {
+namespace FileSyncGui.Local {
 
 	/// <summary>
 	/// Defines the exception thrown by methods from GuiActions namespace.
 	/// </summary>
 	public class ActionException : Exception {
 
-		private static bool ALL_OUTPUT = true;
+		private static bool SHOW_EXCEPTION_DETAILS = true;
 
 		private ActionType type;
+		/// <summary>
+		/// Type of action performed (it caused the construction of this exception).
+		/// </summary>
 		public ActionType Type {
 			get { return type; }
 		}
@@ -24,14 +27,11 @@ namespace FileSyncGui.GuiAbstracts {
 		}
 
 		private MemeType image;
+		/// <summary>
+		/// Image shown beside the message.
+		/// </summary>
 		public MemeType Image {
 			get { return image; }
-		}
-
-		public ActionResult Result {
-			get {
-				return new ActionResult(this);
-			}
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace FileSyncGui.GuiAbstracts {
 		/// <param name="innerException">exception that was catched to throw this one</param>
 		public ActionException(string message, ActionType actionType, MemeType memeType
 				= MemeType.AreYouFuckingKiddingMe, Exception innerException = null)
-			: base(ALL_OUTPUT ? GetExtendedMessage(message, innerException) :
+			: base(SHOW_EXCEPTION_DETAILS ? GetExtendedMessage(message, innerException) :
 				GetTypicalMessage(message, innerException), innerException) {
 			SetInitialValues(message, actionType, memeType);
 		}

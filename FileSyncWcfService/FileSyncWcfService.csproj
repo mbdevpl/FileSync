@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FileSyncService.svc" />
-    <Content Include="Service1.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -67,26 +66,21 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityFramework\DirManipulator.cs" />
-    <Compile Include="EntityFramework\FileManipulator.cs" />
+    <None Include="EntityFramework\DirManipulator.cs" />
+    <None Include="EntityFramework\FileManipulator.cs" />
     <Compile Include="EntityFramework\filesyncModel.Designer.cs">
       <DependentUpon>filesyncModel.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="EntityFramework\MachDirManipulator.cs" />
-    <Compile Include="EntityFramework\MachManipulator.cs" />
-    <Compile Include="EntityFramework\TypeManipulator.cs" />
-    <Compile Include="EntityFramework\UserManipulator.cs" />
+    <None Include="EntityFramework\MachDirManipulator.cs" />
+    <None Include="EntityFramework\MachManipulator.cs" />
+    <None Include="EntityFramework\TypeManipulator.cs" />
+    <None Include="EntityFramework\UserManipulator.cs" />
     <Compile Include="FileSyncService.svc.cs">
       <DependentUpon>FileSyncService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IFileSyncService.cs" />
-    <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

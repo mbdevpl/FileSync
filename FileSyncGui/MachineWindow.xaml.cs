@@ -5,9 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-using FileSyncGui.GuiAbstracts;
-using FileSyncGui.GuiActions;
-using FileSyncGui.GuiObjects;
+using FileSyncGui.Local;
+using FileSyncGui.Ref;
 
 namespace FileSyncGui {
 	/// <summary>

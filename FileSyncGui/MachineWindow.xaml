@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:con="http://schemas.kent.boogaart.com/converters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:guiobj="clr-namespace:FileSyncGui.GuiObjects"
+        xmlns:guiobj="clr-namespace:FileSyncGui.Ref"
         Name="windowMachine" Title="FileSync: Select machine"
         Width="250" Height="350"
         MinWidth="250" MinHeight="350" MaxWidth="600" MaxHeight="600"

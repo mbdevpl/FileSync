@@ -20,6 +20,8 @@ namespace FileSyncObjects {
 		UserContents GetUser(Credentials c);
 		[OperationContract]
 		void GetMachineList(Credentials c, UserContents u);
+		[OperationContract]
+		void DelUser(Credentials c);
 		#endregion
 
 		#region Machine

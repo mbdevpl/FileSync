@@ -1,5 +1,5 @@
 
-namespace FileSyncGui.GuiAbstracts {
+namespace FileSyncGui.Local {
 
 	/// <summary>
 	/// Types of actions that may be performed by the user of FileSync.

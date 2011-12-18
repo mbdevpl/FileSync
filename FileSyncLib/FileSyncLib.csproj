@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,12 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirManipulator.cs" />
-    <Compile Include="FileManipulator.cs" />
-    <Compile Include="MachDirManipulator.cs" />
-    <Compile Include="MachManipulator.cs" />
-    <Compile Include="TypeManipulator.cs" />
-    <Compile Include="UserManipulator.cs" />
+    <None Include="DirManipulator.cs" />
+    <None Include="FileManipulator.cs" />
+    <None Include="MachDirManipulator.cs" />
+    <None Include="MachManipulator.cs" />
+    <None Include="TypeManipulator.cs" />
+    <None Include="UserManipulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

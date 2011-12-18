@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/FileSyncObjects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/FileSyncObjects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Credentials">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Credentials" nillable="true" type="tns:Credentials" />
+  <xs:complexType name="UserContents">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UserIdentity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Machines" nillable="true" type="tns:ArrayOfMachineContents" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserContents" nillable="true" type="tns:UserContents" />
+  <xs:complexType name="UserIdentity">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Credentials">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastLogin" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserIdentity" nillable="true" type="tns:UserIdentity" />
+  <xs:complexType name="ArrayOfMachineContents">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MachineContents" nillable="true" type="tns:MachineContents" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMachineContents" nillable="true" type="tns:ArrayOfMachineContents" />
+  <xs:complexType name="MachineContents">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MachineIdentity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Directories" nillable="true" type="tns:ArrayOfDirectoryContents" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MachineContents" nillable="true" type="tns:MachineContents" />
+  <xs:complexType name="MachineIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MachineIdentity" nillable="true" type="tns:MachineIdentity" />
+  <xs:complexType name="ArrayOfDirectoryContents">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DirectoryContents" nillable="true" type="tns:DirectoryContents" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDirectoryContents" nillable="true" type="tns:ArrayOfDirectoryContents" />
+  <xs:complexType name="DirectoryContents">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DirectoryIdentity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Files" nillable="true" type="tns:ArrayOfFileContents" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DirectoryContents" nillable="true" type="tns:DirectoryContents" />
+  <xs:complexType name="DirectoryIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocalPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DirectoryIdentity" nillable="true" type="tns:DirectoryIdentity" />
+  <xs:complexType name="ArrayOfFileContents">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileContents" nillable="true" type="tns:FileContents" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileContents" nillable="true" type="tns:ArrayOfFileContents" />
+  <xs:complexType name="FileContents">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:FileIdentity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Contents" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FileContents" nillable="true" type="tns:FileContents" />
+  <xs:complexType name="FileIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Hash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Modified" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Size" type="xs:long" />
+      <xs:element minOccurs="0" name="Type" type="tns:FileType" />
+      <xs:element minOccurs="0" name="Uploaded" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileIdentity" nillable="true" type="tns:FileIdentity" />
+  <xs:simpleType name="FileType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PlainText" />
+      <xs:enumeration value="FormattedText" />
+      <xs:enumeration value="Audio" />
+      <xs:enumeration value="Video" />
+      <xs:enumeration value="Image" />
+      <xs:enumeration value="Archive" />
+      <xs:enumeration value="Executable" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FileType" nillable="true" type="tns:FileType" />
+</xs:schema>

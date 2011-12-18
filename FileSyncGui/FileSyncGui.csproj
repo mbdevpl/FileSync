@@ -74,14 +74,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FileSyncConnection.cs" />
-    <Compile Include="GuiAbstracts\ActionException.cs" />
-    <Compile Include="GuiAbstracts\ActionResult.cs" />
-    <Compile Include="GuiAbstracts\ActionType.cs" />
-    <Compile Include="GuiAbstracts\MemeType.cs" />
-    <Compile Include="GuiAbstracts\StringEnum.cs" />
-    <Compile Include="GuiActions\SafetyActions.cs" />
-    <Compile Include="GuiAbstracts\StringValueAttribute.cs" />
+    <Compile Include="Local\FileSyncConnection.cs" />
+    <Compile Include="Local\ActionException.cs" />
+    <None Include="_ignored\ActionResult.cs" />
+    <Compile Include="Local\ActionType.cs" />
+    <Compile Include="Local\MemeType.cs" />
+    <Compile Include="Local\Security.cs" />
+    <Compile Include="Service References\Ref\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessage.xaml.cs">
       <DependentUpon>SystemMessage.xaml</DependentUpon>
     </Compile>
@@ -101,16 +104,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GuiObjects\Credentials.cs" />
-    <Compile Include="GuiObjects\DirContents.cs" />
-    <Compile Include="GuiObjects\DirIdentity.cs" />
-    <Compile Include="GuiObjects\FileContents.cs" />
-    <Compile Include="GuiObjects\FileIdentity.cs" />
-    <Compile Include="GuiObjects\FileType.cs" />
-    <Compile Include="GuiObjects\MachineContents.cs" />
-    <Compile Include="GuiObjects\MachineIdentity.cs" />
-    <Compile Include="GuiObjects\UserContents.cs" />
-    <Compile Include="GuiObjects\UserIdentity.cs" />
+    <None Include="_ignored\Credentials.cs" />
+    <None Include="_ignored\DirContents.cs" />
+    <None Include="_ignored\DirIdentity.cs" />
+    <None Include="_ignored\FileContents.cs" />
+    <None Include="_ignored\FileIdentity.cs" />
+    <None Include="_ignored\FileType.cs" />
+    <None Include="_ignored\MachineContents.cs" />
+    <None Include="_ignored\MachineIdentity.cs" />
+    <None Include="_ignored\UserContents.cs" />
+    <None Include="_ignored\UserIdentity.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -151,8 +154,28 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\Ref\FileSyncGui.Ref.UserContents.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Ref\FileSyncService.wsdl" />
+    <None Include="Service References\Ref\FileSyncService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ref\FileSyncService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ref\FileSyncService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\Ref\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\Ref\configuration.svcinfo" />
+    <None Include="Service References\Ref\configuration91.svcinfo" />
+    <None Include="Service References\Ref\FileSyncService.disco" />
     <Resource Include="Images\filesyncIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -177,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Ref\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

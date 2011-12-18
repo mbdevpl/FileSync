@@ -44,17 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirManipulator.cs" />
-    <Compile Include="FileManipulator.cs" />
+    <None Include="DirManipulator.cs" />
+    <None Include="FileManipulator.cs" />
     <Compile Include="Service References\ServiceRef\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="MachDirManipulator.cs" />
-    <Compile Include="MachManipulator.cs" />
-    <Compile Include="TypeManipulator.cs" />
-    <Compile Include="UserManipulator.cs" />
+    <None Include="MachDirManipulator.cs" />
+    <None Include="MachManipulator.cs" />
+    <None Include="TypeManipulator.cs" />
+    <None Include="UserManipulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

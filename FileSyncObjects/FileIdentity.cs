@@ -62,18 +62,21 @@ namespace FileSyncObjects {
 		[DataMember]
 		public FileType Type {
 			get { return type; }
+			set { type = value; }
 		}
 
 		protected long size;
 		[DataMember]
 		public long Size {
 			get { return size; }
+			set { size = value; }
 		}
 
 		protected string hash;
 		[DataMember]
 		public string Hash {
 			get { return hash; }
+			set { hash = value; }
 		}
 
 		/// <summary>

@@ -19,6 +19,16 @@ namespace FileSyncObjects {
 		}
 
 		/// <summary>
+		/// It is a virtual property, performing conversion to byte[] or from string. 
+		/// The real data is stored in Contents property.
+		/// </summary>
+		[DataMember]
+		public byte[] Data {
+			get { return GetBytesFromString(contents); }
+			set { contents = GetStringFromBytes(value); }
+		}
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="name"></param>
@@ -67,6 +77,17 @@ namespace FileSyncObjects {
 
 			UTF8Encoding encoding = new UTF8Encoding();
 			return encoding.GetString(bytes);
+		}
+
+		private static byte[] GetBytesFromString(string contents) {
+			if (contents == null)
+				return null;
+
+			if(contents.Length == 0) 
+				return new byte[0];
+
+			UTF8Encoding encoding = new UTF8Encoding();
+			return encoding.GetBytes(contents);
 		}
 
 		public override string ToString() {

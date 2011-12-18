@@ -12,12 +12,19 @@ namespace FileSyncObjects {
 		[DataMember]
 		public string Login {
 			get { return login; }
+			set { login = value; }
 		}
 
 		private string password;
+		/// <summary>
+		/// Stores hash of the password of the given user. Actual password is never stored, 
+		/// to maximize security.
+		/// TODO: make this var internal, is it possible?
+		/// </summary>
 		[DataMember]
-		public string Password { // TODO: make this internal
+		public string Password {
 			get { return password; }
+			set { password = value; }
 		}
 
 		/// <summary>
@@ -35,6 +42,10 @@ namespace FileSyncObjects {
 		public Credentials(Credentials cr)
 			: this(cr.Login, cr.Password) {
 			//nothing needed here
+		}
+
+		public static Credentials NewInstance(string login, string password) {
+			return new Credentials(login, password);
 		}
 
 		public bool Equals(string login, string password) {

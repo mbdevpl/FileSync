@@ -18,7 +18,7 @@ namespace WcfServiceTest {
 		#region User (public)
 
 		public void AddUser(Credentials c, UserContents u) {
-			if (UserManipulator.LoginExists(u.Login)) {
+			if (LoginExists(u.Login)) {
 				throw new Exception("user already exists");
 			} else {
 				//TODO: don't use password directly
@@ -40,9 +40,9 @@ namespace WcfServiceTest {
 				User u1;
 				try {
 					u1 = (from u in context.Users
-						  where c.Equals(u.user_login,u.user_pass)
+						  where c.Equals(u.user_login, u.user_pass)
 						  select u).Single();
-					UserManipulator.UpdateLastLogin(LoginToId(c.Login));
+					UpdateLastLogin(LoginToId(c.Login));
 
 
 				} catch {
@@ -90,12 +90,28 @@ namespace WcfServiceTest {
 			}
 		}
 
+		public void DelUser(Credentials c) {
+			UserContents u = GetUser(c);
+			using (filesyncEntities context = new filesyncEntities()) {
+				try {
+					int id = LoginToId(u.Login);
+					var u1 = (from o in context.Users
+							  where o.user_id == id
+							  select o).Single();
+					context.Users.DeleteObject(u1);
+					context.SaveChanges();
+				} catch {
+					throw new Exception("no such user");
+				}
+			}
+		}
+
 		#endregion
 
 		#region User (private)
 
 		private int LoginToId(string login) {
-			if (UserManipulator.LoginExists(login)) {
+			if (LoginExists(login)) {
 				using (filesyncEntities context = new filesyncEntities()) {
 					User u1 = (from o in context.Users
 							   where o.user_login == login
@@ -107,34 +123,41 @@ namespace WcfServiceTest {
 			}
 		}
 
+		private void UpdateLastLogin(int id) {
+			using (filesyncEntities context = new filesyncEntities()) {
+				try {
+					var u1 = (from o in context.Users
+							  where o.user_id == id
+							  select o).Single();
+					u1.user_lastlogin = DateTime.Now;
+					context.SaveChanges();
+				} catch {
+					throw new Exception("no such user");
+				}
+			}
+		}
+
 		private bool LoginExists(string login) {
-
-
 			using (filesyncEntities context = new filesyncEntities()) {
 				User u1;
 				try {
-
-
 					u1 = (from o in context.Users
 						  where o.user_login == login
 						  select o).Single();
-
-
 				} catch {
 					return false;
 				}
-
 				return true;
 			}
-
 		}
 
 		private bool Authenticate(Credentials c) {
 			using (filesyncEntities context = new filesyncEntities()) {
 				User u1;
 				try {
-					//u1 = (from u in context.Users where u.user_login == c.Login && u.user_pass == c.Pass
-					//      select u).Single();
+					u1 = (from u in context.Users
+						  where c.Equals(u.user_login, u.user_pass)
+						  select u).Single();
 				} catch {
 					return false;
 				}
@@ -234,15 +257,30 @@ namespace WcfServiceTest {
 				// throw new Exception("directory with given name already exists");
 				//no action needed
 			} else {
-				d.Owner = UserManipulator.LoginToId(c.Login);
+				d.Owner = LoginToId(c.Login);
 				AddDir(d);
-				m.Id = MachManipulator.MachineNameToId(m.Name);
+				m.Id = MachineNameToId(m.Name);
 				AddMachDir(m, d);
 			}
 		}
 
 		public void GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
-			throw new Exception("not implemented");
+			List<FileContents> filelist = new List<FileContents>();
+			GetDirList(c, m);
+			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+			using (filesyncEntities context = new filesyncEntities()) {
+				foreach (var x in (from f in context.Files
+								   join t in context.Types on f.type_id equals t.type_id
+								   where f.dir_id == d.Id
+								   select new { f, t.type_name })) {
+					FileIdentity file = new FileIdentity(x.f.file_name, x.f.file_modified,
+						x.f.file_uploaded, FileType.PlainText, x.f.file_size, x.f.file_hash);
+					file.Content = x.f.content_id;
+					file.Id = x.f.file_id;
+					filelist.Add(new FileContents(file));
+				}
+			}
+			d.Files = filelist;
 		}
 
 		private static void AddDir(DirectoryContents d) {
@@ -261,14 +299,11 @@ namespace WcfServiceTest {
 		}
 
 		private static void AddMachDir(MachineContents m, DirectoryContents d) {
-
-			MachineDir md1 = MachineDir.CreateMachineDir(m.Id, d.Id, d.Path);
+			MachineDir md1 = MachineDir.CreateMachineDir(m.Id, d.Id, d.LocalPath);
 			using (filesyncEntities context = new filesyncEntities()) {
 				context.MachineDirs.AddObject(md1);
 				context.SaveChanges();
-
 			}
-
 		}
 
 		#endregion
@@ -277,153 +312,115 @@ namespace WcfServiceTest {
 
 		public void AddFile(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
-			throw new Exception("not implemented");
+			GetDirList(c, m);
+			f.Dir = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+			if (!CheckFileExistence(c, m, d, f)) {
+				AddFileContent(f);
+				//TypeManipulator.TypeToId(f);
+				File f1 = File.CreateFile(1, f.Dir, 1, f.Content, f.Name, f.Size, f.Hash,
+					f.Uploaded, f.Modified);
+				using (filesyncEntities context = new filesyncEntities()) {
+					context.Files.AddObject(f1);
+					context.SaveChanges();
+				}
+			} else {
+				GetFileId(c, m, d, f);
+				GetFileContentId(c, m, d, f);
+				UpdateFileContent(f);
+				//TypeManipulator.TypeToId(f);
+
+				using (filesyncEntities context = new filesyncEntities()) {
+					File f1 = (from o in context.Files where o.file_id == f.Id select o).Single();
+					f1.file_hash = f.Hash;
+					f1.file_modified = f.Modified;
+					f1.file_size = f.Size;
+					f1.file_uploaded = f.Uploaded;
+
+					context.SaveChanges();
+				}
+			}
 		}
 
 		public void GetFileContent(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
-			throw new Exception("not implemented");
+			GetFileContentId(c, m, d, f);
+			using (filesyncEntities context = new filesyncEntities()) {
+				Content c1 = (from o in context.Contents
+							  where o.content_id == f.Content
+							  select o).Single();
+				f.Data = c1.content_data;
+			}
 		}
 
 		#endregion
 
-		//public void AddDirectory(RemoteCredentialsLib c, RemoteMachineModel m, RemoteDirModel d)
-		//{
-		//    DirManipulator.AddDirectory(c, m, d);
-		//}
-		//public void GetDirList(RemoteMachineModel m)
-		//{
-		//    DirManipulator.GetDirList(m);
-		//}
-		//public void AddFile(RemoteCredentialsLib c, RemoteMachineModel m, RemoteDirModel d, RemoteFileModel f)
-		//{
-		//    FileManipulator.AddFile(c, m, d, f);
-		//}
-		//public void GetFileList(RemoteCredentialsLib c, RemoteMachineModel m, RemoteDirModel d)
-		//{
-		//    FileManipulator.GetFileList(c, m, d);
-		//}
-		//public void GetFileContent(RemoteCredentialsLib c, RemoteMachineModel m, RemoteDirModel d, RemoteFileModel f)
-		//{
-		//    FileManipulator.GetFileContent(c, m, d, f);
-		//}
-		//public void AddMachdir(RemoteMachdirModel md)
-		//{
-		//    MachDirManipulator.Add(md);
-		//}
-		//public void AddMachine(RemoteCredentialsLib c, RemoteMachineModel m)
-		//{
-		//    MachManipulator.AddMachine(c, m);
-		//}
-		//public void GetMachineList(RemoteUserModel user)
-		//{
-		//    MachManipulator.GetMachineList(user);
-		//}
-		//public void ChangeMachineDetails(RemoteCredentialsLib c, RemoteMachineModel newMachine, RemoteMachineModel oldMachine)
-		//{
-		//    MachManipulator.ChangeMachineDetails(c, newMachine, oldMachine);
-		//}
-		//public void AddType(RemoteFileModel f)
-		//{
-		//    TypeManipulator.AddType(f);
-		//}
-		//public List<string> GetTypeList()
-		//{
-		//    return TypeManipulator.GetTypeList();
-		//}
-		//public RemoteUserModel GetUser(RemoteCredentialsLib c)
-		//{
-		//    var u = UserManipulator.GetUser(c);
-		//    var u1 = new RemoteUserModel();
-		//    u1.Login = u.Login;
-		//    u1.Pass = u.Pass;
-		//    u1.Fullname = u.Fullname;
-		//    u1.Email = u.Email;
-		//    u1.Machines = u.Machines;
-		//    u1.Id = u.Id;
-		//    u1.Lastlogin = u.Lastlogin;
-		//    return u1;
+		#region File (private)
 
-		//}
-		//public void AddUser(RemoteUserModel u)
-		//{
-		//    UserManipulator.Add(u);
-		//}
-		//public bool LoginIn(RemoteCredentialsLib c)
-		//{
-		//    return UserManipulator.LoginIn(c);
-		//}
+		private void AddFileContent(FileContents f) {
+			int AddedContentId;
+			Content f1 = Content.CreateContent(1, f.Data);
+			using (filesyncEntities context = new filesyncEntities()) {
 
-		//public void AddDirectory(CredentialsLib c, MachineModel m, DirModel d)
-		//{
-		//    DirManipulator.AddDirectory(c, m, d);
-		//}
-		//public void GetDirList(MachineModel m)
-		//{
-		//    DirManipulator.GetDirList(m);
-		//}
-		//public void AddFile(CredentialsLib c, MachineModel m, DirModel d, FileModel f)
-		//{
-		//    FileManipulator.AddFile(c, m, d, f);
-		//}
-		//public void GetFileList(CredentialsLib c, MachineModel m, DirModel d)
-		//{
-		//    FileManipulator.GetFileList(c, m, d);
-		//}
-		//public void GetFileContent(CredentialsLib c, MachineModel m, DirModel d, FileModel f)
-		//{
-		//    FileManipulator.GetFileContent(c, m, d, f);
-		//}
-		//public void AddMachdir(MachdirModel md)
-		//{
-		//    MachDirManipulator.Add(md);
-		//}
-		//public void AddMachine(CredentialsLib c, MachineModel m)
-		//{
-		//    MachManipulator.AddMachine(c, m);
-		//}
-		//public void GetMachineList(UserModel user)
-		//{
-		//    MachManipulator.GetMachineList(user);
-		//}
-		//public  void ChangeMachineDetails(CredentialsLib c, MachineModel newMachine, MachineModel oldMachine)
-		//{
-		//    MachManipulator.ChangeMachineDetails(c, newMachine, oldMachine);
-		//}
-		//public void AddType(FileModel f)
-		//{
-		//    TypeManipulator.AddType(f);
-		//}
-		//public List<string> GetTypeList()
-		//{
-		//    return TypeManipulator.GetTypeList();
-		//}
-		//public UserModel GetUser(CredentialsLib c)
-		//{
-		//    var u= UserManipulator.GetUser(c);
-		//    var u1 = new UserModel();
-		//    u1.Login = u.Login;
-		//    u1.Pass = u.Pass;
-		//    u1.Fullname = u.Fullname;
-		//    u1.Email = u.Email;
-		//    u1.Machines = u.Machines;
-		//    u1.Id = u.Id;
-		//    u1.Lastlogin = u.Lastlogin;
-		//    return u1;
+				context.Contents.AddObject(f1);
+				context.SaveChanges();
+				AddedContentId = (from c in context.Contents select c).ToList().Last().content_id;
 
-		//}
-		//public void AddUser(UserModel u)
-		//{
-		//    UserManipulator.Add(u);
-		//}
-		//public bool LoginIn(CredentialsLib c)
-		//{
-		//    return UserManipulator.LoginIn(c);
-		//}
-		//public bool Authenticate(CredentialsLib c)
-		//{
-		//    return UserManipulator.Authenticate(c);
-		//}
+			}
+			f.Content = AddedContentId;
+		}
+
+		private static void UpdateFileContent(FileContents f) {
+			using (filesyncEntities context = new filesyncEntities()) {
+				Content c1 = (from o in context.Contents
+							  where o.content_id == f.Content
+							  select o).Single();
+				c1.content_data = f.Data;
+				context.SaveChanges();
+			}
+		}
+
+		private void GetFileContentId(Credentials c, MachineContents m, DirectoryContents d,
+				FileContents f) {
+			GetDirList(c, m);
+			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+			using (filesyncEntities context = new filesyncEntities()) {
+				int content_id = (from o in context.Files
+								  where (o.file_name == f.Name) && (o.dir_id == d.Id)
+								  select o.content_id).Single();
+				f.Content = content_id;
+			}
+		}
+
+		private void GetFileId(Credentials c, MachineContents m, DirectoryContents d,
+				FileContents f) {
+			GetDirList(c, m);
+			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+			using (filesyncEntities context = new filesyncEntities()) {
+
+				int file_id = (from o in context.Files
+							   where (o.file_name == f.Name) && (o.dir_id == d.Id)
+							   select o.file_id).Single();
+				f.Id = file_id;
+			}
+		}
+		private bool CheckFileExistence(Credentials c, MachineContents m, DirectoryContents d,
+				FileContents f) {
+			GetDirList(c, m);
+			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+			try {
+				using (filesyncEntities context = new filesyncEntities()) {
+					(from o in context.Files
+					 where (o.file_name == f.Name) && (o.dir_id == d.Id)
+					 select o.file_id).Single();
+				}
+			} catch {
+				return false;
+			}
+			return true;
+		}
+
+		#endregion
+
 	}
 
 }

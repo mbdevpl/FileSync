@@ -20,12 +20,14 @@ namespace FileSyncObjects {
 		[DataMember]
 		public string Name {
 			get { return name; }
+			set { name = value; }
 		}
 
 		private string email;
 		[DataMember]
 		public string Email {
 			get { return email; }
+			set { email = value; }
 		}
 
 		private DateTime lastLogin;

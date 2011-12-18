@@ -3,10 +3,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-using FileSyncGui.GuiAbstracts;
-using FileSyncGui.GuiObjects;
-using FileSyncGui.GuiActions;
-//using FileSyncGui.FileSyncServiceReference;
+using FileSyncGui.Local;
+using FileSyncGui.Ref;
 
 namespace FileSyncGui {
 	/// <summary>
@@ -18,7 +16,9 @@ namespace FileSyncGui {
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private Boolean creatingAccount = false;
+		public FileSyncConnection Ref;
+
+        private Boolean creatingAccount = false;
 		public Boolean CreatingAccount {
 			get { return creatingAccount; }
 			set {
@@ -110,6 +110,8 @@ namespace FileSyncGui {
 			EnteredMachineName = false;
 			checkIfAllEntered();
 
+			this.Ref = new FileSyncConnection();
+
 			InitializeComponent();
 		}
 
@@ -127,75 +129,70 @@ namespace FileSyncGui {
 		}
 
 		private Credentials getCredentials() {
-			return new Credentials(getLogin(), SafetyActions.ComputeHash(this.UserPassword.Password));
+			var cr = new Credentials();
+			cr.Login = this.getLogin();
+			cr.Password = Security.ComputeHash(this.UserPassword.Password);
+			return cr;
 		}
 
-		private UserIdentity getUserIdentity() {
-			return new UserIdentity(this.getCredentials(), this.UserFullName.Text, this.UserEmail.Text);
+		private UserContents getUser() {
+			UserContents u = new UserContents();
+			u.Login = this.getLogin();
+			u.Password = Security.ComputeHash(this.UserPassword.Password);
+			u.Name = this.UserFullName.Text;
+			u.Email = this.UserEmail.Text;
+			return u;
 		}
 
-		private MachineIdentity getMachineIdentity() {
-			return new MachineIdentity(this.MachineName.Text, this.MachineDescription.Text);
+		private MachineContents getMachine() {
+			MachineContents m = new MachineContents();
+			m.Name = this.MachineName.Text;
+			m.Description = this.MachineDescription.Text;
+			return m;
 		}
 
 		private void buttonLogin_Click(object sender, RoutedEventArgs e) {
 			Credentials c = getCredentials();
 
 			try {
-				if (c.LogIn().WasSuccessful) {
-					parentWindow.credentials = c;
+				Ref.Login(c);
 
-					//MessageBox.Show("User logged in.");
-
-					this.DialogResult = true;
-					this.Close();
-				}
+				parentWindow.credentials = c;
+				//MessageBox.Show("User logged in.");
+				this.DialogResult = true;
+				this.Close();
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
-				//MessageBox.Show(ex.Message, ex.Title, MessageBoxButton.OK, 
-				//	MessageBoxImage.Exclamation);
 			}
 		}
 
 		private void buttonCreate_Click(object sender, RoutedEventArgs e) {
 			CreatingAccount = true;
-			
-			//using (ServiceReference1.Service1Client cl = new ServiceReference1.Service1Client()) {
-			//    var data = cl.GetData(124);
-			//    MessageBox.Show(String.Format("Data was:{0}", data));
-
-			//    MessageBox.Show(cl.add(153, 37).ToString());
-			//}
-
-			//new FileSyncServiceReference.Service1Client().A
 		}
 
 		private void buttonCreateSubmit_Click(object sender, RoutedEventArgs e) {
 			Credentials c = this.getCredentials();
-			MachineIdentity id = this.getMachineIdentity();
+			MachineContents m = this.getMachine();
 
 			try {
-				if (this.getUserIdentity().AddToDatabase().WasSuccessful) {
-					//MessageBox.Show("User was created!");
-					this.DialogResult = true;
+				Ref.AddUser(c, this.getUser());
 
-					if (c.LogIn().WasSuccessful && id.AddToDatabase(c).WasSuccessful) {
-						parentWindow.credentials = c;
-						parentWindow.machine = new MachineContents(c, id, false, false, true);
-						//MachineActions.GetContets(c, id);
+				this.DialogResult = true;
+				//MessageBox.Show("User was created!");
 
-						//MessageBox.Show("Machine was created!");
+				Ref.Login(c);
+				Ref.AddMachine(c, m);
 
-						this.Close();
-					}
-				}
+				parentWindow.credentials = c;
+				Ref.GetDirList(c, m);
+				//parentWindow.machine = new MachineContents(c, id, false, false, true);
+				Ref.AddLocalDirs(m);
+				//MachineActions.GetContets(c, id);
+
+				//MessageBox.Show("Machine was created!");
+				this.Close();
 			} catch (ActionException ex) {
-				MessageBox.Show(ex.Message, ex.Title);
-
-				//if (parentWindow.credentials != null) {
-				//    this.DialogResult = true;
-				//    this.Close();
-				//}
+				new SystemMessage(ex).ShowDialog();
 			}
 		}
 

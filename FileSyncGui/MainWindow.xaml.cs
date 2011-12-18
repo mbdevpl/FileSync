@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -6,10 +7,8 @@ using System.Windows.Threading;
 
 using FolderPickerLib;
 
-using FileSyncGui.GuiAbstracts;
-using FileSyncGui.GuiActions;
-using FileSyncGui.GuiObjects;
-using System.Collections.Generic;
+using FileSyncGui.Local;
+using FileSyncGui.Ref;
 
 namespace FileSyncGui {
 	/// <summary>
@@ -163,8 +162,8 @@ namespace FileSyncGui {
 			}
 		}
 
-		private ObservableCollection<DirContents> directories;
-		public ObservableCollection<DirContents> Directories {
+		private ObservableCollection<DirectoryContents> directories;
+		public ObservableCollection<DirectoryContents> Directories {
 			get { return directories; }
 		}
 
@@ -178,7 +177,7 @@ namespace FileSyncGui {
 			SelectedFile = false;
 			DuringSync = false;
 			DuringNetworkActions = false;
-			directories = new ObservableCollection<DirContents>();
+			directories = new ObservableCollection<DirectoryContents>();
 
 			dt = new DispatcherTimer();
 			dt.Interval = TimeSpan.FromMilliseconds(1000);
@@ -202,8 +201,8 @@ namespace FileSyncGui {
 
 		private void RefreshDisplayedDirectories() {
 			directories.Clear();
-			foreach (DirIdentity did in machine.Directories)
-				Directories.Add(new DirContents(did, null, true));
+			foreach (DirectoryIdentity did in machine.Directories)
+				Directories.Add(new DirectoryContents(did, null, true));
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs("Directories"));
 		}
@@ -303,9 +302,9 @@ namespace FileSyncGui {
 						throw new ActionException("No folder was chosen.", ActionType.Directory);
 					//DirIdentity did = new DirIdentity(path.Substring(path.LastIndexOf('\\') + 1),
 					//	null, path);
-					DirContents dcNew = new DirContents(path.Substring(path.LastIndexOf('\\') + 1),
-						path, null, null, true);
-					foreach (DirContents dc in Directories)
+					DirectoryContents dcNew = new DirectoryContents(
+						path.Substring(path.LastIndexOf('\\') + 1), path, null, null, true);
+					foreach (DirectoryContents dc in Directories)
 						if (dc.Name.Equals(dcNew.Name) || dc.LocalPath.Equals(dcNew.LocalPath))
 							throw new ActionException("Folder already exists on this machine.",
 								ActionType.Directory);
@@ -410,7 +409,7 @@ namespace FileSyncGui {
 					throw new ActionException("No directory was selected to upload.",
 						ActionType.Directory);
 
-				DirContents dc = machine.Directories[SelectedDirectoryIndex];
+				DirectoryContents dc = machine.Directories[SelectedDirectoryIndex];
 				new SystemMessage(dc.Upload(credentials, machine)).ShowDialog();
 				//DirActions.Upload(credentials, machine.Identity, did, new DirContents(did, true));
 
@@ -429,8 +428,8 @@ namespace FileSyncGui {
 					throw new ActionException("No directory was selected to download.",
 						ActionType.Directory);
 
-				DirIdentity did = machine.Directories[SelectedDirectoryIndex];
-				var dc = new DirContents(credentials, machine, did, true, true);
+				DirectoryIdentity did = machine.Directories[SelectedDirectoryIndex];
+				var dc = new DirectoryContents(credentials, machine, did, true, true);
 				if (dc.SaveToDisk()) {
 					new SystemMessage("FileSync", "File sync successful.",
 						"Selected directory was downloaded and restored.", MemeType.FuckYea)
@@ -523,9 +522,9 @@ namespace FileSyncGui {
 			if (e.NewValue == null)
 				return;
 
-			if (e.NewValue.GetType() == typeof(DirContents)) {
+			if (e.NewValue.GetType() == typeof(DirectoryContents)) {
 				SelectedDirectory = true;
-				SelectedDirectoryIndex = Directories.IndexOf((DirContents)e.NewValue);
+				SelectedDirectoryIndex = Directories.IndexOf((DirectoryContents)e.NewValue);
 				SelectedFile = false;
 				//SelectedFileIndex = -1;
 			} else if (e.NewValue.GetType() == typeof(FileIdentity)) {
