@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileSyncConnection.cs" />
     <Compile Include="GuiAbstracts\ActionException.cs" />
     <Compile Include="GuiAbstracts\ActionResult.cs" />
     <Compile Include="GuiAbstracts\ActionType.cs" />
