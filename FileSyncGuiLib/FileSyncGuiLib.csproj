@@ -44,23 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Credentials.cs" />
     <Compile Include="DirManipulator.cs" />
     <Compile Include="FileManipulator.cs" />
-    <Compile Include="ContentModel.cs" />
-    <Compile Include="DirModel.cs" />
-    <Compile Include="DiruserModel.cs" />
-    <Compile Include="FileModel.cs" />
-    <Compile Include="MachdirModel.cs" />
-    <Compile Include="MachineModel.cs" />
-    <Compile Include="RightModel.cs" />
     <Compile Include="Service References\ServiceRef\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="TypeModel.cs" />
-    <Compile Include="UserModel.cs" />
     <Compile Include="MachDirManipulator.cs" />
     <Compile Include="MachManipulator.cs" />
     <Compile Include="TypeManipulator.cs" />

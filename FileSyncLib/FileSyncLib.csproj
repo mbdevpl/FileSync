@@ -43,23 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Credentials.cs" />
     <Compile Include="DirManipulator.cs" />
     <Compile Include="FileManipulator.cs" />
-    <Compile Include="filesyncModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>filesyncModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="ContentModel.cs" />
-    <Compile Include="DirModel.cs" />
-    <Compile Include="DiruserModel.cs" />
-    <Compile Include="FileModel.cs" />
-    <Compile Include="MachdirModel.cs" />
-    <Compile Include="MachineModel.cs" />
-    <Compile Include="RightModel.cs" />
-    <Compile Include="TypeModel.cs" />
-    <Compile Include="UserModel.cs" />
     <Compile Include="MachDirManipulator.cs" />
     <Compile Include="MachManipulator.cs" />
     <Compile Include="TypeManipulator.cs" />
@@ -70,10 +55,6 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="filesyncModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>filesyncModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
