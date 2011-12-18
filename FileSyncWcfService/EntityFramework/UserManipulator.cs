@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Runtime.Serialization;
 
-using FileSyncWcfService.EntityFramework;
 using FileSyncObjects;
 
-namespace FileSyncEntityFramework
+namespace FileSyncWcfService.EntityFramework
 {
     /// <summary>
     /// Class used to managing Users table
@@ -23,57 +21,6 @@ namespace FileSyncEntityFramework
     /// </summary>
     public class UserManipulator
     {
-        public static UserContents GetUser(Credentials c)
-        {
-            if (LoginExists(c.Login))
-            {
-                if (Authenticate(c))
-                {
-                    using (filesyncEntities context = new filesyncEntities())
-                    {
-                        int id = LoginToId(c.Login);
-                        User u1 = (from o in context.Users
-                                   where o.user_id == id
-                                   select o).Single();
-						UserContents u = new UserContents(u1.user_login, u1.user_pass, u1.user_fullname, u1.user_email);
-                        u.LastLogin = (DateTime)u1.user_lastlogin;
-                        u.Id = u1.user_id;
-                        return u;
-
-                    }
-                }
-                else
-                {
-                    throw new Exception("wrong password");
-                }
-            }
-            else
-            {
-                throw new Exception("no such user");
-            }
-        }
-        public static void Add(UserModel u)
-        {
-            if (LoginExists(u.Login))
-            {
-                throw new Exception("user already exists");
-            }
-            else
-            {
-                User u1 = User.CreateUser(1, u.Login, u.Pass);
-                u1.user_email = u.Email;
-                u1.user_fullname = u.Fullname;
-                u1.user_lastlogin = DateTime.Now;
-                using (filesyncEntities context = new filesyncEntities())
-                {
-
-                    context.Users.AddObject(u1);
-                    context.SaveChanges();
-
-                }
-            }
-
-        }
         public static void DelUser(CredentialsLib c)
         {
             UserModel u = GetUser(c);
@@ -175,7 +122,7 @@ namespace FileSyncEntityFramework
             }
 
         }
-        private static bool LoginExists(string login)
+        public static bool LoginExists(string login)
         {
 
 

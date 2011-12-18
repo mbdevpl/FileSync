@@ -7,6 +7,7 @@ using System.ServiceModel.Web;
 using System.Text;
 
 using FileSyncObjects;
+using FileSyncWcfService.EntityFramework;
 
 namespace WcfServiceTest
 {
@@ -18,7 +19,20 @@ namespace WcfServiceTest
 		#region User
 
 		public void AddUser(Credentials c, UserContents u) {
-			throw new Exception("not implemented");
+			if (UserManipulator.LoginExists(u.Login)) {
+				throw new Exception("user already exists");
+			} else {
+				User u1 = User.CreateUser(1, u.Login, u.Pass);
+				u1.user_email = u.Email;
+				u1.user_fullname = u.Fullname;
+				u1.user_lastlogin = DateTime.Now;
+				using (filesyncEntities context = new filesyncEntities()) {
+
+					context.Users.AddObject(u1);
+					context.SaveChanges();
+
+				}
+			}
 		}
 
 		public void Login(Credentials c) {
@@ -26,7 +40,25 @@ namespace WcfServiceTest
 		}
 
 		public UserContents GetUser(Credentials c) {
-			throw new Exception("not implemented");
+			if (LoginExists(c.Login)) {
+				if (Authenticate(c)) {
+					using (filesyncEntities context = new filesyncEntities()) {
+						int id = LoginToId(c.Login);
+						User u1 = (from o in context.Users
+								   where o.user_id == id
+								   select o).Single();
+						UserContents u = new UserContents(u1.user_login, u1.user_pass, u1.user_fullname, u1.user_email);
+						u.LastLogin = (DateTime)u1.user_lastlogin;
+						u.Id = u1.user_id;
+						return u;
+
+					}
+				} else {
+					throw new Exception("wrong password");
+				}
+			} else {
+				throw new Exception("no such user");
+			}
 		}
 
 		public void GetMachineList(Credentials c, UserContents u) {
