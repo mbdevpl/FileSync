@@ -78,11 +78,6 @@ namespace WcfServiceTest
 
 		#endregion
 
-		//public string GetData(int value)
-		//{
-		//    return string.Format("You entered: {0}", value);
-		//}
-
         //public void AddDirectory(RemoteCredentialsLib c, RemoteMachineModel m, RemoteDirModel d)
         //{
         //    DirManipulator.AddDirectory(c, m, d);
