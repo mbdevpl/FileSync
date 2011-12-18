@@ -1,0 +1,14 @@
+=== FileSync ===
+Main goals:
+- file backup
+- file sharing
+- file synchronization
+
+=== FileSyncGui ===
+WPF client application, tested on Windows 7 x64.
+
+=== FileSyncObjects ===
+Definitions of objects which are sent between client and server.
+
+=== FileSyncWcfService ===
+Service which is launched on the server side.
