@@ -9,3 +9,4 @@ D:\Projects\Visual Studio 2010\FileSync\FileSyncGui\obj\x86\Debug\FileSyncGui_Co
 D:\Projects\Visual Studio 2010\FileSync\FileSyncGui\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Projects\Visual Studio 2010\FileSync\FileSyncGui\obj\x86\Debug\FileSyncGui_MarkupCompile.cache
 D:\Projects\Visual Studio 2010\FileSync\FileSyncGui\obj\x86\Debug\FileSyncGui_MarkupCompile.lref
+D:\Projects\Visual Studio 2010\FileSync\FileSyncGui\bin\Debug\FileSyncGui.exe.config
