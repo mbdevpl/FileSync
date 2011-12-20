@@ -15,11 +15,14 @@ namespace FileSyncGui {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged {
+
 		public Credentials credentials; //is set from login window
 
 		private UserContents user;
 
 		public MachineContents machine; //is set from machine window
+
+		private FileSyncConnection connection;
 
 		private DispatcherTimer dt;
 
@@ -170,6 +173,8 @@ namespace FileSyncGui {
 		public MainWindow() {
 			//this.DataContext = this;
 
+			connection = new FileSyncConnection();
+
 			LoggedIn = false;
 			LoggedInAndChosenMachine = false;
 			SelectedMachine = false;
@@ -215,7 +220,8 @@ namespace FileSyncGui {
 					return;
 				try {
 
-					this.user = new UserContents(credentials, true);
+					this.user = connection.GetUserWithMachines(credentials);
+					//new UserContents(credentials, true);
 					LoggedIn = true;
 
 					if (this.machine == null)
@@ -234,9 +240,11 @@ namespace FileSyncGui {
 				return;
 
 			//temporary
-			var machines = new UserContents(credentials, true).Machines;
+			var machines = connection.GetUserWithMachines(credentials).Machines;
+			//new UserContents(credentials, true).Machines;
 			// UserActions.GetContents(this.credentials).Machines;
-			this.machine = new MachineContents(credentials, machines[0], true, false, true);
+			connection.GetDirList(credentials, machines[0]);
+			this.machine = machines[0]; //new MachineContents(credentials, machines[0], true, false, true);
 			//MachineActions.GetContets(credentials, machines[0]);
 			RefreshDisplayedMachineInfo();
 			if (machine != null) return;
@@ -321,16 +329,26 @@ namespace FileSyncGui {
 				//MessageBox.Show(String.Format("old: {0} new: {1} {2}", machine.Identity.ToString(),
 				//	MachineName, MachineDesc), "Erroren");
 
-				if (machine.UpdateInDatabase(credentials,
-					new MachineIdentity(MachineName, MachineDesc)).WasSuccessful
-					//MachineActions.Modify(credentials, machine.Identity,
-					//new MachineIdentity(MachineName, MachineDesc)).IsSuccess()
-					) {
-					machine.Name = MachineName;
-					machine.Description = MachineDesc;
-				}
-				MessageBox.Show("Changes saved.", "FileSync",
-					MessageBoxButton.OK, MessageBoxImage.Information);
+				var newMachine = new MachineContents();
+				newMachine.Name = MachineName;
+				newMachine.Description = MachineDesc;
+
+				connection.ChangeMachineDetails(credentials, newMachine, machine);
+
+				machine.Name = MachineName;
+				machine.Description = MachineDesc;
+
+				//if (machine.UpdateInDatabase(credentials,
+				//    newMachine).WasSuccessful
+				//    //MachineActions.Modify(credentials, machine.Identity,
+				//    //new MachineIdentity(MachineName, MachineDesc)).IsSuccess()
+				//    ) {
+				//    //nothing here now
+				//}
+				new SystemMessage("FileSync", "Changes saved",
+					"Machine metadata was successfully updated.", MemeType.FuckYea).ShowDialog();
+				//MessageBox.Show("Changes saved.", "FileSync",
+				//    MessageBoxButton.OK, MessageBoxImage.Information);
 			} catch (ActionException ex) {
 				MessageBox.Show(ex.Message, ex.Title);
 			}
@@ -354,7 +372,10 @@ namespace FileSyncGui {
 
 		private void optionUploadMachine_Click(object sender, RoutedEventArgs e) {
 			try {
-				new SystemMessage(machine.Upload(credentials)).ShowDialog();
+				connection.UploadMachine(credentials, machine);
+
+				new SystemMessage("FileSync", "Upload finished",
+					"Machine was uploaded successfully", MemeType.FuckYea).ShowDialog();
 
 				//MessageBox.Show("Backup complete.", "FileSync",
 				//    MessageBoxButton.OK, MessageBoxImage.Information);
@@ -367,16 +388,20 @@ namespace FileSyncGui {
 		private void optionDownloadMachine_Click(object sender, RoutedEventArgs e) {
 
 			try {
-				machine = new MachineContents(credentials, machine, true, true, true);
+				connection.DownloadMachine(credentials, machine);
+
+				connection.GetLocalDirList(machine, true, true);
+				//machine = connection(credentials, machine);
+				//machine = new MachineContents(credentials, machine, true, true, true);
 				//MachineActions.GetContets(credentials, machine.Identity);
 
 				RefreshDisplayedMachineInfo();
 
-				if (machine.SaveToDisk()) {
-					new SystemMessage("FileSync", "File sync complete.",
-						"All directories defined in this machine were downloaded and restored.",
-						MemeType.FuckYea).ShowDialog();
-				}
+				connection.SaveMachineToDisk(machine);
+
+				new SystemMessage("FileSync", "File sync complete.",
+					"All directories defined in this machine were downloaded and restored.",
+					MemeType.FuckYea).ShowDialog();
 
 				//foreach (DirIdentity did in machine.Directories) {
 				//    var files = DirActions.Download(credentials, machine.Identity, did);
@@ -395,7 +420,8 @@ namespace FileSyncGui {
 
 		private void optionDeleteMachine_Click(object sender, RoutedEventArgs e) {
 			try {
-				machine.DeleteFromDatabase(credentials);
+				//connection.Del
+				//machine.DeleteFromDatabase(credentials);
 				//MachineActions.Delete(credentials, machine.Identity);
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
@@ -410,7 +436,11 @@ namespace FileSyncGui {
 						ActionType.Directory);
 
 				DirectoryContents dc = machine.Directories[SelectedDirectoryIndex];
-				new SystemMessage(dc.Upload(credentials, machine)).ShowDialog();
+
+				connection.UploadDirectory(credentials, machine, dc);
+
+				new SystemMessage("FileSync", "Upload complete",
+					"Directory was uploaded successfully", MemeType.FuckYea).ShowDialog();
 				//DirActions.Upload(credentials, machine.Identity, did, new DirContents(did, true));
 
 				//MessageBox.Show("Backup of the selected directory complete.", "FileSync",
@@ -459,7 +489,8 @@ namespace FileSyncGui {
 		private void optionDeleteDir_Click(object sender, RoutedEventArgs e) {
 
 			try {
-				Directories[SelectedDirectoryIndex].DeleteFromDatabase(credentials, machine);
+				//connection.Del
+				//Directories[SelectedDirectoryIndex].DeleteFromDatabase(credentials, machine);
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
 				//MessageBox.Show(ex.Message, ex.Title);
@@ -483,7 +514,9 @@ namespace FileSyncGui {
 				var dc = machine.Directories[dirIndex];
 				var fc = Directories[dirIndex].Files[fileIndex];
 
-				fc.Upload(credentials, machine, dc);
+				connection.AddFile(credentials, machine, dc, fc);
+
+				//fc.Upload(credentials, machine, dc);
 				//FileActions.Upload(credentials, machine.Identity, did, fid,
 				//	new FileContents(did.LocalPath + "\\" + fid.Name));
 			} catch (ActionException ex) {

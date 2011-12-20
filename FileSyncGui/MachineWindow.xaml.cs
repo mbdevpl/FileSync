@@ -121,8 +121,9 @@ namespace FileSyncGui {
 
 		private void buttonSelect_Click(object sender, RoutedEventArgs e) {
 			try {
-				parentWindow.machine = new MachineContents(credentials,
-					machines[SelectedMachineIndex], true, false, true);
+				parentWindow.machine = new MachineContents();
+				//credentials,
+				//	machines[SelectedMachineIndex], true, false, true);
 				//MachineActions.GetContets(credentials, machines[SelectedMachineIndex]);
 				this.DialogResult = true;
 				this.Close();
@@ -138,8 +139,9 @@ namespace FileSyncGui {
 
 		private void buttonCreateSubmit_Click(object sender, RoutedEventArgs e) {
 			try {
-				new MachineIdentity(this.NewMachineName.Text, this.NewMachineDesc.Text)
-					.AddToDatabase(credentials);
+				new MachineIdentity();
+				//this.NewMachineName.Text, this.NewMachineDesc.Text)
+				//	.AddToDatabase(credentials);
 
 				//MachineActions.Create(credentials,
 				//        new MachineIdentity(this.NewMachineName.Text, this.NewMachineDesc.Text));

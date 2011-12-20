@@ -87,7 +87,6 @@
       <xs:extension base="tns:FileIdentity">
         <xs:sequence>
           <xs:element minOccurs="0" name="Contents" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

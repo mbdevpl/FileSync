@@ -308,7 +308,7 @@ namespace WcfServiceTest {
 
 		#endregion
 
-		#region File
+		#region File (public)
 
 		public void AddFile(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {

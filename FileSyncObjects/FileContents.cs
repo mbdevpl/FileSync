@@ -19,10 +19,9 @@ namespace FileSyncObjects {
 		}
 
 		/// <summary>
-		/// It is a virtual property, performing conversion to byte[] or from string. 
+		/// It is a virtual property, performing on-the-fly conversion to byte[] or from string. 
 		/// The real data is stored in Contents property.
 		/// </summary>
-		[DataMember]
 		public byte[] Data {
 			get { return GetBytesFromString(contents); }
 			set { contents = GetStringFromBytes(value); }

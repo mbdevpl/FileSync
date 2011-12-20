@@ -1,6 +1,0 @@
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\bin\Release\FileSyncLib.dll.config
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\bin\Release\FileSyncLib.dll
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\bin\Release\FileSyncLib.pdb
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\obj\Release\FileSyncLib.dll
-D:\Projects\Visual Studio 2010\FileSync\FileSyncLib\obj\Release\FileSyncLib.pdb

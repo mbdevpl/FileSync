@@ -350,9 +350,6 @@ namespace FileSyncGui.Ref {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ContentsField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private byte[] DataField;
-        
         [System.Runtime.Serialization.DataMemberAttribute()]
         public string Contents {
             get {
@@ -362,19 +359,6 @@ namespace FileSyncGui.Ref {
                 if ((object.ReferenceEquals(this.ContentsField, value) != true)) {
                     this.ContentsField = value;
                     this.RaisePropertyChanged("Contents");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public byte[] Data {
-            get {
-                return this.DataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DataField, value) != true)) {
-                    this.DataField = value;
-                    this.RaisePropertyChanged("Data");
                 }
             }
         }

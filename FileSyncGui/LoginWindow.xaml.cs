@@ -186,7 +186,7 @@ namespace FileSyncGui {
 				parentWindow.credentials = c;
 				Ref.GetDirList(c, m);
 				//parentWindow.machine = new MachineContents(c, id, false, false, true);
-				Ref.AddLocalDirs(m);
+				Ref.GetLocalDirList(m);
 				//MachineActions.GetContets(c, id);
 
 				//MessageBox.Show("Machine was created!");
