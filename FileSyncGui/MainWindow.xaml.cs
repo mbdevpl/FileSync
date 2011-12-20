@@ -206,8 +206,13 @@ namespace FileSyncGui {
 
 		private void RefreshDisplayedDirectories() {
 			directories.Clear();
-			foreach (DirectoryIdentity did in machine.Directories)
-				Directories.Add(new DirectoryContents(did, null, true));
+			foreach (DirectoryContents d in machine.Directories) {
+				connection.GetFileList(credentials, machine, d);
+				connection.GetLocalFileList(d);
+				connection.RemoveDuplicateFiles(d);
+
+				Directories.Add(d);
+			}
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs("Directories"));
 		}
@@ -310,8 +315,11 @@ namespace FileSyncGui {
 						throw new ActionException("No folder was chosen.", ActionType.Directory);
 					//DirIdentity did = new DirIdentity(path.Substring(path.LastIndexOf('\\') + 1),
 					//	null, path);
-					DirectoryContents dcNew = new DirectoryContents(
-						path.Substring(path.LastIndexOf('\\') + 1), path, null, null, true);
+					DirectoryContents dcNew = new DirectoryContents();
+					//path.Substring(path.LastIndexOf('\\') + 1), path, null, null, true);
+					dcNew.Name = path.Substring(path.LastIndexOf('\\') + 1);
+					dcNew.LocalPath = path;
+					connection.GetLocalFileList(dcNew);
 					foreach (DirectoryContents dc in Directories)
 						if (dc.Name.Equals(dcNew.Name) || dc.LocalPath.Equals(dcNew.LocalPath))
 							throw new ActionException("Folder already exists on this machine.",
@@ -459,8 +467,10 @@ namespace FileSyncGui {
 						ActionType.Directory);
 
 				DirectoryIdentity did = machine.Directories[SelectedDirectoryIndex];
-				var dc = new DirectoryContents(credentials, machine, did, true, true);
-				if (dc.SaveToDisk()) {
+				//var dc = new DirectoryContents(credentials, machine, did, true, true);
+				DirectoryContents d = machine.Directories[SelectedDirectoryIndex];
+				connection.DownloadDirectory(credentials, machine, d);//...GetFileList();
+				if (connection.SaveDirectoryToDisk(d)) {
 					new SystemMessage("FileSync", "File sync successful.",
 						"Selected directory was downloaded and restored.", MemeType.FuckYea)
 						.ShowDialog();

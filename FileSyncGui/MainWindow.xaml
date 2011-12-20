@@ -202,7 +202,7 @@
                   <TextBlock Text="{Binding Path=Hash}" />-->
                 </StackPanel>
               </HierarchicalDataTemplate>
-              <HierarchicalDataTemplate DataType="{x:Type my:DirContents}" 
+              <HierarchicalDataTemplate DataType="{x:Type my:DirectoryContents}" 
                                         ItemsSource="{Binding Path=Files}">
                 <StackPanel Orientation="Horizontal">
                   <TextBlock Text="{Binding Path=Name}" />

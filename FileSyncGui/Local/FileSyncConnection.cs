@@ -273,6 +273,85 @@ namespace FileSyncGui.Local {
 			}
 		}
 
+		internal void DownloadDirectory(Credentials c, MachineContents m, DirectoryContents d) {
+			throw new NotImplementedException();
+		}
+
+		internal bool SaveDirectoryToDisk(DirectoryContents d) {
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// This function does not assume that the files list is initialized. If it is then 
+		/// elements are added to the end. If some elements were added, the list is sorted.
+		/// This method performs no cleanup of duplicates in case of incorrect of consequtive use.
+		/// </summary>
+		public void GetLocalFileList(DirectoryContents d) {
+			if (d.LocalPath == null || d.LocalPath.Equals(EmptyLocalPath))
+				return;
+
+			string[] filePaths = Directory.GetFiles(d.LocalPath);
+
+			if (filePaths == null || filePaths.Length == 0)
+				return;
+
+			if (d.Files == null)
+				d.Files = new List<FileContents>();
+
+			foreach (string path in filePaths) {
+				FileContents fc = GetLocalFileContent(path);
+				d.Files.Add(fc);
+			}
+
+
+		}
+
+		/// <summary>
+		/// Removes the duplicate files inside this directory. It performes basing on 
+		/// the rule, which states that file names must not repeat.
+		/// </summary>
+		public void RemoveDuplicateFiles(DirectoryContents d) {
+			// Possible second rule example (not introduced):
+			// If hash of file.txt equals to hash of file.bmp, both are preserved.
+			// If, on the other hand, hash of file.txt equals to hash of file2.txt the later file 
+			// is preserved.
+
+			if (d.Files == null || d.Files.Count <= 1)
+				return;
+
+			List<FileContents> sortedFiles = new List<FileContents>(d.Files);
+			sortedFiles.Sort(FileComparison);
+
+			for (int i = 0; i < sortedFiles.Count - 1; i++) {
+				if (sortedFiles[i].Name.Equals(sortedFiles[i + 1].Name)) {
+					sortedFiles.RemoveAt(i);
+					i--;
+				}
+			}
+
+			d.Files = sortedFiles;
+		}
+
+		private static int FileComparison(FileContents x, FileContents y) {
+			int nameComparison = x.Name.CompareTo(y.Name);
+			if (nameComparison != 0)
+				return nameComparison;
+
+			int modifiedComparison = x.Modified.CompareTo(y.Modified);
+			if (modifiedComparison != 0)
+				return modifiedComparison;
+
+			int sizeComparison = x.Size.CompareTo(y.Size);
+			if (sizeComparison != 0)
+				return sizeComparison * (-1);
+
+			int hashComparison = x.Hash.CompareTo(y.Hash);
+			if (hashComparison != 0)
+				return hashComparison;
+
+			return 0;
+		}
+
 		#endregion
 
 		#region File (connection)
