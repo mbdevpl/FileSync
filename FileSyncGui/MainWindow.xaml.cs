@@ -398,7 +398,7 @@ namespace FileSyncGui {
 			try {
 				connection.DownloadMachine(credentials, machine);
 
-				connection.GetLocalDirList(machine, true, true);
+				connection.GetLocalDirContents(machine, true);
 				//machine = connection(credentials, machine);
 				//machine = new MachineContents(credentials, machine, true, true, true);
 				//MachineActions.GetContets(credentials, machine.Identity);

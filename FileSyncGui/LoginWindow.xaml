@@ -184,7 +184,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <Button Grid.Column="0" Name="buttonLogin" Content="Login"
+          <Button Grid.Column="0" Name="buttonLogin" Content="Log In"
                   Click="buttonLogin_Click"
                   IsEnabled="{Binding ElementName=UserEnteredLoginAndPass, Path=IsChecked}" />
           <Button Grid.Column="1" Name="buttonLoginHelp" Content=" ? "
@@ -269,9 +269,10 @@
       </Button>
     </StackPanel>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
-                Visibility="Hidden">
-      <TextBlock VerticalAlignment="Center" Text="Forgot your password? " />
-      <Button Name="buttonReset" Content="Reset password" />
+                Visibility="Visible">
+      <TextBlock VerticalAlignment="Center" Text="Perform connection test"
+                 c:Text="Forgot your password? " />
+      <Button Name="buttonReset" Content="Test connecion" c:Content="Reset password" Click="buttonReset_Click" />
     </StackPanel>
   </Grid>
 </Window>

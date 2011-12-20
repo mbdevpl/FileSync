@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="WcfServiceTest.FileSyncService" CodeBehind="FileSyncService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="FileSyncWcfService.FileSyncService" CodeBehind="FileSyncService.svc.cs" %>

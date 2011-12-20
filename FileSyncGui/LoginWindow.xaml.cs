@@ -18,7 +18,7 @@ namespace FileSyncGui {
 
 		public FileSyncConnection Ref;
 
-        private Boolean creatingAccount = false;
+		private Boolean creatingAccount = false;
 		public Boolean CreatingAccount {
 			get { return creatingAccount; }
 			set {
@@ -166,13 +166,28 @@ namespace FileSyncGui {
 			}
 		}
 
+		private void buttonReset_Click(object sender, RoutedEventArgs e) {
+			try {
+				using (var cl = new FileSyncModelClient()) {
+					MessageBox.Show(cl.TestWCF());
+				}
+			} catch (Exception ex) {
+				var ae = new ActionException("WCF test failed", ActionType.User, null, ex);
+				new SystemMessage(ae).ShowDialog();
+			}
+
+			try {
+				using (var cl = new FileSyncModelClient()) {
+					MessageBox.Show(cl.TestEF());
+				}
+			} catch (Exception ex) {
+				var ae = new ActionException("EF test failed", ActionType.User, null, ex);
+				new SystemMessage(ae).ShowDialog();
+			}
+		}
+
 		private void buttonCreate_Click(object sender, RoutedEventArgs e) {
 			CreatingAccount = true;
-
-			//using (var cl = new FileSyncModelClient()) {
-			//    MessageBox.Show(cl.TestWCF());
-			//    MessageBox.Show(cl.TestEF());
-			//}
 		}
 
 		private void buttonCreateSubmit_Click(object sender, RoutedEventArgs e) {
@@ -191,13 +206,15 @@ namespace FileSyncGui {
 				parentWindow.credentials = c;
 				Ref.GetDirList(c, m);
 				//parentWindow.machine = new MachineContents(c, id, false, false, true);
-				Ref.GetLocalDirList(m);
+				Ref.GetLocalDirContents(m);
 				//MachineActions.GetContets(c, id);
 
 				//MessageBox.Show("Machine was created!");
 				this.Close();
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
+			} catch (Exception ex) {
+				new SystemMessage(new ActionException("elo",ActionType.User,null ,ex)).ShowDialog();
 			}
 		}
 
@@ -246,6 +263,7 @@ namespace FileSyncGui {
 				+ "how often it needs to be synced etc.",
 				"FileSync: Creating account FAQ");
 		}
+
 
 	}
 }

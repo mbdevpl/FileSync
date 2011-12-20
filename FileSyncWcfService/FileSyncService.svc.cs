@@ -7,9 +7,8 @@ using System.ServiceModel.Web;
 using System.Text;
 
 using FileSyncObjects;
-using FileSyncWcfService;
 
-namespace WcfServiceTest {
+namespace FileSyncWcfService {
 	/// <summary>
 	/// Implementation of FileSync interface, which connects directly to the database.
 	/// </summary>
@@ -33,43 +32,45 @@ namespace WcfServiceTest {
 		#region User (public)
 
 		public void AddUser(Credentials c, UserContents u) {
-			if (LoginExists(u.Login)) {
-				throw new Exception("user already exists");
-			} else {
-				//TODO: don't use password directly
-				User u1 = User.CreateUser(1, u.Login, u.Password);
-				u1.user_email = u.Email;
-				u1.user_fullname = u.Name;
-				u1.user_lastlogin = DateTime.Now;
-				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				if (LoginExists(context, u.Login)) {
+					throw new Exception("user already exists");
+				} else {
+					//TODO: don't use password directly
+					User u1 = User.CreateUser(1, u.Login, u.Password);
+					u1.user_email = u.Email;
+					u1.user_fullname = u.Name;
+					u1.user_lastlogin = DateTime.Now;
 					context.Users.AddObject(u1);
 					context.SaveChanges();
-
 				}
 			}
 		}
 
 		public void Login(Credentials c) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				User u1;
 				try {
-					u1 = (from u in context.Users
-						  where c.Equals(u.user_login, u.user_pass)
-						  select u).Single();
-					UpdateLastLogin(LoginToId(c.Login));
+					User u1 = (from u in context.Users
+							   where c.Equals(u.user_login, u.user_pass)
+							   select u).Single();
+					//User u1 = (from u in context.Users
+					//           where c.Login == u.user_login && c.Password == u.user_pass
+					//           select u).Single();
 
-				} catch {
-					throw new Exception("Authorization error.");
+					UpdateLastLogin(context, LoginToId(context, c.Login));
+				} catch (Exception ex) {
+					//if (ex.GetType().Equals(typeof(Exception)))
+					//    throw ex;
+					throw new Exception("wrong credentials", ex);
 				}
 			}
 		}
 
 		public UserContents GetUser(Credentials c) {
-			if (LoginExists(c.Login)) {
-				if (Authenticate(c)) {
-					using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-						int id = LoginToId(c.Login);
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				if (LoginExists(context, c.Login)) {
+					if (Authenticate(context, c)) {
+						int id = LoginToId(context, c.Login);
 						User u1 = (from o in context.Users
 								   where o.user_id == id
 								   select o).Single();
@@ -78,19 +79,19 @@ namespace WcfServiceTest {
 						u.Id = u1.user_id;
 						return u;
 
+					} else {
+						throw new Exception("wrong password");
 					}
 				} else {
-					throw new Exception("wrong password");
+					throw new Exception("no such user");
 				}
-			} else {
-				throw new Exception("no such user");
 			}
 		}
 
 		public void GetMachineList(Credentials c, UserContents u) {
-			List<MachineContents> machinelist = new List<MachineContents>();
-			u.Id = LoginToId(u.Login);
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				List<MachineContents> machinelist = new List<MachineContents>();
+				u.Id = LoginToId(context, u.Login);
 				List<Machine> ml = (from o in context.Machines
 									where o.user_id == u.Id
 									select o).ToList();
@@ -108,14 +109,14 @@ namespace WcfServiceTest {
 			UserContents u = GetUser(c);
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				try {
-					int id = LoginToId(u.Login);
+					int id = LoginToId(context, u.Login);
 					var u1 = (from o in context.Users
 							  where o.user_id == id
 							  select o).Single();
 					context.Users.DeleteObject(u1);
 					context.SaveChanges();
-				} catch {
-					throw new Exception("no such user");
+				} catch (Exception ex) {
+					throw new Exception("no such user", ex);
 				}
 			}
 		}
@@ -124,59 +125,49 @@ namespace WcfServiceTest {
 
 		#region User (private)
 
-		private int LoginToId(string login) {
-			if (LoginExists(login)) {
-				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-					User u1 = (from o in context.Users
-							   where o.user_login == login
-							   select o).Single();
-					return u1.user_id;
-				}
+		private bool LoginExists(filesyncEntitiesNew context, string login) {
+			try {
+				User u1 = (from o in context.Users
+						   where o.user_login == login
+						   select o).Single();
+			} catch {
+				return false;
+			}
+			return true;
+		}
+
+		private int LoginToId(filesyncEntitiesNew context, string login) {
+			if (LoginExists(context, login)) {
+				User u1 = (from o in context.Users
+						   where o.user_login == login
+						   select o).Single();
+				return u1.user_id;
 			} else {
 				throw new Exception("no such user");
 			}
 		}
 
-		private void UpdateLastLogin(int id) {
-			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				try {
-					var u1 = (from o in context.Users
-							  where o.user_id == id
-							  select o).Single();
-					u1.user_lastlogin = DateTime.Now;
-					context.SaveChanges();
-				} catch {
-					throw new Exception("no such user");
-				}
-			}
-		}
-
-		private bool LoginExists(string login) {
-			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				User u1;
-				try {
-					u1 = (from o in context.Users
-						  where o.user_login == login
+		private void UpdateLastLogin(filesyncEntitiesNew context, int id) {
+			try {
+				var u1 = (from o in context.Users
+						  where o.user_id == id
 						  select o).Single();
-				} catch {
-					return false;
-				}
-				return true;
+				u1.user_lastlogin = DateTime.Now;
+				context.SaveChanges();
+			} catch (Exception ex) {
+				throw new Exception("no such user", ex);
 			}
 		}
 
-		private bool Authenticate(Credentials c) {
-			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				User u1;
-				try {
-					u1 = (from u in context.Users
-						  where c.Equals(u.user_login, u.user_pass)
-						  select u).Single();
-				} catch {
-					return false;
-				}
-				return true;
+		private bool Authenticate(filesyncEntitiesNew context, Credentials c) {
+			try {
+				User u1 = (from u in context.Users
+						   where c.Equals(u.user_login, u.user_pass)
+						   select u).Single();
+			} catch {
+				return false;
 			}
+			return true;
 		}
 
 		#endregion
@@ -184,14 +175,14 @@ namespace WcfServiceTest {
 		#region Machine
 
 		public void AddMachine(Credentials c, MachineContents m) {
-			if (MachineNameExists(m.Name)) {
-				throw new Exception("machine with given name already exists");
-			} else {
-				int user_id = LoginToId(c.Login);
-				Machine m1 = Machine.CreateMachine(1, user_id, m.Name);
-				m1.machine_description = m.Description;
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				if (MachineNameExists(context, m.Name)) {
+					throw new Exception("machine with given name already exists");
+				} else {
+					int user_id = LoginToId(context, c.Login);
+					Machine m1 = Machine.CreateMachine(1, user_id, m.Name);
+					m1.machine_description = m.Description;
 
-				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					context.Machines.AddObject(m1);
 					context.SaveChanges();
 				}
@@ -200,8 +191,8 @@ namespace WcfServiceTest {
 
 		public void ChangeMachineDetails(Credentials c, MachineContents newM,
 				MachineContents oldM) {
-			oldM.Id = MachineNameToId(oldM.Name);
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				oldM.Id = MachineNameToId(context, oldM.Name);
 				Machine m1 = (from o in context.Machines
 							  where o.machine_id == oldM.Id
 							  select o).Single();
@@ -212,9 +203,9 @@ namespace WcfServiceTest {
 		}
 
 		public void GetDirList(Credentials c, MachineContents m) {
-			int mach_id = MachineNameToId(m.Name);
-			List<DirectoryContents> dirlist = new List<DirectoryContents>();
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				int mach_id = MachineNameToId(context, m.Name);
+				List<DirectoryContents> dirlist = new List<DirectoryContents>();
 
 				foreach (var x in (from md in context.MachineDirs
 								   join d in context.Dirs on md.dir_id equals d.dir_id
@@ -229,35 +220,29 @@ namespace WcfServiceTest {
 			}
 		}
 
-		private int MachineNameToId(string name) {
-			if (MachineNameExists(name)) {
-				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+		private int MachineNameToId(filesyncEntitiesNew context, string name) {
+			if (MachineNameExists(context, name)) {
+				Machine m1 = (from o in context.Machines
+							  where o.machine_name == name
+							  select o).Single();
 
-					Machine m1 = (from o in context.Machines
-								  where o.machine_name == name
-								  select o).Single();
-
-					return m1.machine_id;
-				}
+				return m1.machine_id;
 			}
 
 			throw new Exception("no machine with given name found" + name.ToString());
 		}
 
-		private static bool MachineNameExists(string name) {
-			bool result = true;
-			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				Machine m1;
-				try {
-					m1 = (from o in context.Machines
-						  where o.machine_name == name
-						  select o).Single();
-				} catch {
-					result = false;
-				}
-
+		private static bool MachineNameExists(filesyncEntitiesNew context, string name) {
+			Machine m1;
+			try {
+				m1 = (from o in context.Machines
+					  where o.machine_name == name
+					  select o).Single();
+			} catch {
+				return false;
 			}
-			return result;
+
+			return true;
 		}
 
 		#endregion
@@ -271,9 +256,13 @@ namespace WcfServiceTest {
 				// throw new Exception("directory with given name already exists");
 				//no action needed
 			} else {
-				d.Owner = LoginToId(c.Login);
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+					d.Owner = LoginToId(context, c.Login);
+				}
 				AddDir(d);
-				m.Id = MachineNameToId(m.Name);
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+					m.Id = MachineNameToId(context, m.Name);
+				}
 				AddMachDir(m, d);
 			}
 		}

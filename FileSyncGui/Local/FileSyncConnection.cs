@@ -45,8 +45,9 @@ namespace FileSyncGui.Local {
 					cl.Login(c);
 				}
 			} catch (Exception ex) {
-				throw new ActionException("Login was not successful.", ActionType.User,
-					MemeType.AreYouFuckingKiddingMe, ex);
+				throw new ActionException("Login process did not end in a very happy manner. "
+					+ "In fact, it ended in a very unpleasant way.",
+					ActionType.User, MemeType.AreYouFuckingKiddingMe, ex);
 			}
 		}
 
@@ -171,11 +172,12 @@ namespace FileSyncGui.Local {
 
 		#region Machine (local)
 
-		public void GetLocalDirList(MachineContents m, bool addLocalFilesMetadata = true,
-			bool addLocalFilesContents = true) {
+		public void GetLocalDirContents(MachineContents m, bool addLocalFilesContents = false,
+			bool addLocalFilesMetadata = true) {
+			List<DirectoryContents> dirs = m.Directories;
 
-			if (addLocalFilesMetadata) {
-				foreach (DirectoryContents d in m.Directories) {
+			if (dirs != null && dirs.Count > 0 && addLocalFilesMetadata) {
+				foreach (DirectoryContents d in dirs) {
 					if (d.LocalPath == null || d.LocalPath.Equals(EmptyLocalPath))
 						return;
 

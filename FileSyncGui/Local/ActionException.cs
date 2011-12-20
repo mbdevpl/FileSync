@@ -26,11 +26,11 @@ namespace FileSyncGui.Local {
 			get { return title; }
 		}
 
-		private MemeType image;
+		private MemeType? image;
 		/// <summary>
 		/// Image shown beside the message.
 		/// </summary>
-		public MemeType Image {
+		public MemeType? Image {
 			get { return image; }
 		}
 
@@ -40,14 +40,14 @@ namespace FileSyncGui.Local {
 		/// <param name="message">the message, as in ordinary exception</param>
 		/// <param name="actionType">type of the action that caused the exception</param>
 		/// <param name="innerException">exception that was catched to throw this one</param>
-		public ActionException(string message, ActionType actionType, MemeType memeType
+		public ActionException(string message, ActionType actionType, MemeType? memeType
 				= MemeType.AreYouFuckingKiddingMe, Exception innerException = null)
 			: base(SHOW_EXCEPTION_DETAILS ? GetExtendedMessage(message, innerException) :
 				GetTypicalMessage(message, innerException), innerException) {
 			SetInitialValues(message, actionType, memeType);
 		}
 
-		private void SetInitialValues(string message, ActionType actionType, MemeType memeType) {
+		private void SetInitialValues(string message, ActionType actionType, MemeType? memeType) {
 			if (memeType.Equals(MemeType.FuckYea)) {
 				this.title = actionType.ToString() + " action was successful.";
 			} else {
