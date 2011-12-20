@@ -1,0 +1,10 @@
+
+/FileSyncGui/bin
+/FileSyncGui/obj
+/FileSyncWcfService/bin
+/FileSyncWcfService/obj
+/FileSyncObjects/bin
+/FileSyncObjects/obj
+/FileSyncGui/_ignored
+/FileSyncObjects/_tempLIB
+/FileSync.suo
