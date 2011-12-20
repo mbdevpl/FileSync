@@ -9,6 +9,18 @@ namespace FileSyncObjects {
 	/// </summary>
 	class FileSyncModel : IFileSyncModel {
 
+		#region Tests
+
+		public string TestWCF() {
+			throw new Exception("not implemented");
+		}
+
+		public string TestEF() {
+			throw new Exception("not implemented");
+		}
+
+		#endregion
+
 		#region User
 
 		public void AddUser(Credentials c, UserContents u) {

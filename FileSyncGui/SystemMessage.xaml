@@ -81,10 +81,16 @@
                MinWidth="200" Focusable="True"
                FontWeight="Bold" TextWrapping="WrapWithOverflow"
                Text="{Binding ElementName=windowSystemMessage, Path=MessageTitle}" />
-    <TextBlock Grid.Column="1" Grid.Row="1" 
-               MinWidth="200" Focusable="True"
+    <!--<TextBox Background="Transparent" BorderThickness="0" 
+             Text="{Binding Text}" IsReadOnly="True" TextWrapping="Wrap"/>-->
+    <TextBox Background="Transparent" BorderThickness="0"  Grid.Column="1" Grid.Row="1"  
+               MinWidth="200" IsReadOnly="True" 
                TextWrapping="WrapWithOverflow"
                Text="{Binding ElementName=windowSystemMessage, Path=MessageText}" />
+    <!--<TextBlock Grid.Column="1" Grid.Row="1"  
+               MinWidth="200" Focusable="True"
+               TextWrapping="WrapWithOverflow"
+               Text="{Binding ElementName=windowSystemMessage, Path=MessageText}" />-->
     <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
                 Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
       <Button Name="Ok" Style="{StaticResource DialogButton}" Click="Ok_Click">

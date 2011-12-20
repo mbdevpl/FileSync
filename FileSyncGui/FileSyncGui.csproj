@@ -76,6 +76,19 @@
     </ApplicationDefinition>
     <Compile Include="Local\FileSyncConnection.cs" />
     <Compile Include="Local\ActionException.cs" />
+    <None Include="Service References\Ref\FileSyncGui.Ref.UserContents.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Ref\FileSyncService.wsdl" />
+    <None Include="Service References\Ref\FileSyncService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ref\FileSyncService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Ref\FileSyncService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="_ignored\ActionResult.cs" />
     <Compile Include="Local\ActionType.cs" />
     <Compile Include="Local\MemeType.cs" />
@@ -154,19 +167,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\Ref\FileSyncGui.Ref.UserContents.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Ref\FileSyncService.wsdl" />
-    <None Include="Service References\Ref\FileSyncService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ref\FileSyncService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Ref\FileSyncService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\Ref\Reference.svcmap">

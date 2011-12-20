@@ -7,6 +7,18 @@
       <xsd:import schemaLocation="http://localhost:7979/FileSyncService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FileSyncObjects" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IFileSyncModel_TestWCF_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestWCF" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_TestWCF_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestWCFResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_TestEF_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestEF" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_TestEF_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestEFResponse" />
+  </wsdl:message>
   <wsdl:message name="IFileSyncModel_AddUser_InputMessage">
     <wsdl:part name="parameters" element="tns:AddUser" />
   </wsdl:message>
@@ -80,6 +92,14 @@
     <wsdl:part name="parameters" element="tns:GetFileContentResponse" />
   </wsdl:message>
   <wsdl:portType name="IFileSyncModel">
+    <wsdl:operation name="TestWCF">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/TestWCF" message="tns:IFileSyncModel_TestWCF_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/TestWCFResponse" message="tns:IFileSyncModel_TestWCF_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestEF">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/TestEF" message="tns:IFileSyncModel_TestEF_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/TestEFResponse" message="tns:IFileSyncModel_TestEF_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="AddUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/AddUser" message="tns:IFileSyncModel_AddUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/AddUserResponse" message="tns:IFileSyncModel_AddUser_OutputMessage" />
@@ -131,6 +151,24 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IFileSyncModel" type="tns:IFileSyncModel">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TestWCF">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/TestWCF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestEF">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/TestEF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="AddUser">
       <soap:operation soapAction="http://tempuri.org/IFileSyncModel/AddUser" style="document" />
       <wsdl:input>

@@ -168,6 +168,11 @@ namespace FileSyncGui {
 
 		private void buttonCreate_Click(object sender, RoutedEventArgs e) {
 			CreatingAccount = true;
+
+			//using (var cl = new FileSyncModelClient()) {
+			//    MessageBox.Show(cl.TestWCF());
+			//    MessageBox.Show(cl.TestEF());
+			//}
 		}
 
 		private void buttonCreateSubmit_Click(object sender, RoutedEventArgs e) {
@@ -180,7 +185,7 @@ namespace FileSyncGui {
 				this.DialogResult = true;
 				//MessageBox.Show("User was created!");
 
-				Ref.Login(c);
+				//Ref.Login(c);
 				Ref.AddMachine(c, m);
 
 				parentWindow.credentials = c;

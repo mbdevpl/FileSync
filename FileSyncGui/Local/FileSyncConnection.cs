@@ -14,6 +14,18 @@ namespace FileSyncGui.Local {
 		/// </summary>
 		internal static string EmptyLocalPath = "\\";
 
+		#region Tests
+
+		public string TestWCF() {
+			throw new Exception("not implemented");
+		}
+
+		public string TestEF() {
+			throw new Exception("not implemented");
+		}
+
+		#endregion
+
 		#region User (connection)
 
 		public void AddUser(Credentials c, UserContents u) {
@@ -112,7 +124,7 @@ namespace FileSyncGui.Local {
 					throw new ArgumentNullException("cr", "user credentials must be provided");
 
 				using (FileSyncModelClient cl = new FileSyncModelClient()) {
-					AddMachine(c, m);
+					cl.AddMachine(c, m);
 				}
 			} catch (Exception ex) {
 				throw new ActionException("Failed to create a new machine.", ActionType.Machine,

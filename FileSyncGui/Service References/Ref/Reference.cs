@@ -523,6 +523,12 @@ namespace FileSyncGui.Ref {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Ref.IFileSyncModel")]
     public interface IFileSyncModel {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestWCF", ReplyAction="http://tempuri.org/IFileSyncModel/TestWCFResponse")]
+        string TestWCF();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestEF", ReplyAction="http://tempuri.org/IFileSyncModel/TestEFResponse")]
+        string TestEF();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddUser", ReplyAction="http://tempuri.org/IFileSyncModel/AddUserResponse")]
         void AddUser(FileSyncGui.Ref.Credentials c, FileSyncGui.Ref.UserContents u);
         
@@ -585,6 +591,14 @@ namespace FileSyncGui.Ref {
         
         public FileSyncModelClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public string TestWCF() {
+            return base.Channel.TestWCF();
+        }
+        
+        public string TestEF() {
+            return base.Channel.TestEF();
         }
         
         public void AddUser(FileSyncGui.Ref.Credentials c, FileSyncGui.Ref.UserContents u) {

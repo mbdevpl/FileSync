@@ -37,7 +37,7 @@ namespace FileSyncObjects {
 			this.password = password;
 		}
 
-		protected Credentials() { }
+		public Credentials() { }
 
 		public Credentials(Credentials cr)
 			: this(cr.Login, cr.Password) {

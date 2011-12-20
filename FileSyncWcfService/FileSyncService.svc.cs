@@ -7,13 +7,28 @@ using System.ServiceModel.Web;
 using System.Text;
 
 using FileSyncObjects;
-using FileSyncWcfService.EntityFramework;
+using FileSyncWcfService;
 
 namespace WcfServiceTest {
 	/// <summary>
 	/// Implementation of FileSync interface, which connects directly to the database.
 	/// </summary>
 	public class FileSyncService : IFileSyncModel {
+
+		#region Tests
+
+		public string TestWCF() {
+			return "WCF connection test passed";
+		}
+
+		public string TestEF() {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+				//context.SaveChanges();
+			}
+			return "EF connection test passed";
+		}
+
+		#endregion
 
 		#region User (public)
 
@@ -26,7 +41,7 @@ namespace WcfServiceTest {
 				u1.user_email = u.Email;
 				u1.user_fullname = u.Name;
 				u1.user_lastlogin = DateTime.Now;
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 					context.Users.AddObject(u1);
 					context.SaveChanges();
@@ -36,14 +51,13 @@ namespace WcfServiceTest {
 		}
 
 		public void Login(Credentials c) {
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				User u1;
 				try {
 					u1 = (from u in context.Users
 						  where c.Equals(u.user_login, u.user_pass)
 						  select u).Single();
 					UpdateLastLogin(LoginToId(c.Login));
-
 
 				} catch {
 					throw new Exception("Authorization error.");
@@ -54,7 +68,7 @@ namespace WcfServiceTest {
 		public UserContents GetUser(Credentials c) {
 			if (LoginExists(c.Login)) {
 				if (Authenticate(c)) {
-					using (filesyncEntities context = new filesyncEntities()) {
+					using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 						int id = LoginToId(c.Login);
 						User u1 = (from o in context.Users
 								   where o.user_id == id
@@ -76,7 +90,7 @@ namespace WcfServiceTest {
 		public void GetMachineList(Credentials c, UserContents u) {
 			List<MachineContents> machinelist = new List<MachineContents>();
 			u.Id = LoginToId(u.Login);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				List<Machine> ml = (from o in context.Machines
 									where o.user_id == u.Id
 									select o).ToList();
@@ -92,7 +106,7 @@ namespace WcfServiceTest {
 
 		public void DelUser(Credentials c) {
 			UserContents u = GetUser(c);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				try {
 					int id = LoginToId(u.Login);
 					var u1 = (from o in context.Users
@@ -112,7 +126,7 @@ namespace WcfServiceTest {
 
 		private int LoginToId(string login) {
 			if (LoginExists(login)) {
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					User u1 = (from o in context.Users
 							   where o.user_login == login
 							   select o).Single();
@@ -124,7 +138,7 @@ namespace WcfServiceTest {
 		}
 
 		private void UpdateLastLogin(int id) {
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				try {
 					var u1 = (from o in context.Users
 							  where o.user_id == id
@@ -138,7 +152,7 @@ namespace WcfServiceTest {
 		}
 
 		private bool LoginExists(string login) {
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				User u1;
 				try {
 					u1 = (from o in context.Users
@@ -152,7 +166,7 @@ namespace WcfServiceTest {
 		}
 
 		private bool Authenticate(Credentials c) {
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				User u1;
 				try {
 					u1 = (from u in context.Users
@@ -177,7 +191,7 @@ namespace WcfServiceTest {
 				Machine m1 = Machine.CreateMachine(1, user_id, m.Name);
 				m1.machine_description = m.Description;
 
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					context.Machines.AddObject(m1);
 					context.SaveChanges();
 				}
@@ -187,7 +201,7 @@ namespace WcfServiceTest {
 		public void ChangeMachineDetails(Credentials c, MachineContents newM,
 				MachineContents oldM) {
 			oldM.Id = MachineNameToId(oldM.Name);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				Machine m1 = (from o in context.Machines
 							  where o.machine_id == oldM.Id
 							  select o).Single();
@@ -200,7 +214,7 @@ namespace WcfServiceTest {
 		public void GetDirList(Credentials c, MachineContents m) {
 			int mach_id = MachineNameToId(m.Name);
 			List<DirectoryContents> dirlist = new List<DirectoryContents>();
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 				foreach (var x in (from md in context.MachineDirs
 								   join d in context.Dirs on md.dir_id equals d.dir_id
@@ -217,7 +231,7 @@ namespace WcfServiceTest {
 
 		private int MachineNameToId(string name) {
 			if (MachineNameExists(name)) {
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 					Machine m1 = (from o in context.Machines
 								  where o.machine_name == name
@@ -232,7 +246,7 @@ namespace WcfServiceTest {
 
 		private static bool MachineNameExists(string name) {
 			bool result = true;
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				Machine m1;
 				try {
 					m1 = (from o in context.Machines
@@ -268,7 +282,7 @@ namespace WcfServiceTest {
 			List<FileContents> filelist = new List<FileContents>();
 			GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				foreach (var x in (from f in context.Files
 								   join t in context.Types on f.type_id equals t.type_id
 								   where f.dir_id == d.Id
@@ -288,7 +302,7 @@ namespace WcfServiceTest {
 			Dir d1 = Dir.CreateDir(1, d.Name, d.Owner);
 			d1.dir_description = d.Description;
 
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				context.Dirs.AddObject(d1);
 				context.SaveChanges();
 				AddedDirId = (from z in context.Dirs select z).ToList().Last().dir_id;
@@ -300,7 +314,7 @@ namespace WcfServiceTest {
 
 		private static void AddMachDir(MachineContents m, DirectoryContents d) {
 			MachineDir md1 = MachineDir.CreateMachineDir(m.Id, d.Id, d.LocalPath);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				context.MachineDirs.AddObject(md1);
 				context.SaveChanges();
 			}
@@ -319,7 +333,7 @@ namespace WcfServiceTest {
 				//TypeManipulator.TypeToId(f);
 				File f1 = File.CreateFile(1, f.Dir, 1, f.Content, f.Name, f.Size, f.Hash,
 					f.Uploaded, f.Modified);
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					context.Files.AddObject(f1);
 					context.SaveChanges();
 				}
@@ -329,7 +343,7 @@ namespace WcfServiceTest {
 				UpdateFileContent(f);
 				//TypeManipulator.TypeToId(f);
 
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					File f1 = (from o in context.Files where o.file_id == f.Id select o).Single();
 					f1.file_hash = f.Hash;
 					f1.file_modified = f.Modified;
@@ -344,7 +358,7 @@ namespace WcfServiceTest {
 		public void GetFileContent(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
 			GetFileContentId(c, m, d, f);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				Content c1 = (from o in context.Contents
 							  where o.content_id == f.Content
 							  select o).Single();
@@ -359,7 +373,7 @@ namespace WcfServiceTest {
 		private void AddFileContent(FileContents f) {
 			int AddedContentId;
 			Content f1 = Content.CreateContent(1, f.Data);
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 				context.Contents.AddObject(f1);
 				context.SaveChanges();
@@ -370,7 +384,7 @@ namespace WcfServiceTest {
 		}
 
 		private static void UpdateFileContent(FileContents f) {
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				Content c1 = (from o in context.Contents
 							  where o.content_id == f.Content
 							  select o).Single();
@@ -383,7 +397,7 @@ namespace WcfServiceTest {
 				FileContents f) {
 			GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				int content_id = (from o in context.Files
 								  where (o.file_name == f.Name) && (o.dir_id == d.Id)
 								  select o.content_id).Single();
@@ -395,7 +409,7 @@ namespace WcfServiceTest {
 				FileContents f) {
 			GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
-			using (filesyncEntities context = new filesyncEntities()) {
+			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 				int file_id = (from o in context.Files
 							   where (o.file_name == f.Name) && (o.dir_id == d.Id)
@@ -408,7 +422,7 @@ namespace WcfServiceTest {
 			GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
 			try {
-				using (filesyncEntities context = new filesyncEntities()) {
+				using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 					(from o in context.Files
 					 where (o.file_name == f.Name) && (o.dir_id == d.Id)
 					 select o.file_id).Single();

@@ -66,17 +66,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EntityFramework\DirManipulator.cs" />
-    <None Include="EntityFramework\FileManipulator.cs" />
-    <Compile Include="EntityFramework\filesyncModel.Designer.cs">
-      <DependentUpon>filesyncModel.edmx</DependentUpon>
+    <Compile Include="filesyncModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>filesyncModel.edmx</DependentUpon>
     </Compile>
-    <None Include="EntityFramework\MachDirManipulator.cs" />
-    <None Include="EntityFramework\MachManipulator.cs" />
-    <None Include="EntityFramework\TypeManipulator.cs" />
-    <None Include="EntityFramework\UserManipulator.cs" />
     <Compile Include="FileSyncService.svc.cs">
       <DependentUpon>FileSyncService.svc</DependentUpon>
     </Compile>
@@ -92,7 +86,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="EntityFramework\filesyncModel.edmx">
+    <EntityDeploy Include="filesyncModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>filesyncModel.Designer.cs</LastGenOutput>
     </EntityDeploy>

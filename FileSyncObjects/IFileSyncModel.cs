@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 
 namespace FileSyncObjects {
 
@@ -10,6 +11,13 @@ namespace FileSyncObjects {
 	/// </summary>
 	[ServiceContract]
 	public interface IFileSyncModel {
+
+		#region Tests
+		[OperationContract]
+		string TestWCF();
+		[OperationContract]
+		string TestEF();
+		#endregion
 
 		#region User
 		[OperationContract]
