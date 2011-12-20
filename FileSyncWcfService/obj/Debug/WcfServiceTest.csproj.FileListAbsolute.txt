@@ -1,5 +1,0 @@
-C:\Users\mck\documents\visual studio 2010\Projects\FileSync\WcfServiceTest\bin\WcfServiceTest.dll
-C:\Users\mck\documents\visual studio 2010\Projects\FileSync\WcfServiceTest\bin\WcfServiceTest.pdb
-C:\Users\mck\documents\visual studio 2010\Projects\FileSync\WcfServiceTest\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\mck\documents\visual studio 2010\Projects\FileSync\WcfServiceTest\obj\Debug\WcfServiceTest.dll
-C:\Users\mck\documents\visual studio 2010\Projects\FileSync\WcfServiceTest\obj\Debug\WcfServiceTest.pdb
