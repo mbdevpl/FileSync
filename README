@@ -4,8 +4,10 @@ Main goals:
 - file sharing
 - file synchronization
 
+Tested on Windows 7 x64.
+
 === FileSyncGui ===
-WPF client application, tested on Windows 7 x64.
+WPF client application.
 
 === FileSyncObjects ===
 Definitions of objects which are sent between client and server.
