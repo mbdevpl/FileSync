@@ -50,12 +50,17 @@ namespace FileSyncWcfService {
 		public void Login(Credentials c) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				try {
-					User u1 = (from u in context.Users
-							   where c.Equals(u.user_login, u.user_pass)
-							   select u).Single();
 					//User u1 = (from u in context.Users
-					//           where c.Login == u.user_login && c.Password == u.user_pass
+					//           where c.Equals(u.user_login, u.user_pass)
 					//           select u).Single();
+					User u1 = context.Users.Where(u => u.user_login == c.Login).SingleOrDefault();
+					
+					if (u1 == null) 
+					{ 
+					}
+						//(from u in context.Users
+						//       where c.Login == u.user_login && c.Password == u.user_pass
+						//       select u).Single();
 
 					UpdateLastLogin(context, LoginToId(context, c.Login));
 				} catch (Exception ex) {
@@ -161,8 +166,11 @@ namespace FileSyncWcfService {
 
 		private bool Authenticate(filesyncEntitiesNew context, Credentials c) {
 			try {
+				//User u1 = (from u in context.Users
+				//           where c.Equals(u.user_login, u.user_pass)
+				//           select u).Single();
 				User u1 = (from u in context.Users
-						   where c.Equals(u.user_login, u.user_pass)
+						   where c.Login == u.user_login && c.Password == u.user_pass
 						   select u).Single();
 			} catch {
 				return false;
