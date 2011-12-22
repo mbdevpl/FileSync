@@ -1,35 +1,38 @@
 FileSync
 ========
 
-Main goals:
-- file backup
-- file sharing
-- file synchronization
+FileSync is a client-server application written in C# & XAML.
 
-Tested on Windows 7 x64.
+Main use cases:
+* file backup
+* file sharing
+* file synchronization
 
 Used tools:
-- Visual Studio 2010 Ultimate
-- SQL Server Management Studio
+* Windows 7 Professional x64
+* Visual Studio 2010 Ultimate
+* SQL Server Management Studio
 
 Used technologies:
-- WPF
-- WCF
-- EF
+* WPF
+* WCF
+* EF
 
-FileSyncGui
------------
+Project components
+------------------
 
-WPF client application.
+### FileSyncGui - FileSync client
 
-FileSyncObjects
----------------
+WPF client application. It connects with WCF service application using settings contained in `App.Config`.
 
-Definitions of objects which are sent between client and server.
+### FileSyncObjects - FileSync library
 
-== FileSyncWcfService
+Definitions of objects which are sent between client and server. Also, definition of the interface that is used in communication between different components. Both GUI and WCF service depend greatly on the library.
 
-Service which is launched on the server side.
+### FileSyncWcfService - FileSync server
 
- App.Config
+Service which is launched on the server side. It connects to the database via EF, using connection string located in `Web.Config`.
  
+### FileSyncGuiTest, FileSyncObjectsTest, FileSyncWcfServiceTest - FileSync unit tests
+
+Collection use case centered tests, which check the features of various parts of the application.
