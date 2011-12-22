@@ -1,4 +1,4 @@
-=== FileSync ===
+== FileSync
 Main goals:
 - file backup
 - file sharing
@@ -14,3 +14,6 @@ Definitions of objects which are sent between client and server.
 
 === FileSyncWcfService ===
 Service which is launched on the server side.
+
+ App.Config
+ 
