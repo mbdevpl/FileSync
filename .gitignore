@@ -1,12 +1,19 @@
 
-/FileSync.suo
-/FileSyncGui/_ignored
 /FileSyncGui/bin
 /FileSyncGui/obj
-/FileSyncWcfService/bin
-/FileSyncWcfService/obj
-/FileSyncObjects/_tempLIB
+/FileSyncGuiTest/bin
+/FileSyncGuiTest/obj
 /FileSyncObjects/bin
 /FileSyncObjects/obj
+/FileSyncObjectsTest/bin
+/FileSyncObjectsTest/obj
+/FileSyncWcfService/bin
+/FileSyncWcfService/obj
+/FileSyncWcfServiceTest/bin
+/FileSyncWcfServiceTest/obj
+/FileSync.suo
+/FileSyncGui/_ignored
+/FileSyncObjects/_tempLIB
 /ConsoleApplication1
 /Resources
+/File
