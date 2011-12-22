@@ -4,19 +4,23 @@ FileSync
 FileSync is a client-server application written in C# & XAML.
 
 Main use cases:
+
 * file backup
 * file sharing
 * file synchronization
 
 Used tools:
+
 * Windows 7 Professional x64
 * Visual Studio 2010 Ultimate
 * SQL Server Management Studio
 
 Used technologies:
+
 * WPF
 * WCF
 * EF
+* some other .NET 4.0 features
 
 Project components
 ------------------
