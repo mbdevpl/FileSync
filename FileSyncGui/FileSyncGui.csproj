@@ -86,7 +86,6 @@
     <None Include="Service References\Ref\FileSyncService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="_ignored\ActionResult.cs" />
     <Compile Include="Service References\Ref\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,16 +110,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <None Include="_ignored\Credentials.cs" />
-    <None Include="_ignored\DirContents.cs" />
-    <None Include="_ignored\DirIdentity.cs" />
-    <None Include="_ignored\FileContents.cs" />
-    <None Include="_ignored\FileIdentity.cs" />
-    <None Include="_ignored\FileType.cs" />
-    <None Include="_ignored\MachineContents.cs" />
-    <None Include="_ignored\MachineIdentity.cs" />
-    <None Include="_ignored\UserContents.cs" />
-    <None Include="_ignored\UserIdentity.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

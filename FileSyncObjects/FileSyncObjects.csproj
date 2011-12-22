@@ -64,11 +64,6 @@
     <Compile Include="UserIdentity.cs" />
     <Compile Include="IFileSyncModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_tempLIB\ContentModel.cs" />
-    <Compile Include="_tempLIB\DiruserModel.cs" />
-    <Compile Include="_tempLIB\MachdirModel.cs" />
-    <Compile Include="_tempLIB\RightModel.cs" />
-    <Compile Include="_tempLIB\TypeModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
