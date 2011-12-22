@@ -42,6 +42,11 @@ namespace FileSyncObjects {
 			//nothing needed here
 		}
 
+		public UserContents(Credentials credentials, string name = null, string email = null)
+			: base(credentials, name, email) {
+			//nothing needed here
+		}
+
 		protected UserContents() : base() { }
 
 		public UserContents(UserContents uc)

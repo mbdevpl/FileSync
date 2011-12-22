@@ -23,7 +23,7 @@ namespace FileSyncObjects {
 
 		#region User
 
-		public void AddUser(Credentials c, UserContents u) {
+		public void AddUser(UserContents u) {
 			throw new Exception("not implemented");
 		}
 

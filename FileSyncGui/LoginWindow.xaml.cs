@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-using FileSyncGui.Local;
+using FileSyncObjects;
 using FileSyncGui.Ref;
 
 namespace FileSyncGui {
@@ -16,7 +16,7 @@ namespace FileSyncGui {
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public FileSyncConnection Ref;
+		public FileSyncConnection connection;
 
 		private Boolean creatingAccount = false;
 		public Boolean CreatingAccount {
@@ -110,7 +110,7 @@ namespace FileSyncGui {
 			EnteredMachineName = false;
 			checkIfAllEntered();
 
-			this.Ref = new FileSyncConnection();
+			this.connection = new FileSyncConnection();
 
 			InitializeComponent();
 		}
@@ -129,25 +129,21 @@ namespace FileSyncGui {
 		}
 
 		private Credentials getCredentials() {
-			var cr = new Credentials();
-			cr.Login = this.getLogin();
-			cr.Password = Security.ComputeHash(this.UserPassword.Password);
+			var cr = new Credentials(this.getLogin(), 
+				Security.ComputeHash(this.UserPassword.Password));
 			return cr;
 		}
 
 		private UserContents getUser() {
-			UserContents u = new UserContents();
-			u.Login = this.getLogin();
-			u.Password = Security.ComputeHash(this.UserPassword.Password);
-			u.Name = this.UserFullName.Text;
-			u.Email = this.UserEmail.Text;
+			UserContents u = new UserContents(this.getLogin(), 
+				Security.ComputeHash(this.UserPassword.Password),this.UserFullName.Text, 
+				this.UserEmail.Text);
 			return u;
 		}
 
 		private MachineContents getMachine() {
-			MachineContents m = new MachineContents();
-			m.Name = this.MachineName.Text;
-			m.Description = this.MachineDescription.Text;
+			MachineContents m = new MachineContents(this.MachineName.Text,
+				this.MachineDescription.Text);
 			return m;
 		}
 
@@ -155,7 +151,7 @@ namespace FileSyncGui {
 			Credentials c = getCredentials();
 
 			try {
-				Ref.Login(c);
+				connection.Login(c);
 
 				parentWindow.credentials = c;
 				//MessageBox.Show("User logged in.");
@@ -195,18 +191,18 @@ namespace FileSyncGui {
 			MachineContents m = this.getMachine();
 
 			try {
-				Ref.AddUser(c, this.getUser());
+				connection.AddUser(this.getUser());
 
 				this.DialogResult = true;
 				//MessageBox.Show("User was created!");
 
-				//Ref.Login(c);
-				Ref.AddMachine(c, m);
+				connection.Login(c);
+				connection.AddMachine(c, m);
 
 				parentWindow.credentials = c;
-				Ref.GetDirList(c, m);
+				connection.GetDirList(c, m);
 				//parentWindow.machine = new MachineContents(c, id, false, false, true);
-				Ref.GetLocalDirContents(m);
+				connection.GetLocalDirContents(m);
 				//MachineActions.GetContets(c, id);
 
 				//MessageBox.Show("Machine was created!");
@@ -214,7 +210,7 @@ namespace FileSyncGui {
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
 			} catch (Exception ex) {
-				new SystemMessage(new ActionException("elo",ActionType.User,null ,ex)).ShowDialog();
+				new SystemMessage(new ActionException("Sorry, an error.", ActionType.User, null, ex)).ShowDialog();
 			}
 		}
 

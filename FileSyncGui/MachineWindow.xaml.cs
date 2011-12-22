@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-using FileSyncGui.Local;
+using FileSyncObjects;
 using FileSyncGui.Ref;
 
 namespace FileSyncGui {
@@ -17,6 +17,8 @@ namespace FileSyncGui {
 		private MainWindow parentWindow;
 
 		private Credentials credentials;
+
+		private FileSyncConnection connection;
 
 		private bool creatingMachine = false;
 		public bool CreatingMachine {
@@ -121,7 +123,8 @@ namespace FileSyncGui {
 
 		private void buttonSelect_Click(object sender, RoutedEventArgs e) {
 			try {
-				parentWindow.machine = new MachineContents();
+				parentWindow.machine = new MachineContents(machines[SelectedMachineIndex]);
+				//connection.GetDirList(credentials, machineIsSelected);
 				//credentials,
 				//	machines[SelectedMachineIndex], true, false, true);
 				//MachineActions.GetContets(credentials, machines[SelectedMachineIndex]);

@@ -57,10 +57,12 @@ namespace FileSyncObjects {
 		public DirectoryIdentity(string remoteName, string localPath = null,
 			string description = null) {
 			if (remoteName == null || remoteName.Length == 0)
-				throw new ActionException("Remote name of the directory must be set.");
+				throw new ActionException("Remote name of the directory must be set.",
+					ActionType.Directory, MemeType.AreYouFuckingKiddingMe);
 			this.name = remoteName;
 			if (localPath != null && localPath.Length == 0)
-				throw new ActionException("Local path of the directory must be set.");
+				throw new ActionException("Local path of the directory must be set.",
+					ActionType.Directory, MemeType.AreYouFuckingKiddingMe);
 			this.localPath = (localPath == null ? EmptyLocalPath : localPath);
 			this.description = description;
 		}

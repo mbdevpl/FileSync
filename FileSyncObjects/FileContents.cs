@@ -13,7 +13,7 @@ namespace FileSyncObjects {
 
 		private string contents;
 		[DataMember]
-		protected string Contents {
+		public string Contents {
 			get { return contents; }
 			set { contents = value; }
 		}
@@ -37,7 +37,7 @@ namespace FileSyncObjects {
 		/// <param name="fileType"></param>
 		/// <param name="size"></param>
 		/// <param name="hash"></param>
-		public FileContents(string name, DateTime modified, string contents = null,
+		public FileContents(string name, DateTime modified, string contents,
 				DateTime? uploaded = null, FileType fileType = FileType.PlainText, long size = 0,
 				string hash = null)
 			: base(name, modified, uploaded, fileType, size, hash) {

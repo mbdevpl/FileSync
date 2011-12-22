@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionException.cs" />
+    <Compile Include="ActionType.cs" />
+    <Compile Include="MemeType.cs" />
     <Compile Include="StringEnum.cs" />
     <Compile Include="StringValueAttribute.cs" />
-    <Compile Include="ActionException.cs" />
     <Compile Include="ActionResult.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="FileSyncModel.cs" />

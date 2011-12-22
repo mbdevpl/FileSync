@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using FileSyncGui.Ref;
 using System.IO;
 
-namespace FileSyncGui.Local {
-	public class FileSyncConnection : IFileSyncModel {
+using FileSyncObjects;
+using FileSyncGui.Ref;
+
+namespace FileSyncGui {
+	public class FileSyncConnection : FileSyncGui.Ref.IFileSyncModel {
 
 		/// <summary>
 		/// Used in directory, and file operations.
@@ -28,14 +27,14 @@ namespace FileSyncGui.Local {
 
 		#region User (connection)
 
-		public void AddUser(Credentials c, UserContents u) {
+		public void AddUser(UserContents u) {
 			try {
 				using (FileSyncModelClient cl = new FileSyncModelClient()) {
-					cl.AddUser(c, u);
+					cl.AddUser(u);
 				}
 			} catch (Exception ex) {
-				throw new ActionException("Unable to create new user account.", ActionType.User,
-					MemeType.Fuuuuu, ex);
+				throw new ActionException("Unable to create new user account.", 
+					ActionType.User, ex);
 			}
 		}
 
@@ -47,7 +46,7 @@ namespace FileSyncGui.Local {
 			} catch (Exception ex) {
 				throw new ActionException("Login process did not end in a very happy manner. "
 					+ "In fact, it ended in a very unpleasant way.",
-					ActionType.User, MemeType.AreYouFuckingKiddingMe, ex);
+					ActionType.User, ex, MemeType.AreYouFuckingKiddingMe);
 			}
 		}
 
@@ -65,12 +64,19 @@ namespace FileSyncGui.Local {
 				return u;
 			} catch (Exception ex) {
 				throw new ActionException("Unable to get user details for the given credentials.",
-					ActionType.User, MemeType.Fuuuuu, ex);
+					ActionType.User, ex);
 			}
 		}
 
 		public void GetMachineList(Credentials c, UserContents u) {
-			throw new Exception("not implemented");
+			try {
+				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+					cl.GetMachineList(c, u);
+				}
+			} catch (Exception ex) {
+				throw new ActionException("Unable to get machines for a given user.",
+					ActionType.User, ex);
+			}
 		}
 
 		//public void UpdateUser(Credentials c, UserContents newU) {
@@ -92,8 +98,8 @@ namespace FileSyncGui.Local {
 					cl.DelUser(c);
 				}
 			} catch (Exception ex) {
-				throw new ActionException("Unable to delete the user account.", ActionType.User,
-					MemeType.Fuuuuu, ex);
+				throw new ActionException("Unable to delete the user account.", 
+					ActionType.User, ex);
 			}
 		}
 
@@ -412,9 +418,7 @@ namespace FileSyncGui.Local {
 				throw new ActionException("Unable to get file metadata from an ivalid path: '"
 					+ filePath + "'.", ActionType.File, MemeType.Fuuuuu);
 
-			FileContents f = new FileContents();
-			f.Name = fileName;
-			f.Modified = System.IO.File.GetLastWriteTime(filePath);
+			FileContents f = new FileContents(fileName,System.IO.File.GetLastWriteTime(filePath));
 			f.Type = FileType.PlainText;
 			return f;
 		}
@@ -457,7 +461,7 @@ namespace FileSyncGui.Local {
 				reader.Close();
 			} catch (Exception ex) {
 				throw new ActionException("Error while reading file data from disk. "
-					+ "File path was: '" + filePath + "'.", ActionType.File, MemeType.Fuuuuu, ex);
+					+ "File path was: '" + filePath + "'.", ActionType.File, ex);
 			}
 			return contents;
 		}

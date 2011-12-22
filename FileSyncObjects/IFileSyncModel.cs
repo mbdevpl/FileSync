@@ -21,7 +21,7 @@ namespace FileSyncObjects {
 
 		#region User
 		[OperationContract]
-		void AddUser(Credentials c, UserContents u);
+		void AddUser(UserContents u);
 		[OperationContract]
 		void Login(Credentials c);
 		[OperationContract]

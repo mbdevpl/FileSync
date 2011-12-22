@@ -4,7 +4,7 @@ using System.Windows;
 using System;
 using System.Text;
 
-using FileSyncGui.Local;
+using FileSyncObjects;
 
 namespace FileSyncGui {
 

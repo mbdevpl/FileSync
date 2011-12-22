@@ -4,7 +4,7 @@
         xmlns:ex="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:con="http://schemas.kent.boogaart.com/converters"
-        xmlns:my="clr-namespace:FileSyncGui.Ref"
+        xmlns:my="clr-namespace:FileSyncObjects;assembly=FileSyncObjects"
         xmlns:c="comment"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="c"

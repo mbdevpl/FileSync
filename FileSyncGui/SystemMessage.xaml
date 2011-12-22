@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:con="http://schemas.kent.boogaart.com/converters"
-        xmlns:my="clr-namespace:FileSyncGui.Local"
+        xmlns:my="clr-namespace:FileSyncObjects;assembly=FileSyncObjects"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="comment" mc:Ignorable="c"
         Name="windowSystemMessage" 

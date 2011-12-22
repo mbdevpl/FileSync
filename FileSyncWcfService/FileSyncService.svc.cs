@@ -22,7 +22,9 @@ namespace FileSyncWcfService {
 
 		public string TestEF() {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				//context.SaveChanges();
+				context.Users.Where(u => u.user_login == "adm").SingleOrDefault();
+				context.Users.Where(u => u.user_login == "admin").SingleOrDefault();
+				context.Users.Where(u => u.user_login == "administrator").SingleOrDefault();
 			}
 			return "EF connection test passed";
 		}
@@ -31,7 +33,7 @@ namespace FileSyncWcfService {
 
 		#region User (public)
 
-		public void AddUser(Credentials c, UserContents u) {
+		public void AddUser(UserContents u) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				if (LoginExists(context, u.Login)) {
 					throw new Exception("user already exists");
@@ -95,6 +97,10 @@ namespace FileSyncWcfService {
 
 		public void GetMachineList(Credentials c, UserContents u) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
+
+				if (!Authenticate(context, c))
+					throw new Exception("unauthorized access detected");
+
 				List<MachineContents> machinelist = new List<MachineContents>();
 				u.Id = LoginToId(context, u.Login);
 				List<Machine> ml = (from o in context.Machines

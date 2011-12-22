@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 using FolderPickerLib;
 
-using FileSyncGui.Local;
+using FileSyncObjects;
 using FileSyncGui.Ref;
 
 namespace FileSyncGui {
@@ -245,11 +245,11 @@ namespace FileSyncGui {
 				return;
 
 			//temporary
-			var machines = connection.GetUserWithMachines(credentials).Machines;
+			UserContents user = connection.GetUserWithMachines(credentials);
 			//new UserContents(credentials, true).Machines;
 			// UserActions.GetContents(this.credentials).Machines;
-			connection.GetDirList(credentials, machines[0]);
-			this.machine = machines[0]; //new MachineContents(credentials, machines[0], true, false, true);
+			connection.GetDirList(credentials, user.Machines[0]);
+			this.machine = user.Machines[0]; //new MachineContents(credentials, machines[0], true, false, true);
 			//MachineActions.GetContets(credentials, machines[0]);
 			RefreshDisplayedMachineInfo();
 			if (machine != null) return;
@@ -315,10 +315,9 @@ namespace FileSyncGui {
 						throw new ActionException("No folder was chosen.", ActionType.Directory);
 					//DirIdentity did = new DirIdentity(path.Substring(path.LastIndexOf('\\') + 1),
 					//	null, path);
-					DirectoryContents dcNew = new DirectoryContents();
+					DirectoryContents dcNew = new DirectoryContents(
+						path.Substring(path.LastIndexOf('\\') + 1), path);
 					//path.Substring(path.LastIndexOf('\\') + 1), path, null, null, true);
-					dcNew.Name = path.Substring(path.LastIndexOf('\\') + 1);
-					dcNew.LocalPath = path;
 					connection.GetLocalFileList(dcNew);
 					foreach (DirectoryContents dc in Directories)
 						if (dc.Name.Equals(dcNew.Name) || dc.LocalPath.Equals(dcNew.LocalPath))
@@ -337,9 +336,7 @@ namespace FileSyncGui {
 				//MessageBox.Show(String.Format("old: {0} new: {1} {2}", machine.Identity.ToString(),
 				//	MachineName, MachineDesc), "Erroren");
 
-				var newMachine = new MachineContents();
-				newMachine.Name = MachineName;
-				newMachine.Description = MachineDesc;
+				var newMachine = new MachineContents(MachineName, MachineDesc);
 
 				connection.ChangeMachineDetails(credentials, newMachine, machine);
 

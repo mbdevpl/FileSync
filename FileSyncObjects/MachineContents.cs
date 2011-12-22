@@ -40,7 +40,7 @@ namespace FileSyncObjects {
 			//nothing needed here
 		}
 
-		public MachineContents() : base() { }
+		protected MachineContents() : base() { }
 
 	}
 

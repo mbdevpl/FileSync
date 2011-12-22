@@ -74,11 +74,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Local\FileSyncConnection.cs" />
-    <Compile Include="Local\ActionException.cs" />
-    <None Include="Service References\Ref\FileSyncGui.Ref.UserContents.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
+    <Compile Include="FileSyncConnection.cs" />
+    <None Include="Properties\DataSources\FileSyncObjects.UserContents.datasource" />
     <None Include="Service References\Ref\FileSyncService.wsdl" />
     <None Include="Service References\Ref\FileSyncService.xsd">
       <SubType>Designer</SubType>
@@ -90,9 +87,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="_ignored\ActionResult.cs" />
-    <Compile Include="Local\ActionType.cs" />
-    <Compile Include="Local\MemeType.cs" />
-    <Compile Include="Local\Security.cs" />
     <Compile Include="Service References\Ref\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -200,6 +194,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileSyncObjects\FileSyncObjects.csproj">
+      <Project>{DC11D152-DE13-4752-9517-AA5CC03586CD}</Project>
+      <Name>FileSyncObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Ref\" />
