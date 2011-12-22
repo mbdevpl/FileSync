@@ -1,5 +1,4 @@
 
-/ConsoleApplication1
 /FileSync.suo
 /FileSyncGui/bin
 /FileSyncGui/obj
@@ -13,7 +12,4 @@
 /FileSyncWcfService/obj
 /FileSyncWcfServiceTest/bin
 /FileSyncWcfServiceTest/obj
-/FileSyncGui/_ignored
-/FileSyncObjects/_tempLIB
 /Resources
-/FileSyncWcfServiceTest/obj
