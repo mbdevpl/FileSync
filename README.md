@@ -1,4 +1,6 @@
-== FileSync
+FileSync
+========
+
 Main goals:
 - file backup
 - file sharing
@@ -6,13 +8,27 @@ Main goals:
 
 Tested on Windows 7 x64.
 
-=== FileSyncGui ===
+Used tools:
+- Visual Studio 2010 Ultimate
+- SQL Server Management Studio
+
+Used technologies:
+- WPF
+- WCF
+- EF
+
+FileSyncGui
+-----------
+
 WPF client application.
 
-=== FileSyncObjects ===
+FileSyncObjects
+---------------
+
 Definitions of objects which are sent between client and server.
 
-=== FileSyncWcfService ===
+== FileSyncWcfService
+
 Service which is launched on the server side.
 
  App.Config
