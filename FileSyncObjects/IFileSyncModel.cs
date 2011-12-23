@@ -14,45 +14,51 @@ namespace FileSyncObjects {
 
 		#region Tests
 		[OperationContract]
-		string TestWCF();
+		bool TestWCF();
 		[OperationContract]
-		string TestEF();
+		bool TestEF();
 		#endregion
 
 		#region User
 		[OperationContract]
-		void AddUser(UserContents u);
+		bool AddUser(UserContents u);
 		[OperationContract]
-		void Login(Credentials c);
+		bool Login(Credentials c);
 		[OperationContract]
-		UserContents GetUser(Credentials c);
+		UserIdentity GetUser(Credentials c);
 		[OperationContract]
-		void GetMachineList(Credentials c, UserContents u);
+		UserContents GetUserWithMachines(Credentials c);
 		[OperationContract]
-		void DelUser(Credentials c);
+		bool DelUser(Credentials c);
 		#endregion
 
 		#region Machine
 		[OperationContract]
-		void AddMachine(Credentials c, MachineContents m);
+		bool AddMachine(Credentials c, MachineContents m);
 		[OperationContract]
-		void ChangeMachineDetails(Credentials c, MachineContents newM, MachineContents oldM);
+		bool ChangeMachineDetails(Credentials c, MachineContents newM, MachineContents oldM);
 		[OperationContract]
-		void GetDirList(Credentials c, MachineContents m);
+		MachineContents GetMachineWithDirs(Credentials c, MachineIdentity mid);
+		[OperationContract]
+		bool DelMachine(Credentials c, MachineIdentity mid);
 		#endregion
 
 		#region Directory
 		[OperationContract]
-		void AddDirectory(Credentials c, MachineContents m, DirectoryContents d);
+		bool AddDirectory(Credentials c, MachineContents m, DirectoryContents d);
 		[OperationContract]
-		void GetFileList(Credentials c, MachineContents m, DirectoryContents d);
+		DirectoryContents GetDirectoryWithFiles(Credentials c, MachineContents m, DirectoryIdentity d);
+		[OperationContract]
+		bool DelDirectory(Credentials c, MachineIdentity mid, DirectoryIdentity did);
 		#endregion
 
 		#region File
 		[OperationContract]
-		void AddFile(Credentials c, MachineContents m, DirectoryContents d, FileContents f);
+		bool AddFile(Credentials c, MachineContents m, DirectoryContents d, FileContents f);
 		[OperationContract]
-		void GetFileContent(Credentials c, MachineContents m, DirectoryContents d, FileContents f);
+		FileContents GetFileWithContent(Credentials c, MachineContents m, DirectoryContents d, FileIdentity f);
+		[OperationContract]
+		bool DelFile(Credentials c, MachineIdentity mid, DirectoryIdentity did, FileIdentity f);
 		#endregion
 
 		#region Other
