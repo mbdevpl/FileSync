@@ -49,26 +49,32 @@ namespace FileSyncWcfService {
 			}
 		}
 
-		public void Login(Credentials c) {
+		public bool Login(Credentials c) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				try {
+				//try {
 					//User u1 = (from u in context.Users
 					//           where c.Equals(u.user_login, u.user_pass)
 					//           select u).Single();
 					User u1 = context.Users.Where(u => u.user_login == c.Login).SingleOrDefault();
+                    
 
 					if (u1 == null) {
+                        return false;
 					}
 					//(from u in context.Users
 					//       where c.Login == u.user_login && c.Password == u.user_pass
 					//       select u).Single();
+                    if (!c.Equals(u1.user_login, u1.user_pass))
+                        return false;
 
 					UpdateLastLogin(context, LoginToId(context, c.Login));
-				} catch (Exception ex) {
+
+				//} catch (Exception ex) {
 					//if (ex.GetType().Equals(typeof(Exception)))
 					//    throw ex;
-					throw new Exception("wrong credentials", ex);
-				}
+					//throw new Exception("wrong credentials", ex);
+				//}
+                    return  true;
 			}
 		}
 
