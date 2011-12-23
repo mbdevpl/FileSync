@@ -56,13 +56,12 @@ namespace FileSyncWcfService {
 					//           where c.Equals(u.user_login, u.user_pass)
 					//           select u).Single();
 					User u1 = context.Users.Where(u => u.user_login == c.Login).SingleOrDefault();
-					
-					if (u1 == null) 
-					{ 
+
+					if (u1 == null) {
 					}
-						//(from u in context.Users
-						//       where c.Login == u.user_login && c.Password == u.user_pass
-						//       select u).Single();
+					//(from u in context.Users
+					//       where c.Login == u.user_login && c.Password == u.user_pass
+					//       select u).Single();
 
 					UpdateLastLogin(context, LoginToId(context, c.Login));
 				} catch (Exception ex) {
@@ -95,41 +94,50 @@ namespace FileSyncWcfService {
 			}
 		}
 
-		public void GetMachineList(Credentials c, UserContents u) {
+		public UserContents GetUserWithMachines(Credentials c) {
+			var u = GetUser(c);
+			List<Machine> ml;
+			List<MachineContents> machinelist;
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 
 				if (!Authenticate(context, c))
-					throw new Exception("unauthorized access detected");
+					return null;
+				//throw new Exception("unauthorized access detected");
 
-				List<MachineContents> machinelist = new List<MachineContents>();
+				machinelist = new List<MachineContents>();
 				u.Id = LoginToId(context, u.Login);
-				List<Machine> ml = (from o in context.Machines
-									where o.user_id == u.Id
-									select o).ToList();
-				foreach (Machine m in ml) {
-					MachineContents m1 = new MachineContents(m.machine_name, m.machine_description);
-					m1.Id = m.machine_id;
-					m1.User = m.user_id;
-					machinelist.Add(m1);
-				}
-				u.Machines = machinelist;
+				ml = (from o in context.Machines
+					  where o.user_id == u.Id
+					  select o).ToList();
 			}
+			foreach (Machine m in ml) {
+				MachineContents m1 = new MachineContents(m.machine_name, m.machine_description);
+				m1.Id = m.machine_id;
+				m1.User = m.user_id;
+				machinelist.Add(m1);
+			}
+			u.Machines = machinelist;
+			return u;
 		}
 
-		public void DelUser(Credentials c) {
+		public bool DelUser(Credentials c) {
 			UserContents u = GetUser(c);
+			bool result = false;
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
-				try {
-					int id = LoginToId(context, u.Login);
-					var u1 = (from o in context.Users
-							  where o.user_id == id
-							  select o).Single();
+				if (!Authenticate(context, c))
+					return result;
+
+				int id = LoginToId(context, u.Login);
+				var u1 = (from o in context.Users
+						  where o.user_id == id
+						  select o).SingleOrDefault();
+				if (u1 != null) {
 					context.Users.DeleteObject(u1);
 					context.SaveChanges();
-				} catch (Exception ex) {
-					throw new Exception("no such user", ex);
+					result = true;
 				}
 			}
+			return result;
 		}
 
 		#endregion
@@ -137,25 +145,28 @@ namespace FileSyncWcfService {
 		#region User (private)
 
 		private bool LoginExists(filesyncEntitiesNew context, string login) {
-			try {
-				User u1 = (from o in context.Users
-						   where o.user_login == login
-						   select o).Single();
-			} catch {
+			User u1 = (from o in context.Users
+					   where o.user_login == login
+					   select o).SingleOrDefault();
+
+			if (u1 == null)
 				return false;
-			}
+
 			return true;
 		}
 
 		private int LoginToId(filesyncEntitiesNew context, string login) {
-			if (LoginExists(context, login)) {
-				User u1 = (from o in context.Users
-						   where o.user_login == login
-						   select o).Single();
-				return u1.user_id;
-			} else {
-				throw new Exception("no such user");
-			}
+			if (!LoginExists(context, login))
+				return -1;
+
+			User u1 = (from o in context.Users
+					   where o.user_login == login
+					   select o).SingleOrDefault();
+
+			if (u1 == null || u1.user_id < 0)
+				return -1;
+
+			return u1.user_id;
 		}
 
 		private void UpdateLastLogin(filesyncEntitiesNew context, int id) {
