@@ -86,6 +86,7 @@
     <None Include="Service References\Ref\FileSyncService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="FileSyncLocal.cs" />
     <Compile Include="Service References\Ref\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

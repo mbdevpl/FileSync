@@ -129,14 +129,14 @@ namespace FileSyncGui {
 		}
 
 		private Credentials getCredentials() {
-			var cr = new Credentials(this.getLogin(), 
+			var cr = new Credentials(this.getLogin(),
 				Security.ComputeHash(this.UserPassword.Password));
 			return cr;
 		}
 
 		private UserContents getUser() {
-			UserContents u = new UserContents(this.getLogin(), 
-				Security.ComputeHash(this.UserPassword.Password),this.UserFullName.Text, 
+			UserContents u = new UserContents(this.getLogin(),
+				Security.ComputeHash(this.UserPassword.Password), this.UserFullName.Text,
 				this.UserEmail.Text);
 			return u;
 		}
@@ -164,18 +164,18 @@ namespace FileSyncGui {
 
 		private void buttonReset_Click(object sender, RoutedEventArgs e) {
 			try {
-				using (var cl = new FileSyncModelClient()) {
-					MessageBox.Show(cl.TestWCF());
-				}
+				if (connection.TestWCF())
+					new SystemMessage(null, "WCF test", "WCF connection test passed", 
+						MemeType.FuckYea).ShowDialog();
 			} catch (Exception ex) {
 				var ae = new ActionException("WCF test failed", ActionType.User, null, ex);
 				new SystemMessage(ae).ShowDialog();
 			}
 
 			try {
-				using (var cl = new FileSyncModelClient()) {
-					MessageBox.Show(cl.TestEF());
-				}
+				if (connection.TestEF())
+					new SystemMessage(null, "EF test", "Enitity Framework connection test passed",
+						MemeType.FuckYea).ShowDialog();
 			} catch (Exception ex) {
 				var ae = new ActionException("EF test failed", ActionType.User, null, ex);
 				new SystemMessage(ae).ShowDialog();

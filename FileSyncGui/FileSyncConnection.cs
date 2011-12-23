@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 
 using FileSyncObjects;
-using FileSyncGui.Ref;
 
 namespace FileSyncGui {
-	public class FileSyncConnection : FileSyncGui.Ref.IFileSyncModel {
-
-		/// <summary>
-		/// Used in directory, and file operations.
-		/// </summary>
-		internal static string EmptyLocalPath = "\\";
+	public class FileSyncConnection : IFileSyncModel {
 
 		#region Tests
 
-		public string TestWCF() {
-			throw new Exception("not implemented");
+		public bool TestWCF() {
+			bool result = false;
+			using (var cl = new Ref.FileSyncModelClient()) {
+				//result = cl.TestWCF();
+			}
+			return result;
 		}
 
-		public string TestEF() {
-			throw new Exception("not implemented");
+		public bool TestEF() {
+			bool result = false;
+			using (var cl = new Ref.FileSyncModelClient()) {
+				//result = cl.TestEF();
+			}
+			return result;
 		}
 
 		#endregion
@@ -29,7 +31,7 @@ namespace FileSyncGui {
 
 		public void AddUser(UserContents u) {
 			try {
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.AddUser(u);
 				}
 			} catch (Exception ex) {
@@ -40,7 +42,7 @@ namespace FileSyncGui {
 
 		public void Login(Credentials c) {
 			try {
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.Login(c);
 				}
 			} catch (Exception ex) {
@@ -58,7 +60,7 @@ namespace FileSyncGui {
 		public UserContents GetUser(Credentials c) {
 			try {
 				UserContents u;
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					u = cl.GetUser(c);
 				}
 				return u;
@@ -70,7 +72,7 @@ namespace FileSyncGui {
 
 		public void GetMachineList(Credentials c, UserContents u) {
 			try {
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.GetMachineList(c, u);
 				}
 			} catch (Exception ex) {
@@ -94,7 +96,7 @@ namespace FileSyncGui {
 
 		public void DelUser(Credentials c) {
 			try {
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.DelUser(c);
 				}
 			} catch (Exception ex) {
@@ -130,7 +132,7 @@ namespace FileSyncGui {
 				if (c == null)
 					throw new ArgumentNullException("cr", "user credentials must be provided");
 
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.AddMachine(c, m);
 				}
 			} catch (Exception ex) {
@@ -149,7 +151,7 @@ namespace FileSyncGui {
 				if (oldM == null)
 					throw new ArgumentNullException("oldM", "old machine identity must be provided");
 
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					ChangeMachineDetails(c, newM, oldM);
 				}
 			} catch (Exception ex) {
@@ -165,7 +167,7 @@ namespace FileSyncGui {
 				if (m == null)
 					throw new ArgumentNullException("m", "machine identity must be provided");
 
-				using (FileSyncModelClient cl = new FileSyncModelClient()) {
+				using (var cl = new Ref.FileSyncModelClient()) {
 					cl.GetDirList(c, m);
 				}
 			} catch (Exception ex) {

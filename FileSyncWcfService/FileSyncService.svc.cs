@@ -16,17 +16,17 @@ namespace FileSyncWcfService {
 
 		#region Tests
 
-		public string TestWCF() {
-			return "WCF connection test passed";
+		public bool TestWCF() {
+			return true;
 		}
 
-		public string TestEF() {
+		public bool TestEF() {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				context.Users.Where(u => u.user_login == "adm").SingleOrDefault();
 				context.Users.Where(u => u.user_login == "admin").SingleOrDefault();
 				context.Users.Where(u => u.user_login == "administrator").SingleOrDefault();
 			}
-			return "EF connection test passed";
+			return true;
 		}
 
 		#endregion
