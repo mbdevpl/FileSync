@@ -1,92 +1,100 @@
 ﻿using System;
 
-using FileSyncObjects;
-
 namespace FileSyncObjects {
 
 	/// <summary>
-	/// Example implementation of the interface.
+	/// Example (i.e. empty) implementation of the interface. Extending it provides a convinient way 
+	/// of compiling code not belonging to the use cases.
 	/// </summary>
-	class FileSyncModel /*: IFileSyncModel*/ {
+	class FileSyncModel : IFileSyncModel {
 
-		//#region Tests
+		#region Tests
 
-		//public string TestWCF() {
-		//    throw new Exception("not implemented");
-		//}
+		public bool TestWCF() {
+			throw new NotImplementedException();
+		}
 
-		//public string TestEF() {
-		//    throw new Exception("not implemented");
-		//}
+		public bool TestEF() {
+			throw new NotImplementedException();
+		}
 
-		//#endregion
+		#endregion
 
-		//#region User
+		#region User
 
-		//public void AddUser(UserContents u) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool AddUser(UserContents u) {
+			throw new NotImplementedException();
+		}
 
-		//public void Login(Credentials c) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool Login(Credentials c) {
+			throw new NotImplementedException();
+		}
 
-		//public UserContents GetUser(Credentials c) {
-		//    throw new Exception("not implemented");
-		//}
+		public UserIdentity GetUser(Credentials c) {
+			throw new NotImplementedException();
+		}
 
-		//public void GetMachineList(Credentials c, UserContents u) {
-		//    throw new Exception("not implemented");
-		//}
+		public UserContents GetUserWithMachines(Credentials c) {
+			throw new NotImplementedException();
+		}
 
-		//public void DelUser(Credentials c) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool DelUser(Credentials c) {
+			throw new NotImplementedException();
+		}
 
-		//#endregion
+		#endregion
 
-		//#region Machine
+		#region Machine
 
-		//public void AddMachine(Credentials c, MachineContents m) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool AddMachine(Credentials c, MachineContents m) {
+			throw new NotImplementedException();
+		}
 
-		//public void ChangeMachineDetails(Credentials c, MachineContents newM, 
-		//        MachineContents oldM) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool ChangeMachineDetails(Credentials c, MachineContents newM, MachineContents oldM) {
+			throw new NotImplementedException();
+		}
 
-		//public void GetDirList(Credentials c, MachineContents m) {
-		//    throw new Exception("not implemented");
-		//}
+		public MachineContents GetMachineWithDirs(Credentials c, MachineIdentity mid) {
+			throw new NotImplementedException();
+		}
 
-		//#endregion
+		public bool DelMachine(Credentials c, MachineIdentity mid) {
+			throw new NotImplementedException();
+		}
 
-		//#region Directory
+		#endregion
 
-		//public void AddDirectory(Credentials c, MachineContents m, DirectoryContents d) {
-		//    throw new Exception("not implemented");
-		//}
+		#region Directory
 
-		//public void GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
-		//    throw new Exception("not implemented");
-		//}
+		public bool AddDirectory(Credentials c, MachineContents m, DirectoryContents d) {
+			throw new NotImplementedException();
+		}
 
-		//#endregion
+		public DirectoryContents GetDirectoryWithFiles(Credentials c, MachineContents m, DirectoryIdentity d) {
+			throw new NotImplementedException();
+		}
 
-		//#region File
+		public bool DelDirectory(Credentials c, MachineIdentity mid, DirectoryIdentity did) {
+			throw new NotImplementedException();
+		}
 
-		//public void AddFile(Credentials c, MachineContents m, DirectoryContents d,
-		//        FileContents f) {
-		//    throw new Exception("not implemented");
-		//}
+		#endregion
 
-		//public void GetFileContent(Credentials c, MachineContents m, DirectoryContents d,
-		//        FileContents f) {
-		//    throw new Exception("not implemented");
-		//}
+		#region File
 
-		//#endregion
+		public bool AddFile(Credentials c, MachineContents m, DirectoryContents d, FileContents f) {
+			throw new NotImplementedException();
+		}
+
+		public FileContents GetFileWithContent(Credentials c, MachineContents m, DirectoryContents d, FileIdentity f) {
+			throw new NotImplementedException();
+		}
+
+		public bool DelFile(Credentials c, MachineIdentity mid, DirectoryIdentity did, FileIdentity f) {
+			throw new NotImplementedException();
+		}
+
+		#endregion
 
 	}
 

@@ -18,6 +18,8 @@ namespace FileSyncGui {
 
 		public FileSyncConnection connection;
 
+		public FileSyncLocal local;
+
 		private Boolean creatingAccount = false;
 		public Boolean CreatingAccount {
 			get { return creatingAccount; }
@@ -111,6 +113,7 @@ namespace FileSyncGui {
 			checkIfAllEntered();
 
 			this.connection = new FileSyncConnection();
+			this.local = new FileSyncLocal();
 
 			InitializeComponent();
 		}
@@ -200,9 +203,9 @@ namespace FileSyncGui {
 				connection.AddMachine(c, m);
 
 				parentWindow.credentials = c;
-				connection.GetDirList(c, m);
+				m = connection.GetMachineWithDirs(c, m);
 				//parentWindow.machine = new MachineContents(c, id, false, false, true);
-				connection.GetLocalDirContents(m);
+				m = local.ReadMachineContents(m);
 				//MachineActions.GetContets(c, id);
 
 				//MessageBox.Show("Machine was created!");

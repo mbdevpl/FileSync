@@ -38,6 +38,9 @@ namespace FileSyncObjects {
 		}
 
 		private string name;
+		/// <summary>
+		/// Name of the file in the file system.
+		/// </summary>
 		[DataMember]
 		public string Name {
 			get { return name; }

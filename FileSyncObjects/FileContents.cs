@@ -63,6 +63,8 @@ namespace FileSyncObjects {
 		public FileContents(FileIdentity identity, string contents = null)
 			: base(identity) {
 			this.contents = contents;
+			this.size = contents.Length;
+			this.hash = Security.ComputeHash(contents);
 		}
 
 		protected FileContents() : base() { }

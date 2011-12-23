@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ActionException.cs" />
     <Compile Include="ActionType.cs" />
+    <Compile Include="IFileSyncLocal.cs" />
     <Compile Include="MemeType.cs" />
     <Compile Include="StringEnum.cs" />
     <Compile Include="StringValueAttribute.cs" />

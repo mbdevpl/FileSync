@@ -24,6 +24,8 @@ namespace FileSyncGui {
 
 		private FileSyncConnection connection;
 
+		private FileSyncLocal local;
+
 		private DispatcherTimer dt;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -174,6 +176,7 @@ namespace FileSyncGui {
 			//this.DataContext = this;
 
 			connection = new FileSyncConnection();
+			local = new FileSyncLocal();
 
 			LoggedIn = false;
 			LoggedInAndChosenMachine = false;
@@ -207,10 +210,8 @@ namespace FileSyncGui {
 		private void RefreshDisplayedDirectories() {
 			directories.Clear();
 			foreach (DirectoryContents d in machine.Directories) {
-				connection.GetFileList(credentials, machine, d);
-				connection.GetLocalFileList(d);
-				connection.RemoveDuplicateFiles(d);
-
+				connection.GetDirectoryWithFiles(credentials, machine, d);
+				local.ReadDirectoryContents(d);
 				Directories.Add(d);
 			}
 			if (PropertyChanged != null)
@@ -248,8 +249,9 @@ namespace FileSyncGui {
 			UserContents user = connection.GetUserWithMachines(credentials);
 			//new UserContents(credentials, true).Machines;
 			// UserActions.GetContents(this.credentials).Machines;
-			connection.GetDirList(credentials, user.Machines[0]);
-			this.machine = user.Machines[0]; //new MachineContents(credentials, machines[0], true, false, true);
+			this.machine = connection.GetMachineWithDirs(credentials, user.Machines[0]);
+			//this.machine = user.Machines[0];
+			//new MachineContents(credentials, machines[0], true, false, true);
 			//MachineActions.GetContets(credentials, machines[0]);
 			RefreshDisplayedMachineInfo();
 			if (machine != null) return;
@@ -318,7 +320,7 @@ namespace FileSyncGui {
 					DirectoryContents dcNew = new DirectoryContents(
 						path.Substring(path.LastIndexOf('\\') + 1), path);
 					//path.Substring(path.LastIndexOf('\\') + 1), path, null, null, true);
-					connection.GetLocalFileList(dcNew);
+					dcNew = local.ReadDirectoryContents(dcNew);
 					foreach (DirectoryContents dc in Directories)
 						if (dc.Name.Equals(dcNew.Name) || dc.LocalPath.Equals(dcNew.LocalPath))
 							throw new ActionException("Folder already exists on this machine.",
@@ -377,11 +379,13 @@ namespace FileSyncGui {
 
 		private void optionUploadMachine_Click(object sender, RoutedEventArgs e) {
 			try {
-				connection.UploadMachine(credentials, machine);
-
-				new SystemMessage("FileSync", "Upload finished",
-					"Machine was uploaded successfully", MemeType.FuckYea).ShowDialog();
-
+				if (local.UploadMachine(connection, credentials, machine))
+					new SystemMessage("FileSync", "Upload finished",
+						"Machine was uploaded successfully.", MemeType.FuckYea).ShowDialog();
+				else {
+					new SystemMessage("FileSync", "Not good...",
+							"Machine was not uploaded successfully.").ShowDialog();
+				}
 				//MessageBox.Show("Backup complete.", "FileSync",
 				//    MessageBoxButton.OK, MessageBoxImage.Information);
 			} catch (ActionException ex) {
@@ -393,20 +397,21 @@ namespace FileSyncGui {
 		private void optionDownloadMachine_Click(object sender, RoutedEventArgs e) {
 
 			try {
-				connection.DownloadMachine(credentials, machine);
+				local.DownloadMachine(connection, credentials, machine);
+				local.ReadMachineContents(machine, true);
 
-				connection.GetLocalDirContents(machine, true);
 				//machine = connection(credentials, machine);
 				//machine = new MachineContents(credentials, machine, true, true, true);
 				//MachineActions.GetContets(credentials, machine.Identity);
 
 				RefreshDisplayedMachineInfo();
 
-				connection.SaveMachineToDisk(machine);
-
-				new SystemMessage("FileSync", "File sync complete.",
-					"All directories defined in this machine were downloaded and restored.",
-					MemeType.FuckYea).ShowDialog();
+				if (local.SaveMachine(machine))
+					new SystemMessage("FileSync", "File sync complete.",
+						"All directories defined in this machine were downloaded and restored.",
+						MemeType.FuckYea).ShowDialog();
+				else new SystemMessage("FileSync", "This is embarassing.",
+					"The machine was not downloaded successfully.");
 
 				//foreach (DirIdentity did in machine.Directories) {
 				//    var files = DirActions.Download(credentials, machine.Identity, did);
@@ -442,7 +447,7 @@ namespace FileSyncGui {
 
 				DirectoryContents dc = machine.Directories[SelectedDirectoryIndex];
 
-				connection.UploadDirectory(credentials, machine, dc);
+				local.UploadDirectory(connection, credentials, machine, dc);
 
 				new SystemMessage("FileSync", "Upload complete",
 					"Directory was uploaded successfully", MemeType.FuckYea).ShowDialog();
@@ -466,8 +471,8 @@ namespace FileSyncGui {
 				DirectoryIdentity did = machine.Directories[SelectedDirectoryIndex];
 				//var dc = new DirectoryContents(credentials, machine, did, true, true);
 				DirectoryContents d = machine.Directories[SelectedDirectoryIndex];
-				connection.DownloadDirectory(credentials, machine, d);//...GetFileList();
-				if (connection.SaveDirectoryToDisk(d)) {
+				local.DownloadDirectory(connection, credentials, machine, d);//...GetFileList();
+				if (local.SaveDirectory(d)) {
 					new SystemMessage("FileSync", "File sync successful.",
 						"Selected directory was downloaded and restored.", MemeType.FuckYea)
 						.ShowDialog();
