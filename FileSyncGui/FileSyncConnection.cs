@@ -10,7 +10,7 @@ namespace FileSyncGui {
 		public bool TestWCF() {
 			bool result = false;
 			using (var cl = new Ref.FileSyncModelClient()) {
-				//result = cl.TestWCF();
+				result = cl.TestWCF();
 			}
 			return result;
 		}
@@ -18,7 +18,7 @@ namespace FileSyncGui {
 		public bool TestEF() {
 			bool result = false;
 			using (var cl = new Ref.FileSyncModelClient()) {
-				//result = cl.TestEF();
+				result = cl.TestEF();
 			}
 			return result;
 		}
@@ -31,7 +31,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				bool result = false;
-				//result = cl.AddUser(u);
+				result = cl.AddUser(u);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -45,7 +45,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				bool result = false;
-				//result = cl.Login(c);
+				result = cl.Login(c);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -74,7 +74,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				UserContents u = null;
-				//u = cl.GetUserWithMachines(c);
+				u = cl.GetUserWithMachines(c);
 				cl.Close();
 				return u;
 			} catch (Exception ex) {
@@ -88,7 +88,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				bool result = false;
-				//result = cl.DelUser(c);
+				result = cl.DelUser(c);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -111,7 +111,7 @@ namespace FileSyncGui {
 					throw new ArgumentNullException("m", "machine contents were null");
 
 				bool result = false;
-				//result = cl.AddMachine(c, m);
+				result = cl.AddMachine(c, m);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -133,7 +133,7 @@ namespace FileSyncGui {
 					throw new ArgumentNullException("oldM", "old machine identity must be provided");
 
 				bool result = false;
-				//result = cl.ChangeMachineDetails(c, newM, oldM);
+				result = cl.ChangeMachineDetails(c, newM, oldM);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -152,7 +152,7 @@ namespace FileSyncGui {
 					throw new ArgumentNullException("mid", "machine identity was null");
 
 				MachineContents m = null;
-				//m = cl.GetMachineWithDirs(c, mid);
+				m = cl.GetMachineWithDirs(c, mid);
 				cl.Close();
 				return m;
 			} catch (Exception ex) {
@@ -177,7 +177,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				bool result = false;
-				//result = cl.AddDirectory(c, m, d);
+				result = cl.AddDirectory(c, m, d);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -192,7 +192,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				DirectoryContents d = null;
-				//d = cl.GetDirectoryWithFiles(c, m, d);
+				d = cl.GetDirectoryWithFiles(c, m, did);
 				cl.Close();
 				return d;
 			} catch (ActionException ex) {
@@ -221,7 +221,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				bool result = false;
-				//result = cl.AddFile(c, m, d, f);
+				result = cl.AddFile(c, m, d, f);
 				cl.Close();
 				return result;
 			} catch (Exception ex) {
@@ -236,7 +236,7 @@ namespace FileSyncGui {
 			var cl = new Ref.FileSyncModelClient();
 			try {
 				FileContents f = null;
-				//f = cl.GetFileWithContent(c, m, d, f);
+				f = cl.GetFileWithContent(c, m, d, f);
 				cl.Close();
 				return f;
 			} catch (Exception ex) {

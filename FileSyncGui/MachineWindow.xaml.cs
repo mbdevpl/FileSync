@@ -18,7 +18,7 @@ namespace FileSyncGui {
 
 		private Credentials credentials;
 
-		private FileSyncConnection connection;
+		//private FileSyncConnection connection;
 
 		private bool creatingMachine = false;
 		public bool CreatingMachine {

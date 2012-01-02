@@ -75,7 +75,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FileSyncConnection.cs" />
+    <None Include="Properties\DataSources\FileSyncObjects.DirectoryContents.datasource" />
+    <None Include="Properties\DataSources\FileSyncObjects.FileContents.datasource" />
+    <None Include="Properties\DataSources\FileSyncObjects.MachineContents.datasource" />
     <None Include="Properties\DataSources\FileSyncObjects.UserContents.datasource" />
+    <None Include="Properties\DataSources\FileSyncObjects.UserIdentity.datasource" />
     <None Include="Service References\Ref\FileSyncService.wsdl" />
     <None Include="Service References\Ref\FileSyncService.xsd">
       <SubType>Designer</SubType>

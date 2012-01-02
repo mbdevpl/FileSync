@@ -9,7 +9,7 @@
   <xs:element name="TestWCFResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="TestWCFResult" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TestWCFResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -21,7 +21,7 @@
   <xs:element name="TestEFResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="TestEFResult" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TestEFResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -34,7 +34,9 @@
   </xs:element>
   <xs:element name="AddUserResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddUserResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Login">
@@ -46,7 +48,9 @@
   </xs:element>
   <xs:element name="LoginResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LoginResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetUser">
@@ -59,21 +63,22 @@
   <xs:element name="GetUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetUserResult" nillable="true" type="q4:UserContents" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetUserResult" nillable="true" type="q4:UserIdentity" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetMachineList">
+  <xs:element name="GetUserWithMachines">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q5:Credentials" />
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="u" nillable="true" type="q6:UserContents" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetMachineListResponse">
+  <xs:element name="GetUserWithMachinesResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetUserWithMachinesResult" nillable="true" type="q6:UserContents" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DelUser">
@@ -85,7 +90,9 @@
   </xs:element>
   <xs:element name="DelUserResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DelUserResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddMachine">
@@ -98,7 +105,9 @@
   </xs:element>
   <xs:element name="AddMachineResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddMachineResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ChangeMachineDetails">
@@ -112,37 +121,42 @@
   </xs:element>
   <xs:element name="ChangeMachineDetailsResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ChangeMachineDetailsResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetDirList">
+  <xs:element name="GetMachineWithDirs">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q13:Credentials" />
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q14:MachineContents" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="mid" nillable="true" type="q14:MachineIdentity" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetDirListResponse">
+  <xs:element name="GetMachineWithDirsResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetMachineWithDirsResult" nillable="true" type="q15:MachineContents" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q16:Credentials" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="mid" nillable="true" type="q17:MachineIdentity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DelMachineResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddDirectory">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q15:Credentials" />
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q16:MachineContents" />
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q17:DirectoryContents" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddDirectoryResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetFileList">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q18:Credentials" />
@@ -151,39 +165,94 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetFileListResponse">
+  <xs:element name="AddDirectoryResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddDirectoryResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWithFiles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q21:Credentials" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q22:MachineContents" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q23:DirectoryIdentity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirectoryWithFilesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetDirectoryWithFilesResult" nillable="true" type="q24:DirectoryContents" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelDirectory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q25:Credentials" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="mid" nillable="true" type="q26:MachineIdentity" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="did" nillable="true" type="q27:DirectoryIdentity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelDirectoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DelDirectoryResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddFile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q21:Credentials" />
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q22:MachineContents" />
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q23:DirectoryContents" />
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="f" nillable="true" type="q24:FileContents" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q28:Credentials" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q29:MachineContents" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q30:DirectoryContents" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="f" nillable="true" type="q31:FileContents" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddFileResponse">
     <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetFileContent">
-    <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q25:Credentials" />
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q26:MachineContents" />
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q27:DirectoryContents" />
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="f" nillable="true" type="q28:FileContents" />
+        <xs:element minOccurs="0" name="AddFileResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetFileContentResponse">
+  <xs:element name="GetFileWithContent">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q32:Credentials" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="m" nillable="true" type="q33:MachineContents" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="d" nillable="true" type="q34:DirectoryContents" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="f" nillable="true" type="q35:FileIdentity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFileWithContentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="GetFileWithContentResult" nillable="true" type="q36:FileContents" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="c" nillable="true" type="q37:Credentials" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="mid" nillable="true" type="q38:MachineIdentity" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="did" nillable="true" type="q39:DirectoryIdentity" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/FileSyncObjects" minOccurs="0" name="f" nillable="true" type="q40:FileIdentity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DelFileResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DelFileResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

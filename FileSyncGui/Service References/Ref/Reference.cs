@@ -16,68 +16,92 @@ namespace FileSyncGui.Ref {
     public interface IFileSyncModel {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestWCF", ReplyAction="http://tempuri.org/IFileSyncModel/TestWCFResponse")]
-        string TestWCF();
+        bool TestWCF();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestEF", ReplyAction="http://tempuri.org/IFileSyncModel/TestEFResponse")]
-        string TestEF();
+        bool TestEF();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddUser", ReplyAction="http://tempuri.org/IFileSyncModel/AddUserResponse")]
-        void AddUser(FileSyncObjects.UserContents u);
+        bool AddUser(FileSyncObjects.UserContents u);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/Login", ReplyAction="http://tempuri.org/IFileSyncModel/LoginResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void Login(FileSyncObjects.Credentials c);
+        bool Login(FileSyncObjects.Credentials c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetUser", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        FileSyncObjects.UserContents GetUser(FileSyncObjects.Credentials c);
+        FileSyncObjects.UserIdentity GetUser(FileSyncObjects.Credentials c);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetMachineList", ReplyAction="http://tempuri.org/IFileSyncModel/GetMachineListResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetUserWithMachines", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserWithMachinesResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void GetMachineList(FileSyncObjects.Credentials c, FileSyncObjects.UserContents u);
+        FileSyncObjects.UserContents GetUserWithMachines(FileSyncObjects.Credentials c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelUser", ReplyAction="http://tempuri.org/IFileSyncModel/DelUserResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void DelUser(FileSyncObjects.Credentials c);
+        bool DelUser(FileSyncObjects.Credentials c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddMachine", ReplyAction="http://tempuri.org/IFileSyncModel/AddMachineResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
+        bool AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetails", ReplyAction="http://tempuri.org/IFileSyncModel/ChangeMachineDetailsResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM);
+        bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirList", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirListResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs", ReplyAction="http://tempuri.org/IFileSyncModel/GetMachineWithDirsResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
+        FileSyncObjects.MachineContents GetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelMachine", ReplyAction="http://tempuri.org/IFileSyncModel/DelMachineResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
+        bool DelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/AddDirectoryResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
+        bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileList", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileListResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirectoryWithFilesResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
+        FileSyncObjects.DirectoryContents GetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/DelDirectoryResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
+        bool DelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddFile", ReplyAction="http://tempuri.org/IFileSyncModel/AddFileResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f);
+        bool AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileContent", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileContentResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileWithContent", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileWithContentResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
-        void GetFileContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f);
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.FileContents))]
+        FileSyncObjects.FileContents GetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelFile", ReplyAction="http://tempuri.org/IFileSyncModel/DelFileResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.FileContents))]
+        bool DelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -107,60 +131,72 @@ namespace FileSyncGui.Ref {
                 base(binding, remoteAddress) {
         }
         
-        public string TestWCF() {
+        public bool TestWCF() {
             return base.Channel.TestWCF();
         }
         
-        public string TestEF() {
+        public bool TestEF() {
             return base.Channel.TestEF();
         }
         
-        public void AddUser(FileSyncObjects.UserContents u) {
-            base.Channel.AddUser(u);
+        public bool AddUser(FileSyncObjects.UserContents u) {
+            return base.Channel.AddUser(u);
         }
         
-        public void Login(FileSyncObjects.Credentials c) {
-            base.Channel.Login(c);
+        public bool Login(FileSyncObjects.Credentials c) {
+            return base.Channel.Login(c);
         }
         
-        public FileSyncObjects.UserContents GetUser(FileSyncObjects.Credentials c) {
+        public FileSyncObjects.UserIdentity GetUser(FileSyncObjects.Credentials c) {
             return base.Channel.GetUser(c);
         }
         
-        public void GetMachineList(FileSyncObjects.Credentials c, FileSyncObjects.UserContents u) {
-            base.Channel.GetMachineList(c, u);
+        public FileSyncObjects.UserContents GetUserWithMachines(FileSyncObjects.Credentials c) {
+            return base.Channel.GetUserWithMachines(c);
         }
         
-        public void DelUser(FileSyncObjects.Credentials c) {
-            base.Channel.DelUser(c);
+        public bool DelUser(FileSyncObjects.Credentials c) {
+            return base.Channel.DelUser(c);
         }
         
-        public void AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
-            base.Channel.AddMachine(c, m);
+        public bool AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
+            return base.Channel.AddMachine(c, m);
         }
         
-        public void ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM) {
-            base.Channel.ChangeMachineDetails(c, newM, oldM);
+        public bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM) {
+            return base.Channel.ChangeMachineDetails(c, newM, oldM);
         }
         
-        public void GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
-            base.Channel.GetDirList(c, m);
+        public FileSyncObjects.MachineContents GetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
+            return base.Channel.GetMachineWithDirs(c, mid);
         }
         
-        public void AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
-            base.Channel.AddDirectory(c, m, d);
+        public bool DelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
+            return base.Channel.DelMachine(c, mid);
         }
         
-        public void GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
-            base.Channel.GetFileList(c, m, d);
+        public bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
+            return base.Channel.AddDirectory(c, m, d);
         }
         
-        public void AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f) {
-            base.Channel.AddFile(c, m, d, f);
+        public FileSyncObjects.DirectoryContents GetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d) {
+            return base.Channel.GetDirectoryWithFiles(c, m, d);
         }
         
-        public void GetFileContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f) {
-            base.Channel.GetFileContent(c, m, d, f);
+        public bool DelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did) {
+            return base.Channel.DelDirectory(c, mid, did);
+        }
+        
+        public bool AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f) {
+            return base.Channel.AddFile(c, m, d, f);
+        }
+        
+        public FileSyncObjects.FileContents GetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f) {
+            return base.Channel.GetFileWithContent(c, m, d, f);
+        }
+        
+        public bool DelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f) {
+            return base.Channel.DelFile(c, mid, did, f);
         }
     }
 }

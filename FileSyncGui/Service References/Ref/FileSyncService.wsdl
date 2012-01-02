@@ -37,11 +37,11 @@
   <wsdl:message name="IFileSyncModel_GetUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUserResponse" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetMachineList_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMachineList" />
+  <wsdl:message name="IFileSyncModel_GetUserWithMachines_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserWithMachines" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetMachineList_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMachineListResponse" />
+  <wsdl:message name="IFileSyncModel_GetUserWithMachines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserWithMachinesResponse" />
   </wsdl:message>
   <wsdl:message name="IFileSyncModel_DelUser_InputMessage">
     <wsdl:part name="parameters" element="tns:DelUser" />
@@ -61,11 +61,17 @@
   <wsdl:message name="IFileSyncModel_ChangeMachineDetails_OutputMessage">
     <wsdl:part name="parameters" element="tns:ChangeMachineDetailsResponse" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetDirList_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetDirList" />
+  <wsdl:message name="IFileSyncModel_GetMachineWithDirs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMachineWithDirs" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetDirList_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDirListResponse" />
+  <wsdl:message name="IFileSyncModel_GetMachineWithDirs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMachineWithDirsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelMachine_InputMessage">
+    <wsdl:part name="parameters" element="tns:DelMachine" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelMachine_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DelMachineResponse" />
   </wsdl:message>
   <wsdl:message name="IFileSyncModel_AddDirectory_InputMessage">
     <wsdl:part name="parameters" element="tns:AddDirectory" />
@@ -73,11 +79,17 @@
   <wsdl:message name="IFileSyncModel_AddDirectory_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddDirectoryResponse" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetFileList_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetFileList" />
+  <wsdl:message name="IFileSyncModel_GetDirectoryWithFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectoryWithFiles" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetFileList_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetFileListResponse" />
+  <wsdl:message name="IFileSyncModel_GetDirectoryWithFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectoryWithFilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelDirectory_InputMessage">
+    <wsdl:part name="parameters" element="tns:DelDirectory" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelDirectory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DelDirectoryResponse" />
   </wsdl:message>
   <wsdl:message name="IFileSyncModel_AddFile_InputMessage">
     <wsdl:part name="parameters" element="tns:AddFile" />
@@ -85,11 +97,17 @@
   <wsdl:message name="IFileSyncModel_AddFile_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddFileResponse" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetFileContent_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetFileContent" />
+  <wsdl:message name="IFileSyncModel_GetFileWithContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileWithContent" />
   </wsdl:message>
-  <wsdl:message name="IFileSyncModel_GetFileContent_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetFileContentResponse" />
+  <wsdl:message name="IFileSyncModel_GetFileWithContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileWithContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DelFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_DelFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DelFileResponse" />
   </wsdl:message>
   <wsdl:portType name="IFileSyncModel">
     <wsdl:operation name="TestWCF">
@@ -112,9 +130,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetUser" message="tns:IFileSyncModel_GetUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetUserResponse" message="tns:IFileSyncModel_GetUser_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetMachineList">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetMachineList" message="tns:IFileSyncModel_GetMachineList_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetMachineListResponse" message="tns:IFileSyncModel_GetMachineList_OutputMessage" />
+    <wsdl:operation name="GetUserWithMachines">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetUserWithMachines" message="tns:IFileSyncModel_GetUserWithMachines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetUserWithMachinesResponse" message="tns:IFileSyncModel_GetUserWithMachines_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="DelUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/DelUser" message="tns:IFileSyncModel_DelUser_InputMessage" />
@@ -128,25 +146,37 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetails" message="tns:IFileSyncModel_ChangeMachineDetails_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetailsResponse" message="tns:IFileSyncModel_ChangeMachineDetails_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetDirList">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirList" message="tns:IFileSyncModel_GetDirList_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirListResponse" message="tns:IFileSyncModel_GetDirList_OutputMessage" />
+    <wsdl:operation name="GetMachineWithDirs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs" message="tns:IFileSyncModel_GetMachineWithDirs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirsResponse" message="tns:IFileSyncModel_GetMachineWithDirs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DelMachine">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/DelMachine" message="tns:IFileSyncModel_DelMachine_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/DelMachineResponse" message="tns:IFileSyncModel_DelMachine_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="AddDirectory">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/AddDirectory" message="tns:IFileSyncModel_AddDirectory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/AddDirectoryResponse" message="tns:IFileSyncModel_AddDirectory_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetFileList">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileList" message="tns:IFileSyncModel_GetFileList_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileListResponse" message="tns:IFileSyncModel_GetFileList_OutputMessage" />
+    <wsdl:operation name="GetDirectoryWithFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles" message="tns:IFileSyncModel_GetDirectoryWithFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFilesResponse" message="tns:IFileSyncModel_GetDirectoryWithFiles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DelDirectory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/DelDirectory" message="tns:IFileSyncModel_DelDirectory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/DelDirectoryResponse" message="tns:IFileSyncModel_DelDirectory_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="AddFile">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/AddFile" message="tns:IFileSyncModel_AddFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/AddFileResponse" message="tns:IFileSyncModel_AddFile_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetFileContent">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileContent" message="tns:IFileSyncModel_GetFileContent_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileContentResponse" message="tns:IFileSyncModel_GetFileContent_OutputMessage" />
+    <wsdl:operation name="GetFileWithContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileWithContent" message="tns:IFileSyncModel_GetFileWithContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileWithContentResponse" message="tns:IFileSyncModel_GetFileWithContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DelFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/DelFile" message="tns:IFileSyncModel_DelFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/DelFileResponse" message="tns:IFileSyncModel_DelFile_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IFileSyncModel" type="tns:IFileSyncModel">
@@ -196,8 +226,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetMachineList">
-      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetMachineList" style="document" />
+    <wsdl:operation name="GetUserWithMachines">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetUserWithMachines" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -232,8 +262,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetDirList">
-      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetDirList" style="document" />
+    <wsdl:operation name="GetMachineWithDirs">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetMachineWithDirs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DelMachine">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/DelMachine" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -250,8 +289,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFileList">
-      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetFileList" style="document" />
+    <wsdl:operation name="GetDirectoryWithFiles">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DelDirectory">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/DelDirectory" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -268,8 +316,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFileContent">
-      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetFileContent" style="document" />
+    <wsdl:operation name="GetFileWithContent">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetFileWithContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DelFile">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/DelFile" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
