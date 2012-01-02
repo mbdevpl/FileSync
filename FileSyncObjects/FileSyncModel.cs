@@ -96,6 +96,10 @@ namespace FileSyncObjects {
 
 		#endregion
 
+
+		public System.Collections.Generic.List<DirectoryContents> GetDirList(Credentials c, MachineContents m) {
+			throw new NotImplementedException();
+		}
 	}
 
 }

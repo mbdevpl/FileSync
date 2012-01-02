@@ -54,6 +54,11 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirList", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirListResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
+        System.Collections.Generic.List<FileSyncObjects.DirectoryContents> GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs", ReplyAction="http://tempuri.org/IFileSyncModel/GetMachineWithDirsResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
@@ -165,6 +170,10 @@ namespace FileSyncGui.Ref {
         
         public bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM) {
             return base.Channel.ChangeMachineDetails(c, newM, oldM);
+        }
+        
+        public System.Collections.Generic.List<FileSyncObjects.DirectoryContents> GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
+            return base.Channel.GetDirList(c, m);
         }
         
         public FileSyncObjects.MachineContents GetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {

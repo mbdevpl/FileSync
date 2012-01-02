@@ -151,10 +151,16 @@ namespace FileSyncGui {
 				if (mid == null)
 					throw new ArgumentNullException("mid", "machine identity was null");
 
-				MachineContents m = null;
-				m = cl.GetMachineWithDirs(c, mid);
+
+				MachineContents newM = new MachineContents(mid);
+				newM.Directories = cl.GetDirList(c, newM);
 				cl.Close();
-				return m;
+				return newM;
+
+				//MachineContents m = null;
+				//m = cl.GetMachineWithDirs(c, mid);
+				//cl.Close();
+				//return m;
 			} catch (Exception ex) {
 				cl.Abort();
 				throw new ActionException("Unable to get list of directories belonging "
@@ -255,5 +261,10 @@ namespace FileSyncGui {
 
 		#endregion
 
+
+
+		public System.Collections.Generic.List<DirectoryContents> GetDirList(Credentials c, MachineContents m) {
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -61,6 +61,12 @@
   <wsdl:message name="IFileSyncModel_ChangeMachineDetails_OutputMessage">
     <wsdl:part name="parameters" element="tns:ChangeMachineDetailsResponse" />
   </wsdl:message>
+  <wsdl:message name="IFileSyncModel_GetDirList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirList" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_GetDirList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirListResponse" />
+  </wsdl:message>
   <wsdl:message name="IFileSyncModel_GetMachineWithDirs_InputMessage">
     <wsdl:part name="parameters" element="tns:GetMachineWithDirs" />
   </wsdl:message>
@@ -145,6 +151,10 @@
     <wsdl:operation name="ChangeMachineDetails">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetails" message="tns:IFileSyncModel_ChangeMachineDetails_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetailsResponse" message="tns:IFileSyncModel_ChangeMachineDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDirList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirList" message="tns:IFileSyncModel_GetDirList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirListResponse" message="tns:IFileSyncModel_GetDirList_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetMachineWithDirs">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs" message="tns:IFileSyncModel_GetMachineWithDirs_InputMessage" />
@@ -255,6 +265,15 @@
     </wsdl:operation>
     <wsdl:operation name="ChangeMachineDetails">
       <soap:operation soapAction="http://tempuri.org/IFileSyncModel/ChangeMachineDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirList">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetDirList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

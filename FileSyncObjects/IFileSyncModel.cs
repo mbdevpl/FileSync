@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using System.Collections.Generic;
 
 namespace FileSyncObjects {
 
@@ -36,6 +37,8 @@ namespace FileSyncObjects {
 		bool AddMachine(Credentials c, MachineContents m);
 		[OperationContract]
 		bool ChangeMachineDetails(Credentials c, MachineContents newM, MachineContents oldM);
+		[OperationContract]
+		List<DirectoryContents> GetDirList(Credentials c, MachineContents m);
 		[OperationContract]
 		MachineContents GetMachineWithDirs(Credentials c, MachineIdentity mid);
 		[OperationContract]
