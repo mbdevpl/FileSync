@@ -33,10 +33,11 @@ namespace FileSyncWcfService {
 
 		#region User (public)
 
-		public void AddUser(UserContents u) {
+		public bool AddUser(UserContents u) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				if (LoginExists(context, u.Login)) {
-					throw new Exception("user already exists");
+					//throw new Exception("user already exists");
+                    return false;
 				} else {
 					//TODO: don't use password directly
 					User u1 = User.CreateUser(1, u.Login, u.Password);
@@ -47,6 +48,7 @@ namespace FileSyncWcfService {
 					context.SaveChanges();
 				}
 			}
+            return true;
 		}
 
 		public bool Login(Credentials c) {
@@ -78,30 +80,32 @@ namespace FileSyncWcfService {
 			}
 		}
 
-		public UserContents GetUser(Credentials c) {
+		public UserIdentity GetUser(Credentials c) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				if (LoginExists(context, c.Login)) {
 					if (Authenticate(context, c)) {
 						int id = LoginToId(context, c.Login);
 						User u1 = (from o in context.Users
 								   where o.user_id == id
-								   select o).Single();
-						UserContents u = new UserContents(u1.user_login, u1.user_pass, u1.user_fullname, u1.user_email);
+								   select o).SingleOrDefault();
+						UserIdentity u = new UserContents(u1.user_login, u1.user_pass, u1.user_fullname, u1.user_email);
 						u.LastLogin = (DateTime)u1.user_lastlogin;
 						u.Id = u1.user_id;
 						return u;
 
 					} else {
-						throw new Exception("wrong password");
+						//throw new Exception("wrong password");
+                        return null;
 					}
 				} else {
-					throw new Exception("no such user");
+					//throw new Exception("no such user");
+                    return null;
 				}
 			}
 		}
 
 		public UserContents GetUserWithMachines(Credentials c) {
-			var u = GetUser(c);
+			UserContents u =(UserContents) GetUser(c);
 			List<Machine> ml;
 			List<MachineContents> machinelist;
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
@@ -127,7 +131,7 @@ namespace FileSyncWcfService {
 		}
 
 		public bool DelUser(Credentials c) {
-			UserContents u = GetUser(c);
+			UserContents u =(UserContents) GetUser(c);
 			bool result = false;
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				if (!Authenticate(context, c))
@@ -176,15 +180,18 @@ namespace FileSyncWcfService {
 		}
 
 		private void UpdateLastLogin(filesyncEntitiesNew context, int id) {
-			try {
+			//try {
 				var u1 = (from o in context.Users
 						  where o.user_id == id
-						  select o).Single();
-				u1.user_lastlogin = DateTime.Now;
-				context.SaveChanges();
-			} catch (Exception ex) {
-				throw new Exception("no such user", ex);
-			}
+						  select o).SingleOrDefault();
+                if (u1 != null)
+                {
+                    u1.user_lastlogin = DateTime.Now;
+                    context.SaveChanges();
+                }
+			//} catch (Exception ex) {
+			//	throw new Exception("no such user", ex);
+			//}
 		}
 
 		private bool Authenticate(filesyncEntitiesNew context, Credentials c) {
@@ -205,10 +212,11 @@ namespace FileSyncWcfService {
 
 		#region Machine
 
-		public void AddMachine(Credentials c, MachineContents m) {
+		public bool AddMachine(Credentials c, MachineContents m) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				if (MachineNameExists(context, m.Name)) {
-					throw new Exception("machine with given name already exists");
+					//throw new Exception("machine with given name already exists");
+                    return false;
 				} else {
 					int user_id = LoginToId(context, c.Login);
 					Machine m1 = Machine.CreateMachine(1, user_id, m.Name);
@@ -218,24 +226,30 @@ namespace FileSyncWcfService {
 					context.SaveChanges();
 				}
 			}
+            return true;
 		}
 
-		public void ChangeMachineDetails(Credentials c, MachineContents newM,
+		public bool ChangeMachineDetails(Credentials c, MachineContents newM,
 				MachineContents oldM) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				oldM.Id = MachineNameToId(context, oldM.Name);
 				Machine m1 = (from o in context.Machines
 							  where o.machine_id == oldM.Id
-							  select o).Single();
-				m1.machine_name = newM.Name;
+							  select o).SingleOrDefault();
+                if (m1 == null)
+                    return false;
+                m1.machine_name = newM.Name;
 				m1.machine_description = newM.Description;
 				context.SaveChanges();
+                return true;
 			}
 		}
 
-		public void GetDirList(Credentials c, MachineContents m) {
+		public List<DirectoryContents> GetDirList(Credentials c, MachineContents m) {
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				int mach_id = MachineNameToId(context, m.Name);
+                if (mach_id == -1)
+                    return null;
 				List<DirectoryContents> dirlist = new List<DirectoryContents>();
 
 				foreach (var x in (from md in context.MachineDirs
@@ -247,10 +261,37 @@ namespace FileSyncWcfService {
 					dir.Owner = x.d.user_ownerid;
 					dirlist.Add(dir);
 				}
-				m.Directories = dirlist;
+				//m.Directories = dirlist;
+                return dirlist;
 			}
 		}
+        public MachineContents GetMachineWithDirs(Credentials c, MachineIdentity m)
+        {
+            MachineContents mc = new MachineContents(m);
+            
+   
+            using (filesyncEntitiesNew context = new filesyncEntitiesNew())
+            {
+                int mach_id = MachineNameToId(context, m.Name);
+                if (mach_id == -1)
+                    return null;
+                mc.Id = mach_id;
+                List<DirectoryContents> dirlist = new List<DirectoryContents>();
 
+                foreach (var x in (from md in context.MachineDirs
+                                   join d in context.Dirs on md.dir_id equals d.dir_id
+                                   where md.machine_id == mach_id
+                                   select new { md.dir_realpath, d }))
+                {
+                    var dir = new DirectoryContents(x.d.dir_name, x.d.dir_description, x.dir_realpath);
+                    dir.Id = x.d.dir_id;
+                    dir.Owner = x.d.user_ownerid;
+                    dirlist.Add(dir);
+                }
+                mc.Directories = dirlist;
+                return mc;
+            }
+        }
 		private int MachineNameToId(filesyncEntitiesNew context, string name) {
 			if (MachineNameExists(context, name)) {
 				Machine m1 = (from o in context.Machines
@@ -260,7 +301,8 @@ namespace FileSyncWcfService {
 				return m1.machine_id;
 			}
 
-			throw new Exception("no machine with given name found" + name.ToString());
+			//throw new Exception("no machine with given name found" + name.ToString());
+            return -1;
 		}
 
 		private static bool MachineNameExists(filesyncEntitiesNew context, string name) {
@@ -275,13 +317,15 @@ namespace FileSyncWcfService {
 
 			return true;
 		}
-
+        public bool DelMachine(Credentials c, MachineIdentity m) {
+            throw new NotImplementedException();
+        }
 		#endregion
 
 		#region Directory
 
-		public void AddDirectory(Credentials c, MachineContents m, DirectoryContents d) {
-			GetDirList(c, m);
+		public bool AddDirectory(Credentials c, MachineContents m, DirectoryContents d) {
+			m.Directories=GetDirList(c, m);
 			int NoSuchNameYet = (from o in m.Directories where o.Name == d.Name select o).Count();
 			if (NoSuchNameYet != 0) {
 				// throw new Exception("directory with given name already exists");
@@ -296,12 +340,14 @@ namespace FileSyncWcfService {
 				}
 				AddMachDir(m, d);
 			}
+            return true;
 		}
 
-		public void GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
+		public List<FileContents> GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
 			List<FileContents> filelist = new List<FileContents>();
-			GetDirList(c, m);
+			m.Directories=GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+           
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				foreach (var x in (from f in context.Files
 								   join t in context.Types on f.type_id equals t.type_id
@@ -314,9 +360,32 @@ namespace FileSyncWcfService {
 					filelist.Add(new FileContents(file));
 				}
 			}
-			d.Files = filelist;
+			//d.Files = filelist;
+            return filelist;
 		}
-
+        public DirectoryContents GetDirectoryWithFiles(Credentials c, MachineContents m, DirectoryIdentity d)
+        {
+            List<FileContents> filelist = new List<FileContents>();
+            m.Directories = GetDirList(c, m);
+            d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+            var dc = new DirectoryContents(d);
+            using (filesyncEntitiesNew context = new filesyncEntitiesNew())
+            {
+                foreach (var x in (from f in context.Files
+                                   join t in context.Types on f.type_id equals t.type_id
+                                   where f.dir_id == d.Id
+                                   select new { f, t.type_name }))
+                {
+                    FileIdentity file = new FileIdentity(x.f.file_name, x.f.file_modified,
+                        x.f.file_uploaded, FileType.PlainText, x.f.file_size, x.f.file_hash);
+                    file.Content = x.f.content_id;
+                    file.Id = x.f.file_id;
+                    filelist.Add(new FileContents(file));
+                }
+            }
+            dc.Files = filelist;
+            return dc;
+        }
 		private static void AddDir(DirectoryContents d) {
 			int AddedDirId;
 			Dir d1 = Dir.CreateDir(1, d.Name, d.Owner);
@@ -339,15 +408,20 @@ namespace FileSyncWcfService {
 				context.SaveChanges();
 			}
 		}
+        public bool DelDirectory (Credentials c, MachineIdentity m, DirectoryIdentity d)
+        {
+            throw new NotImplementedException();
+        }
 
 		#endregion
 
 		#region File (public)
 
-		public void AddFile(Credentials c, MachineContents m, DirectoryContents d,
+		public bool AddFile(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
 			GetDirList(c, m);
 			f.Dir = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
+        
 			if (!CheckFileExistence(c, m, d, f)) {
 				AddFileContent(f);
 				//TypeManipulator.TypeToId(f);
@@ -373,6 +447,7 @@ namespace FileSyncWcfService {
 					context.SaveChanges();
 				}
 			}
+            return true;
 		}
 
 		public void GetFileContent(Credentials c, MachineContents m, DirectoryContents d,
@@ -385,7 +460,24 @@ namespace FileSyncWcfService {
 				f.Data = c1.content_data;
 			}
 		}
-
+        public FileContents GetFileWithContent(Credentials c, MachineContents m, DirectoryContents d,
+                FileIdentity f)
+        {
+            var fc = new FileContents(f);
+            GetFileContentId(c, m, d, fc);
+            using (filesyncEntitiesNew context = new filesyncEntitiesNew())
+            {
+                Content c1 = (from o in context.Contents
+                              where o.content_id == f.Content
+                              select o).Single();
+                fc.Data = c1.content_data;
+            }
+            return fc;
+        }
+        public bool DelFile(Credentials c, MachineIdentity m, DirectoryIdentity d,
+                FileIdentity f) {
+                    throw new NotImplementedException();
+        }
 		#endregion
 
 		#region File (private)
@@ -413,9 +505,9 @@ namespace FileSyncWcfService {
 			}
 		}
 
-		private void GetFileContentId(Credentials c, MachineContents m, DirectoryContents d,
+		private int GetFileContentId(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
-			GetDirList(c, m);
+			m.Directories=GetDirList(c, m);
 			d.Id = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				int content_id = (from o in context.Files
@@ -423,6 +515,7 @@ namespace FileSyncWcfService {
 								  select o.content_id).Single();
 				f.Content = content_id;
 			}
+            return f.Content;
 		}
 
 		private void GetFileId(Credentials c, MachineContents m, DirectoryContents d,
