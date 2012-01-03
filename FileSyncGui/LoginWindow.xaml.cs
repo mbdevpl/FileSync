@@ -202,16 +202,19 @@ namespace FileSyncGui {
 					//MessageBox.Show("User was created!");
 
 					connection.Login(c);
-					connection.AddMachine(c, m);
+					if (connection.AddMachine(c, m)) {
 
-					parentWindow.credentials = c;
-					m = connection.GetMachineWithDirs(c, m);
-					//parentWindow.machine = new MachineContents(c, id, false, false, true);
-					m = local.ReadMachineContents(m);
-					//MachineActions.GetContets(c, id);
+						parentWindow.credentials = c;
+						m = connection.GetMachineWithDirs(c, m);
+						//parentWindow.machine = new MachineContents(c, id, false, false, true);
+						m = local.ReadMachineContents(m);
+						//MachineActions.GetContets(c, id);
 
-					//MessageBox.Show("Machine was created!");
-					this.Close();
+						//MessageBox.Show("Machine was created!");
+						this.Close();
+					} else
+						new SystemMessage(new ActionException("Could not create a machine.", ActionType.Machine)).ShowDialog();
+
 				} else
 					new SystemMessage(new ActionException("Sorry, an error.", ActionType.User)).ShowDialog();
 			} catch (ActionException ex) {
