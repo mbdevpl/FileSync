@@ -100,6 +100,11 @@ namespace FileSyncObjects {
 		public System.Collections.Generic.List<DirectoryContents> GetDirList(Credentials c, MachineContents m) {
 			throw new NotImplementedException();
 		}
+
+
+		public System.Collections.Generic.List<FileContents> GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
+			throw new NotImplementedException();
+		}
 	}
 
 }

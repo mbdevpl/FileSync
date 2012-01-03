@@ -76,6 +76,11 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileList", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileListResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
+        System.Collections.Generic.List<FileSyncObjects.FileContents> GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirectoryWithFilesResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
@@ -186,6 +191,10 @@ namespace FileSyncGui.Ref {
         
         public bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
             return base.Channel.AddDirectory(c, m, d);
+        }
+        
+        public System.Collections.Generic.List<FileSyncObjects.FileContents> GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
+            return base.Channel.GetFileList(c, m, d);
         }
         
         public FileSyncObjects.DirectoryContents GetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d) {

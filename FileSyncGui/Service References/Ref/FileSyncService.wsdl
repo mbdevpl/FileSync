@@ -85,6 +85,12 @@
   <wsdl:message name="IFileSyncModel_AddDirectory_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddDirectoryResponse" />
   </wsdl:message>
+  <wsdl:message name="IFileSyncModel_GetFileList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileList" />
+  </wsdl:message>
+  <wsdl:message name="IFileSyncModel_GetFileList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileListResponse" />
+  </wsdl:message>
   <wsdl:message name="IFileSyncModel_GetDirectoryWithFiles_InputMessage">
     <wsdl:part name="parameters" element="tns:GetDirectoryWithFiles" />
   </wsdl:message>
@@ -167,6 +173,10 @@
     <wsdl:operation name="AddDirectory">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/AddDirectory" message="tns:IFileSyncModel_AddDirectory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/AddDirectoryResponse" message="tns:IFileSyncModel_AddDirectory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFileList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileList" message="tns:IFileSyncModel_GetFileList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileSyncModel/GetFileListResponse" message="tns:IFileSyncModel_GetFileList_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetDirectoryWithFiles">
       <wsdl:input wsaw:Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles" message="tns:IFileSyncModel_GetDirectoryWithFiles_InputMessage" />
@@ -301,6 +311,15 @@
     </wsdl:operation>
     <wsdl:operation name="AddDirectory">
       <soap:operation soapAction="http://tempuri.org/IFileSyncModel/AddDirectory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileList">
+      <soap:operation soapAction="http://tempuri.org/IFileSyncModel/GetFileList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

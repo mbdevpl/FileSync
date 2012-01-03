@@ -36,7 +36,7 @@ namespace FileSyncGui {
 				return result;
 			} catch (Exception ex) {
 				cl.Abort();
-				throw new ActionException("Unable to create new user account.", 
+				throw new ActionException("Unable to create new user account.",
 					ActionType.User, ex);
 			}
 		}
@@ -62,6 +62,8 @@ namespace FileSyncGui {
 				UserIdentity u = null;
 				u = cl.GetUser(c);
 				cl.Close();
+				if (u == null)
+					throw new ActionException("Received a null object.", ActionType.User);
 				return u;
 			} catch (Exception ex) {
 				cl.Abort();
@@ -76,6 +78,8 @@ namespace FileSyncGui {
 				UserContents u = null;
 				u = cl.GetUserWithMachines(c);
 				cl.Close();
+				if (u == null)
+					throw new ActionException("Received a null object.", ActionType.User);
 				return u;
 			} catch (Exception ex) {
 				cl.Abort();
@@ -93,7 +97,7 @@ namespace FileSyncGui {
 				return result;
 			} catch (Exception ex) {
 				cl.Abort();
-				throw new ActionException("Unable to delete the user account.", 
+				throw new ActionException("Unable to delete the user account.",
 					ActionType.User, ex);
 			}
 		}
@@ -151,10 +155,11 @@ namespace FileSyncGui {
 				if (mid == null)
 					throw new ArgumentNullException("mid", "machine identity was null");
 
-
 				MachineContents newM = new MachineContents(mid);
 				newM.Directories = cl.GetDirList(c, newM);
 				cl.Close();
+				if (newM == null)
+					throw new ActionException("Received a null object.", ActionType.User);
 				return newM;
 
 				//MachineContents m = null;
@@ -197,10 +202,19 @@ namespace FileSyncGui {
 				DirectoryIdentity did) {
 			var cl = new Ref.FileSyncModelClient();
 			try {
-				DirectoryContents d = null;
-				d = cl.GetDirectoryWithFiles(c, m, did);
+
+				DirectoryContents newD = new DirectoryContents(did);
+				newD.Files = cl.GetFileList(c, m, newD);
 				cl.Close();
-				return d;
+				if (newD == null)
+					throw new ActionException("Received a null object.", ActionType.User);
+				return newD;
+
+				//DirectoryContents d = null;
+				//d = cl.GetDirectoryWithFiles(c, m, did);
+				//cl.Close();
+				//return d;
+
 			} catch (ActionException ex) {
 				cl.Abort();
 				throw new ActionException("Unable to download directory contents.",
@@ -244,6 +258,8 @@ namespace FileSyncGui {
 				FileContents f = null;
 				f = cl.GetFileWithContent(c, m, d, f);
 				cl.Close();
+				if (f == null)
+					throw new ActionException("Received a null object.", ActionType.User);
 				return f;
 			} catch (Exception ex) {
 				cl.Abort();
@@ -264,6 +280,11 @@ namespace FileSyncGui {
 
 
 		public System.Collections.Generic.List<DirectoryContents> GetDirList(Credentials c, MachineContents m) {
+			throw new NotImplementedException();
+		}
+
+
+		public System.Collections.Generic.List<FileContents> GetFileList(Credentials c, MachineContents m, DirectoryContents d) {
 			throw new NotImplementedException();
 		}
 	}

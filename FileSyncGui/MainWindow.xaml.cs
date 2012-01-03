@@ -340,22 +340,14 @@ namespace FileSyncGui {
 
 				var newMachine = new MachineContents(MachineName, MachineDesc);
 
-				connection.ChangeMachineDetails(credentials, newMachine, machine);
+				if (connection.ChangeMachineDetails(credentials, newMachine, machine)) {
+					machine.Name = MachineName;
+					machine.Description = MachineDesc;
+					new SystemMessage("FileSync", "Changes saved",
+						"Machine metadata was successfully updated.", MemeType.FuckYea).ShowDialog();
+				} else
+					new SystemMessage("FileSync", "Error", "bool WCF function returned false").ShowDialog();
 
-				machine.Name = MachineName;
-				machine.Description = MachineDesc;
-
-				//if (machine.UpdateInDatabase(credentials,
-				//    newMachine).WasSuccessful
-				//    //MachineActions.Modify(credentials, machine.Identity,
-				//    //new MachineIdentity(MachineName, MachineDesc)).IsSuccess()
-				//    ) {
-				//    //nothing here now
-				//}
-				new SystemMessage("FileSync", "Changes saved",
-					"Machine metadata was successfully updated.", MemeType.FuckYea).ShowDialog();
-				//MessageBox.Show("Changes saved.", "FileSync",
-				//    MessageBoxButton.OK, MessageBoxImage.Information);
 			} catch (ActionException ex) {
 				MessageBox.Show(ex.Message, ex.Title);
 			}
@@ -411,7 +403,7 @@ namespace FileSyncGui {
 						"All directories defined in this machine were downloaded and restored.",
 						MemeType.FuckYea).ShowDialog();
 				else new SystemMessage("FileSync", "This is embarassing.",
-					"The machine was not downloaded successfully.");
+					"The machine was not downloaded successfully.").ShowDialog();
 
 				//foreach (DirIdentity did in machine.Directories) {
 				//    var files = DirActions.Download(credentials, machine.Identity, did);
@@ -526,7 +518,8 @@ namespace FileSyncGui {
 				var dc = machine.Directories[dirIndex];
 				var fc = Directories[dirIndex].Files[fileIndex];
 
-				connection.AddFile(credentials, machine, dc, fc);
+				if (!connection.AddFile(credentials, machine, dc, fc))
+					new SystemMessage("FileSync", "Error", "bool WCF function returned false").ShowDialog();
 
 				//fc.Upload(credentials, machine, dc);
 				//FileActions.Upload(credentials, machine.Identity, did, fid,

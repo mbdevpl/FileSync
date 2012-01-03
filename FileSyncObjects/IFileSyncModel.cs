@@ -49,6 +49,8 @@ namespace FileSyncObjects {
 		[OperationContract]
 		bool AddDirectory(Credentials c, MachineContents m, DirectoryContents d);
 		[OperationContract]
+		List<FileContents> GetFileList(Credentials c, MachineContents m, DirectoryContents d);
+		[OperationContract]
 		DirectoryContents GetDirectoryWithFiles(Credentials c, MachineContents m, DirectoryIdentity d);
 		[OperationContract]
 		bool DelDirectory(Credentials c, MachineIdentity mid, DirectoryIdentity did);

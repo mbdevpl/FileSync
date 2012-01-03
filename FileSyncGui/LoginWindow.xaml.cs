@@ -154,12 +154,13 @@ namespace FileSyncGui {
 			Credentials c = getCredentials();
 
 			try {
-				connection.Login(c);
-
-				parentWindow.credentials = c;
-				//MessageBox.Show("User logged in.");
-				this.DialogResult = true;
-				this.Close();
+				if (connection.Login(c)) {
+					parentWindow.credentials = c;
+					//MessageBox.Show("User logged in.");
+					this.DialogResult = true;
+					this.Close();
+				} else
+					new SystemMessage("FileSync", "Sorry..", "Login attempt failed.").ShowDialog();
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
 			}
@@ -168,8 +169,9 @@ namespace FileSyncGui {
 		private void buttonReset_Click(object sender, RoutedEventArgs e) {
 			try {
 				if (connection.TestWCF())
-					new SystemMessage(null, "WCF test", "WCF connection test passed", 
+					new SystemMessage(null, "WCF test", "WCF connection test passed",
 						MemeType.FuckYea).ShowDialog();
+				else throw new Exception("test returned false");
 			} catch (Exception ex) {
 				var ae = new ActionException("WCF test failed", ActionType.User, null, ex);
 				new SystemMessage(ae).ShowDialog();
@@ -179,6 +181,7 @@ namespace FileSyncGui {
 				if (connection.TestEF())
 					new SystemMessage(null, "EF test", "Enitity Framework connection test passed",
 						MemeType.FuckYea).ShowDialog();
+				else throw new Exception("test returned false");
 			} catch (Exception ex) {
 				var ae = new ActionException("EF test failed", ActionType.User, null, ex);
 				new SystemMessage(ae).ShowDialog();
@@ -194,22 +197,23 @@ namespace FileSyncGui {
 			MachineContents m = this.getMachine();
 
 			try {
-				connection.AddUser(this.getUser());
+				if (connection.AddUser(this.getUser())) {
+					this.DialogResult = true;
+					//MessageBox.Show("User was created!");
 
-				this.DialogResult = true;
-				//MessageBox.Show("User was created!");
+					connection.Login(c);
+					connection.AddMachine(c, m);
 
-				connection.Login(c);
-				connection.AddMachine(c, m);
+					parentWindow.credentials = c;
+					m = connection.GetMachineWithDirs(c, m);
+					//parentWindow.machine = new MachineContents(c, id, false, false, true);
+					m = local.ReadMachineContents(m);
+					//MachineActions.GetContets(c, id);
 
-				parentWindow.credentials = c;
-				m = connection.GetMachineWithDirs(c, m);
-				//parentWindow.machine = new MachineContents(c, id, false, false, true);
-				m = local.ReadMachineContents(m);
-				//MachineActions.GetContets(c, id);
-
-				//MessageBox.Show("Machine was created!");
-				this.Close();
+					//MessageBox.Show("Machine was created!");
+					this.Close();
+				} else
+					new SystemMessage(new ActionException("Sorry, an error.", ActionType.User)).ShowDialog();
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
 			} catch (Exception ex) {
