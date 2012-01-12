@@ -18,46 +18,96 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestWCF", ReplyAction="http://tempuri.org/IFileSyncModel/TestWCFResponse")]
         bool TestWCF();
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/TestWCF", ReplyAction="http://tempuri.org/IFileSyncModel/TestWCFResponse")]
+        System.IAsyncResult BeginTestWCF(System.AsyncCallback callback, object asyncState);
+        
+        bool EndTestWCF(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/TestEF", ReplyAction="http://tempuri.org/IFileSyncModel/TestEFResponse")]
         bool TestEF();
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/TestEF", ReplyAction="http://tempuri.org/IFileSyncModel/TestEFResponse")]
+        System.IAsyncResult BeginTestEF(System.AsyncCallback callback, object asyncState);
+        
+        bool EndTestEF(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddUser", ReplyAction="http://tempuri.org/IFileSyncModel/AddUserResponse")]
         bool AddUser(FileSyncObjects.UserContents u);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/AddUser", ReplyAction="http://tempuri.org/IFileSyncModel/AddUserResponse")]
+        System.IAsyncResult BeginAddUser(FileSyncObjects.UserContents u, System.AsyncCallback callback, object asyncState);
+        
+        bool EndAddUser(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/Login", ReplyAction="http://tempuri.org/IFileSyncModel/LoginResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool Login(FileSyncObjects.Credentials c);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/Login", ReplyAction="http://tempuri.org/IFileSyncModel/LoginResponse")]
+        System.IAsyncResult BeginLogin(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState);
+        
+        bool EndLogin(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetUser", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         FileSyncObjects.UserIdentity GetUser(FileSyncObjects.Credentials c);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetUser", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserResponse")]
+        System.IAsyncResult BeginGetUser(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState);
+        
+        FileSyncObjects.UserIdentity EndGetUser(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetUserWithMachines", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserWithMachinesResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         FileSyncObjects.UserContents GetUserWithMachines(FileSyncObjects.Credentials c);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetUserWithMachines", ReplyAction="http://tempuri.org/IFileSyncModel/GetUserWithMachinesResponse")]
+        System.IAsyncResult BeginGetUserWithMachines(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState);
+        
+        FileSyncObjects.UserContents EndGetUserWithMachines(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelUser", ReplyAction="http://tempuri.org/IFileSyncModel/DelUserResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool DelUser(FileSyncObjects.Credentials c);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/DelUser", ReplyAction="http://tempuri.org/IFileSyncModel/DelUserResponse")]
+        System.IAsyncResult BeginDelUser(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState);
+        
+        bool EndDelUser(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddMachine", ReplyAction="http://tempuri.org/IFileSyncModel/AddMachineResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/AddMachine", ReplyAction="http://tempuri.org/IFileSyncModel/AddMachineResponse")]
+        System.IAsyncResult BeginAddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, System.AsyncCallback callback, object asyncState);
+        
+        bool EndAddMachine(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetails", ReplyAction="http://tempuri.org/IFileSyncModel/ChangeMachineDetailsResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/ChangeMachineDetails", ReplyAction="http://tempuri.org/IFileSyncModel/ChangeMachineDetailsResponse")]
+        System.IAsyncResult BeginChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM, System.AsyncCallback callback, object asyncState);
+        
+        bool EndChangeMachineDetails(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirList", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirListResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         System.Collections.Generic.List<FileSyncObjects.DirectoryContents> GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetDirList", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirListResponse")]
+        System.IAsyncResult BeginGetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.Generic.List<FileSyncObjects.DirectoryContents> EndGetDirList(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs", ReplyAction="http://tempuri.org/IFileSyncModel/GetMachineWithDirsResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
@@ -65,27 +115,52 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
         FileSyncObjects.MachineContents GetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetMachineWithDirs", ReplyAction="http://tempuri.org/IFileSyncModel/GetMachineWithDirsResponse")]
+        System.IAsyncResult BeginGetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, System.AsyncCallback callback, object asyncState);
+        
+        FileSyncObjects.MachineContents EndGetMachineWithDirs(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelMachine", ReplyAction="http://tempuri.org/IFileSyncModel/DelMachineResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.MachineContents))]
         bool DelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/DelMachine", ReplyAction="http://tempuri.org/IFileSyncModel/DelMachineResponse")]
+        System.IAsyncResult BeginDelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, System.AsyncCallback callback, object asyncState);
+        
+        bool EndDelMachine(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/AddDirectoryResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/AddDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/AddDirectoryResponse")]
+        System.IAsyncResult BeginAddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, System.AsyncCallback callback, object asyncState);
+        
+        bool EndAddDirectory(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileList", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileListResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         System.Collections.Generic.List<FileSyncObjects.FileContents> GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetFileList", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileListResponse")]
+        System.IAsyncResult BeginGetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.Generic.List<FileSyncObjects.FileContents> EndGetFileList(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirectoryWithFilesResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
         FileSyncObjects.DirectoryContents GetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetDirectoryWithFiles", ReplyAction="http://tempuri.org/IFileSyncModel/GetDirectoryWithFilesResponse")]
+        System.IAsyncResult BeginGetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d, System.AsyncCallback callback, object asyncState);
+        
+        FileSyncObjects.DirectoryContents EndGetDirectoryWithFiles(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/DelDirectoryResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
@@ -94,16 +169,31 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
         bool DelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/DelDirectory", ReplyAction="http://tempuri.org/IFileSyncModel/DelDirectoryResponse")]
+        System.IAsyncResult BeginDelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, System.AsyncCallback callback, object asyncState);
+        
+        bool EndDelDirectory(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/AddFile", ReplyAction="http://tempuri.org/IFileSyncModel/AddFileResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         bool AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/AddFile", ReplyAction="http://tempuri.org/IFileSyncModel/AddFileResponse")]
+        System.IAsyncResult BeginAddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f, System.AsyncCallback callback, object asyncState);
+        
+        bool EndAddFile(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/GetFileWithContent", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileWithContentResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserContents))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.FileContents))]
         FileSyncObjects.FileContents GetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/GetFileWithContent", ReplyAction="http://tempuri.org/IFileSyncModel/GetFileWithContentResponse")]
+        System.IAsyncResult BeginGetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f, System.AsyncCallback callback, object asyncState);
+        
+        FileSyncObjects.FileContents EndGetFileWithContent(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileSyncModel/DelFile", ReplyAction="http://tempuri.org/IFileSyncModel/DelFileResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.UserIdentity))]
@@ -112,6 +202,11 @@ namespace FileSyncGui.Ref {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.DirectoryContents))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(FileSyncObjects.FileContents))]
         bool DelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFileSyncModel/DelFile", ReplyAction="http://tempuri.org/IFileSyncModel/DelFileResponse")]
+        System.IAsyncResult BeginDelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f, System.AsyncCallback callback, object asyncState);
+        
+        bool EndDelFile(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -120,7 +215,482 @@ namespace FileSyncGui.Ref {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class TestWCFCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public TestWCFCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class TestEFCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public TestEFCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class AddUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public AddUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class LoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public LoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public FileSyncObjects.UserIdentity Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((FileSyncObjects.UserIdentity)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetUserWithMachinesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetUserWithMachinesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public FileSyncObjects.UserContents Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((FileSyncObjects.UserContents)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class DelUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public DelUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class AddMachineCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public AddMachineCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class ChangeMachineDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public ChangeMachineDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetDirListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetDirListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.Generic.List<FileSyncObjects.DirectoryContents> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.Generic.List<FileSyncObjects.DirectoryContents>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetMachineWithDirsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetMachineWithDirsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public FileSyncObjects.MachineContents Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((FileSyncObjects.MachineContents)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class DelMachineCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public DelMachineCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class AddDirectoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public AddDirectoryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetFileListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetFileListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.Generic.List<FileSyncObjects.FileContents> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.Generic.List<FileSyncObjects.FileContents>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetDirectoryWithFilesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetDirectoryWithFilesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public FileSyncObjects.DirectoryContents Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((FileSyncObjects.DirectoryContents)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class DelDirectoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public DelDirectoryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class AddFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public AddFileCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetFileWithContentCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetFileWithContentCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public FileSyncObjects.FileContents Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((FileSyncObjects.FileContents)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class DelFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public DelFileCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class FileSyncModelClient : System.ServiceModel.ClientBase<FileSyncGui.Ref.IFileSyncModel>, FileSyncGui.Ref.IFileSyncModel {
+        
+        private BeginOperationDelegate onBeginTestWCFDelegate;
+        
+        private EndOperationDelegate onEndTestWCFDelegate;
+        
+        private System.Threading.SendOrPostCallback onTestWCFCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginTestEFDelegate;
+        
+        private EndOperationDelegate onEndTestEFDelegate;
+        
+        private System.Threading.SendOrPostCallback onTestEFCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginAddUserDelegate;
+        
+        private EndOperationDelegate onEndAddUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onAddUserCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginLoginDelegate;
+        
+        private EndOperationDelegate onEndLoginDelegate;
+        
+        private System.Threading.SendOrPostCallback onLoginCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetUserDelegate;
+        
+        private EndOperationDelegate onEndGetUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetUserCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetUserWithMachinesDelegate;
+        
+        private EndOperationDelegate onEndGetUserWithMachinesDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetUserWithMachinesCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginDelUserDelegate;
+        
+        private EndOperationDelegate onEndDelUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onDelUserCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginAddMachineDelegate;
+        
+        private EndOperationDelegate onEndAddMachineDelegate;
+        
+        private System.Threading.SendOrPostCallback onAddMachineCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginChangeMachineDetailsDelegate;
+        
+        private EndOperationDelegate onEndChangeMachineDetailsDelegate;
+        
+        private System.Threading.SendOrPostCallback onChangeMachineDetailsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetDirListDelegate;
+        
+        private EndOperationDelegate onEndGetDirListDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetDirListCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetMachineWithDirsDelegate;
+        
+        private EndOperationDelegate onEndGetMachineWithDirsDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetMachineWithDirsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginDelMachineDelegate;
+        
+        private EndOperationDelegate onEndDelMachineDelegate;
+        
+        private System.Threading.SendOrPostCallback onDelMachineCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginAddDirectoryDelegate;
+        
+        private EndOperationDelegate onEndAddDirectoryDelegate;
+        
+        private System.Threading.SendOrPostCallback onAddDirectoryCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetFileListDelegate;
+        
+        private EndOperationDelegate onEndGetFileListDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetFileListCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetDirectoryWithFilesDelegate;
+        
+        private EndOperationDelegate onEndGetDirectoryWithFilesDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetDirectoryWithFilesCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginDelDirectoryDelegate;
+        
+        private EndOperationDelegate onEndDelDirectoryDelegate;
+        
+        private System.Threading.SendOrPostCallback onDelDirectoryCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginAddFileDelegate;
+        
+        private EndOperationDelegate onEndAddFileDelegate;
+        
+        private System.Threading.SendOrPostCallback onAddFileCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetFileWithContentDelegate;
+        
+        private EndOperationDelegate onEndGetFileWithContentDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetFileWithContentCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginDelFileDelegate;
+        
+        private EndOperationDelegate onEndDelFileDelegate;
+        
+        private System.Threading.SendOrPostCallback onDelFileCompletedDelegate;
         
         public FileSyncModelClient() {
         }
@@ -141,80 +711,1034 @@ namespace FileSyncGui.Ref {
                 base(binding, remoteAddress) {
         }
         
+        public event System.EventHandler<TestWCFCompletedEventArgs> TestWCFCompleted;
+        
+        public event System.EventHandler<TestEFCompletedEventArgs> TestEFCompleted;
+        
+        public event System.EventHandler<AddUserCompletedEventArgs> AddUserCompleted;
+        
+        public event System.EventHandler<LoginCompletedEventArgs> LoginCompleted;
+        
+        public event System.EventHandler<GetUserCompletedEventArgs> GetUserCompleted;
+        
+        public event System.EventHandler<GetUserWithMachinesCompletedEventArgs> GetUserWithMachinesCompleted;
+        
+        public event System.EventHandler<DelUserCompletedEventArgs> DelUserCompleted;
+        
+        public event System.EventHandler<AddMachineCompletedEventArgs> AddMachineCompleted;
+        
+        public event System.EventHandler<ChangeMachineDetailsCompletedEventArgs> ChangeMachineDetailsCompleted;
+        
+        public event System.EventHandler<GetDirListCompletedEventArgs> GetDirListCompleted;
+        
+        public event System.EventHandler<GetMachineWithDirsCompletedEventArgs> GetMachineWithDirsCompleted;
+        
+        public event System.EventHandler<DelMachineCompletedEventArgs> DelMachineCompleted;
+        
+        public event System.EventHandler<AddDirectoryCompletedEventArgs> AddDirectoryCompleted;
+        
+        public event System.EventHandler<GetFileListCompletedEventArgs> GetFileListCompleted;
+        
+        public event System.EventHandler<GetDirectoryWithFilesCompletedEventArgs> GetDirectoryWithFilesCompleted;
+        
+        public event System.EventHandler<DelDirectoryCompletedEventArgs> DelDirectoryCompleted;
+        
+        public event System.EventHandler<AddFileCompletedEventArgs> AddFileCompleted;
+        
+        public event System.EventHandler<GetFileWithContentCompletedEventArgs> GetFileWithContentCompleted;
+        
+        public event System.EventHandler<DelFileCompletedEventArgs> DelFileCompleted;
+        
         public bool TestWCF() {
             return base.Channel.TestWCF();
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginTestWCF(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginTestWCF(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndTestWCF(System.IAsyncResult result) {
+            return base.Channel.EndTestWCF(result);
+        }
+        
+        private System.IAsyncResult OnBeginTestWCF(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return this.BeginTestWCF(callback, asyncState);
+        }
+        
+        private object[] OnEndTestWCF(System.IAsyncResult result) {
+            bool retVal = this.EndTestWCF(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnTestWCFCompleted(object state) {
+            if ((this.TestWCFCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.TestWCFCompleted(this, new TestWCFCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void TestWCFAsync() {
+            this.TestWCFAsync(null);
+        }
+        
+        public void TestWCFAsync(object userState) {
+            if ((this.onBeginTestWCFDelegate == null)) {
+                this.onBeginTestWCFDelegate = new BeginOperationDelegate(this.OnBeginTestWCF);
+            }
+            if ((this.onEndTestWCFDelegate == null)) {
+                this.onEndTestWCFDelegate = new EndOperationDelegate(this.OnEndTestWCF);
+            }
+            if ((this.onTestWCFCompletedDelegate == null)) {
+                this.onTestWCFCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnTestWCFCompleted);
+            }
+            base.InvokeAsync(this.onBeginTestWCFDelegate, null, this.onEndTestWCFDelegate, this.onTestWCFCompletedDelegate, userState);
         }
         
         public bool TestEF() {
             return base.Channel.TestEF();
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginTestEF(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginTestEF(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndTestEF(System.IAsyncResult result) {
+            return base.Channel.EndTestEF(result);
+        }
+        
+        private System.IAsyncResult OnBeginTestEF(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return this.BeginTestEF(callback, asyncState);
+        }
+        
+        private object[] OnEndTestEF(System.IAsyncResult result) {
+            bool retVal = this.EndTestEF(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnTestEFCompleted(object state) {
+            if ((this.TestEFCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.TestEFCompleted(this, new TestEFCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void TestEFAsync() {
+            this.TestEFAsync(null);
+        }
+        
+        public void TestEFAsync(object userState) {
+            if ((this.onBeginTestEFDelegate == null)) {
+                this.onBeginTestEFDelegate = new BeginOperationDelegate(this.OnBeginTestEF);
+            }
+            if ((this.onEndTestEFDelegate == null)) {
+                this.onEndTestEFDelegate = new EndOperationDelegate(this.OnEndTestEF);
+            }
+            if ((this.onTestEFCompletedDelegate == null)) {
+                this.onTestEFCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnTestEFCompleted);
+            }
+            base.InvokeAsync(this.onBeginTestEFDelegate, null, this.onEndTestEFDelegate, this.onTestEFCompletedDelegate, userState);
+        }
+        
         public bool AddUser(FileSyncObjects.UserContents u) {
             return base.Channel.AddUser(u);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginAddUser(FileSyncObjects.UserContents u, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginAddUser(u, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndAddUser(System.IAsyncResult result) {
+            return base.Channel.EndAddUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginAddUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.UserContents u = ((FileSyncObjects.UserContents)(inValues[0]));
+            return this.BeginAddUser(u, callback, asyncState);
+        }
+        
+        private object[] OnEndAddUser(System.IAsyncResult result) {
+            bool retVal = this.EndAddUser(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnAddUserCompleted(object state) {
+            if ((this.AddUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.AddUserCompleted(this, new AddUserCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void AddUserAsync(FileSyncObjects.UserContents u) {
+            this.AddUserAsync(u, null);
+        }
+        
+        public void AddUserAsync(FileSyncObjects.UserContents u, object userState) {
+            if ((this.onBeginAddUserDelegate == null)) {
+                this.onBeginAddUserDelegate = new BeginOperationDelegate(this.OnBeginAddUser);
+            }
+            if ((this.onEndAddUserDelegate == null)) {
+                this.onEndAddUserDelegate = new EndOperationDelegate(this.OnEndAddUser);
+            }
+            if ((this.onAddUserCompletedDelegate == null)) {
+                this.onAddUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAddUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginAddUserDelegate, new object[] {
+                        u}, this.onEndAddUserDelegate, this.onAddUserCompletedDelegate, userState);
         }
         
         public bool Login(FileSyncObjects.Credentials c) {
             return base.Channel.Login(c);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginLogin(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginLogin(c, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndLogin(System.IAsyncResult result) {
+            return base.Channel.EndLogin(result);
+        }
+        
+        private System.IAsyncResult OnBeginLogin(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            return this.BeginLogin(c, callback, asyncState);
+        }
+        
+        private object[] OnEndLogin(System.IAsyncResult result) {
+            bool retVal = this.EndLogin(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnLoginCompleted(object state) {
+            if ((this.LoginCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.LoginCompleted(this, new LoginCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void LoginAsync(FileSyncObjects.Credentials c) {
+            this.LoginAsync(c, null);
+        }
+        
+        public void LoginAsync(FileSyncObjects.Credentials c, object userState) {
+            if ((this.onBeginLoginDelegate == null)) {
+                this.onBeginLoginDelegate = new BeginOperationDelegate(this.OnBeginLogin);
+            }
+            if ((this.onEndLoginDelegate == null)) {
+                this.onEndLoginDelegate = new EndOperationDelegate(this.OnEndLogin);
+            }
+            if ((this.onLoginCompletedDelegate == null)) {
+                this.onLoginCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnLoginCompleted);
+            }
+            base.InvokeAsync(this.onBeginLoginDelegate, new object[] {
+                        c}, this.onEndLoginDelegate, this.onLoginCompletedDelegate, userState);
+        }
+        
         public FileSyncObjects.UserIdentity GetUser(FileSyncObjects.Credentials c) {
             return base.Channel.GetUser(c);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetUser(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetUser(c, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public FileSyncObjects.UserIdentity EndGetUser(System.IAsyncResult result) {
+            return base.Channel.EndGetUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            return this.BeginGetUser(c, callback, asyncState);
+        }
+        
+        private object[] OnEndGetUser(System.IAsyncResult result) {
+            FileSyncObjects.UserIdentity retVal = this.EndGetUser(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetUserCompleted(object state) {
+            if ((this.GetUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetUserCompleted(this, new GetUserCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetUserAsync(FileSyncObjects.Credentials c) {
+            this.GetUserAsync(c, null);
+        }
+        
+        public void GetUserAsync(FileSyncObjects.Credentials c, object userState) {
+            if ((this.onBeginGetUserDelegate == null)) {
+                this.onBeginGetUserDelegate = new BeginOperationDelegate(this.OnBeginGetUser);
+            }
+            if ((this.onEndGetUserDelegate == null)) {
+                this.onEndGetUserDelegate = new EndOperationDelegate(this.OnEndGetUser);
+            }
+            if ((this.onGetUserCompletedDelegate == null)) {
+                this.onGetUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetUserDelegate, new object[] {
+                        c}, this.onEndGetUserDelegate, this.onGetUserCompletedDelegate, userState);
         }
         
         public FileSyncObjects.UserContents GetUserWithMachines(FileSyncObjects.Credentials c) {
             return base.Channel.GetUserWithMachines(c);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetUserWithMachines(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetUserWithMachines(c, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public FileSyncObjects.UserContents EndGetUserWithMachines(System.IAsyncResult result) {
+            return base.Channel.EndGetUserWithMachines(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetUserWithMachines(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            return this.BeginGetUserWithMachines(c, callback, asyncState);
+        }
+        
+        private object[] OnEndGetUserWithMachines(System.IAsyncResult result) {
+            FileSyncObjects.UserContents retVal = this.EndGetUserWithMachines(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetUserWithMachinesCompleted(object state) {
+            if ((this.GetUserWithMachinesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetUserWithMachinesCompleted(this, new GetUserWithMachinesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetUserWithMachinesAsync(FileSyncObjects.Credentials c) {
+            this.GetUserWithMachinesAsync(c, null);
+        }
+        
+        public void GetUserWithMachinesAsync(FileSyncObjects.Credentials c, object userState) {
+            if ((this.onBeginGetUserWithMachinesDelegate == null)) {
+                this.onBeginGetUserWithMachinesDelegate = new BeginOperationDelegate(this.OnBeginGetUserWithMachines);
+            }
+            if ((this.onEndGetUserWithMachinesDelegate == null)) {
+                this.onEndGetUserWithMachinesDelegate = new EndOperationDelegate(this.OnEndGetUserWithMachines);
+            }
+            if ((this.onGetUserWithMachinesCompletedDelegate == null)) {
+                this.onGetUserWithMachinesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetUserWithMachinesCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetUserWithMachinesDelegate, new object[] {
+                        c}, this.onEndGetUserWithMachinesDelegate, this.onGetUserWithMachinesCompletedDelegate, userState);
+        }
+        
         public bool DelUser(FileSyncObjects.Credentials c) {
             return base.Channel.DelUser(c);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginDelUser(FileSyncObjects.Credentials c, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDelUser(c, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndDelUser(System.IAsyncResult result) {
+            return base.Channel.EndDelUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginDelUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            return this.BeginDelUser(c, callback, asyncState);
+        }
+        
+        private object[] OnEndDelUser(System.IAsyncResult result) {
+            bool retVal = this.EndDelUser(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnDelUserCompleted(object state) {
+            if ((this.DelUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DelUserCompleted(this, new DelUserCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DelUserAsync(FileSyncObjects.Credentials c) {
+            this.DelUserAsync(c, null);
+        }
+        
+        public void DelUserAsync(FileSyncObjects.Credentials c, object userState) {
+            if ((this.onBeginDelUserDelegate == null)) {
+                this.onBeginDelUserDelegate = new BeginOperationDelegate(this.OnBeginDelUser);
+            }
+            if ((this.onEndDelUserDelegate == null)) {
+                this.onEndDelUserDelegate = new EndOperationDelegate(this.OnEndDelUser);
+            }
+            if ((this.onDelUserCompletedDelegate == null)) {
+                this.onDelUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDelUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginDelUserDelegate, new object[] {
+                        c}, this.onEndDelUserDelegate, this.onDelUserCompletedDelegate, userState);
         }
         
         public bool AddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
             return base.Channel.AddMachine(c, m);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginAddMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginAddMachine(c, m, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndAddMachine(System.IAsyncResult result) {
+            return base.Channel.EndAddMachine(result);
+        }
+        
+        private System.IAsyncResult OnBeginAddMachine(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            return this.BeginAddMachine(c, m, callback, asyncState);
+        }
+        
+        private object[] OnEndAddMachine(System.IAsyncResult result) {
+            bool retVal = this.EndAddMachine(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnAddMachineCompleted(object state) {
+            if ((this.AddMachineCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.AddMachineCompleted(this, new AddMachineCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void AddMachineAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
+            this.AddMachineAsync(c, m, null);
+        }
+        
+        public void AddMachineAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, object userState) {
+            if ((this.onBeginAddMachineDelegate == null)) {
+                this.onBeginAddMachineDelegate = new BeginOperationDelegate(this.OnBeginAddMachine);
+            }
+            if ((this.onEndAddMachineDelegate == null)) {
+                this.onEndAddMachineDelegate = new EndOperationDelegate(this.OnEndAddMachine);
+            }
+            if ((this.onAddMachineCompletedDelegate == null)) {
+                this.onAddMachineCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAddMachineCompleted);
+            }
+            base.InvokeAsync(this.onBeginAddMachineDelegate, new object[] {
+                        c,
+                        m}, this.onEndAddMachineDelegate, this.onAddMachineCompletedDelegate, userState);
+        }
+        
         public bool ChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM) {
             return base.Channel.ChangeMachineDetails(c, newM, oldM);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginChangeMachineDetails(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginChangeMachineDetails(c, newM, oldM, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndChangeMachineDetails(System.IAsyncResult result) {
+            return base.Channel.EndChangeMachineDetails(result);
+        }
+        
+        private System.IAsyncResult OnBeginChangeMachineDetails(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents newM = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.MachineContents oldM = ((FileSyncObjects.MachineContents)(inValues[2]));
+            return this.BeginChangeMachineDetails(c, newM, oldM, callback, asyncState);
+        }
+        
+        private object[] OnEndChangeMachineDetails(System.IAsyncResult result) {
+            bool retVal = this.EndChangeMachineDetails(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnChangeMachineDetailsCompleted(object state) {
+            if ((this.ChangeMachineDetailsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.ChangeMachineDetailsCompleted(this, new ChangeMachineDetailsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void ChangeMachineDetailsAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM) {
+            this.ChangeMachineDetailsAsync(c, newM, oldM, null);
+        }
+        
+        public void ChangeMachineDetailsAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents newM, FileSyncObjects.MachineContents oldM, object userState) {
+            if ((this.onBeginChangeMachineDetailsDelegate == null)) {
+                this.onBeginChangeMachineDetailsDelegate = new BeginOperationDelegate(this.OnBeginChangeMachineDetails);
+            }
+            if ((this.onEndChangeMachineDetailsDelegate == null)) {
+                this.onEndChangeMachineDetailsDelegate = new EndOperationDelegate(this.OnEndChangeMachineDetails);
+            }
+            if ((this.onChangeMachineDetailsCompletedDelegate == null)) {
+                this.onChangeMachineDetailsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnChangeMachineDetailsCompleted);
+            }
+            base.InvokeAsync(this.onBeginChangeMachineDetailsDelegate, new object[] {
+                        c,
+                        newM,
+                        oldM}, this.onEndChangeMachineDetailsDelegate, this.onChangeMachineDetailsCompletedDelegate, userState);
         }
         
         public System.Collections.Generic.List<FileSyncObjects.DirectoryContents> GetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
             return base.Channel.GetDirList(c, m);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetDirList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetDirList(c, m, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.Collections.Generic.List<FileSyncObjects.DirectoryContents> EndGetDirList(System.IAsyncResult result) {
+            return base.Channel.EndGetDirList(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetDirList(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            return this.BeginGetDirList(c, m, callback, asyncState);
+        }
+        
+        private object[] OnEndGetDirList(System.IAsyncResult result) {
+            System.Collections.Generic.List<FileSyncObjects.DirectoryContents> retVal = this.EndGetDirList(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetDirListCompleted(object state) {
+            if ((this.GetDirListCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetDirListCompleted(this, new GetDirListCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetDirListAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m) {
+            this.GetDirListAsync(c, m, null);
+        }
+        
+        public void GetDirListAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, object userState) {
+            if ((this.onBeginGetDirListDelegate == null)) {
+                this.onBeginGetDirListDelegate = new BeginOperationDelegate(this.OnBeginGetDirList);
+            }
+            if ((this.onEndGetDirListDelegate == null)) {
+                this.onEndGetDirListDelegate = new EndOperationDelegate(this.OnEndGetDirList);
+            }
+            if ((this.onGetDirListCompletedDelegate == null)) {
+                this.onGetDirListCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetDirListCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetDirListDelegate, new object[] {
+                        c,
+                        m}, this.onEndGetDirListDelegate, this.onGetDirListCompletedDelegate, userState);
+        }
+        
         public FileSyncObjects.MachineContents GetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
             return base.Channel.GetMachineWithDirs(c, mid);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetMachineWithDirs(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetMachineWithDirs(c, mid, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public FileSyncObjects.MachineContents EndGetMachineWithDirs(System.IAsyncResult result) {
+            return base.Channel.EndGetMachineWithDirs(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetMachineWithDirs(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineIdentity mid = ((FileSyncObjects.MachineIdentity)(inValues[1]));
+            return this.BeginGetMachineWithDirs(c, mid, callback, asyncState);
+        }
+        
+        private object[] OnEndGetMachineWithDirs(System.IAsyncResult result) {
+            FileSyncObjects.MachineContents retVal = this.EndGetMachineWithDirs(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetMachineWithDirsCompleted(object state) {
+            if ((this.GetMachineWithDirsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetMachineWithDirsCompleted(this, new GetMachineWithDirsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetMachineWithDirsAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
+            this.GetMachineWithDirsAsync(c, mid, null);
+        }
+        
+        public void GetMachineWithDirsAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, object userState) {
+            if ((this.onBeginGetMachineWithDirsDelegate == null)) {
+                this.onBeginGetMachineWithDirsDelegate = new BeginOperationDelegate(this.OnBeginGetMachineWithDirs);
+            }
+            if ((this.onEndGetMachineWithDirsDelegate == null)) {
+                this.onEndGetMachineWithDirsDelegate = new EndOperationDelegate(this.OnEndGetMachineWithDirs);
+            }
+            if ((this.onGetMachineWithDirsCompletedDelegate == null)) {
+                this.onGetMachineWithDirsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetMachineWithDirsCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetMachineWithDirsDelegate, new object[] {
+                        c,
+                        mid}, this.onEndGetMachineWithDirsDelegate, this.onGetMachineWithDirsCompletedDelegate, userState);
         }
         
         public bool DelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
             return base.Channel.DelMachine(c, mid);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginDelMachine(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDelMachine(c, mid, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndDelMachine(System.IAsyncResult result) {
+            return base.Channel.EndDelMachine(result);
+        }
+        
+        private System.IAsyncResult OnBeginDelMachine(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineIdentity mid = ((FileSyncObjects.MachineIdentity)(inValues[1]));
+            return this.BeginDelMachine(c, mid, callback, asyncState);
+        }
+        
+        private object[] OnEndDelMachine(System.IAsyncResult result) {
+            bool retVal = this.EndDelMachine(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnDelMachineCompleted(object state) {
+            if ((this.DelMachineCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DelMachineCompleted(this, new DelMachineCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DelMachineAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid) {
+            this.DelMachineAsync(c, mid, null);
+        }
+        
+        public void DelMachineAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, object userState) {
+            if ((this.onBeginDelMachineDelegate == null)) {
+                this.onBeginDelMachineDelegate = new BeginOperationDelegate(this.OnBeginDelMachine);
+            }
+            if ((this.onEndDelMachineDelegate == null)) {
+                this.onEndDelMachineDelegate = new EndOperationDelegate(this.OnEndDelMachine);
+            }
+            if ((this.onDelMachineCompletedDelegate == null)) {
+                this.onDelMachineCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDelMachineCompleted);
+            }
+            base.InvokeAsync(this.onBeginDelMachineDelegate, new object[] {
+                        c,
+                        mid}, this.onEndDelMachineDelegate, this.onDelMachineCompletedDelegate, userState);
+        }
+        
         public bool AddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
             return base.Channel.AddDirectory(c, m, d);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginAddDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginAddDirectory(c, m, d, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndAddDirectory(System.IAsyncResult result) {
+            return base.Channel.EndAddDirectory(result);
+        }
+        
+        private System.IAsyncResult OnBeginAddDirectory(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.DirectoryContents d = ((FileSyncObjects.DirectoryContents)(inValues[2]));
+            return this.BeginAddDirectory(c, m, d, callback, asyncState);
+        }
+        
+        private object[] OnEndAddDirectory(System.IAsyncResult result) {
+            bool retVal = this.EndAddDirectory(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnAddDirectoryCompleted(object state) {
+            if ((this.AddDirectoryCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.AddDirectoryCompleted(this, new AddDirectoryCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void AddDirectoryAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
+            this.AddDirectoryAsync(c, m, d, null);
+        }
+        
+        public void AddDirectoryAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, object userState) {
+            if ((this.onBeginAddDirectoryDelegate == null)) {
+                this.onBeginAddDirectoryDelegate = new BeginOperationDelegate(this.OnBeginAddDirectory);
+            }
+            if ((this.onEndAddDirectoryDelegate == null)) {
+                this.onEndAddDirectoryDelegate = new EndOperationDelegate(this.OnEndAddDirectory);
+            }
+            if ((this.onAddDirectoryCompletedDelegate == null)) {
+                this.onAddDirectoryCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAddDirectoryCompleted);
+            }
+            base.InvokeAsync(this.onBeginAddDirectoryDelegate, new object[] {
+                        c,
+                        m,
+                        d}, this.onEndAddDirectoryDelegate, this.onAddDirectoryCompletedDelegate, userState);
         }
         
         public System.Collections.Generic.List<FileSyncObjects.FileContents> GetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
             return base.Channel.GetFileList(c, m, d);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetFileList(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetFileList(c, m, d, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.Collections.Generic.List<FileSyncObjects.FileContents> EndGetFileList(System.IAsyncResult result) {
+            return base.Channel.EndGetFileList(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetFileList(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.DirectoryContents d = ((FileSyncObjects.DirectoryContents)(inValues[2]));
+            return this.BeginGetFileList(c, m, d, callback, asyncState);
+        }
+        
+        private object[] OnEndGetFileList(System.IAsyncResult result) {
+            System.Collections.Generic.List<FileSyncObjects.FileContents> retVal = this.EndGetFileList(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetFileListCompleted(object state) {
+            if ((this.GetFileListCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetFileListCompleted(this, new GetFileListCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetFileListAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d) {
+            this.GetFileListAsync(c, m, d, null);
+        }
+        
+        public void GetFileListAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, object userState) {
+            if ((this.onBeginGetFileListDelegate == null)) {
+                this.onBeginGetFileListDelegate = new BeginOperationDelegate(this.OnBeginGetFileList);
+            }
+            if ((this.onEndGetFileListDelegate == null)) {
+                this.onEndGetFileListDelegate = new EndOperationDelegate(this.OnEndGetFileList);
+            }
+            if ((this.onGetFileListCompletedDelegate == null)) {
+                this.onGetFileListCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetFileListCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetFileListDelegate, new object[] {
+                        c,
+                        m,
+                        d}, this.onEndGetFileListDelegate, this.onGetFileListCompletedDelegate, userState);
+        }
+        
         public FileSyncObjects.DirectoryContents GetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d) {
             return base.Channel.GetDirectoryWithFiles(c, m, d);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetDirectoryWithFiles(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetDirectoryWithFiles(c, m, d, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public FileSyncObjects.DirectoryContents EndGetDirectoryWithFiles(System.IAsyncResult result) {
+            return base.Channel.EndGetDirectoryWithFiles(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetDirectoryWithFiles(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.DirectoryIdentity d = ((FileSyncObjects.DirectoryIdentity)(inValues[2]));
+            return this.BeginGetDirectoryWithFiles(c, m, d, callback, asyncState);
+        }
+        
+        private object[] OnEndGetDirectoryWithFiles(System.IAsyncResult result) {
+            FileSyncObjects.DirectoryContents retVal = this.EndGetDirectoryWithFiles(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetDirectoryWithFilesCompleted(object state) {
+            if ((this.GetDirectoryWithFilesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetDirectoryWithFilesCompleted(this, new GetDirectoryWithFilesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetDirectoryWithFilesAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d) {
+            this.GetDirectoryWithFilesAsync(c, m, d, null);
+        }
+        
+        public void GetDirectoryWithFilesAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryIdentity d, object userState) {
+            if ((this.onBeginGetDirectoryWithFilesDelegate == null)) {
+                this.onBeginGetDirectoryWithFilesDelegate = new BeginOperationDelegate(this.OnBeginGetDirectoryWithFiles);
+            }
+            if ((this.onEndGetDirectoryWithFilesDelegate == null)) {
+                this.onEndGetDirectoryWithFilesDelegate = new EndOperationDelegate(this.OnEndGetDirectoryWithFiles);
+            }
+            if ((this.onGetDirectoryWithFilesCompletedDelegate == null)) {
+                this.onGetDirectoryWithFilesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetDirectoryWithFilesCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetDirectoryWithFilesDelegate, new object[] {
+                        c,
+                        m,
+                        d}, this.onEndGetDirectoryWithFilesDelegate, this.onGetDirectoryWithFilesCompletedDelegate, userState);
         }
         
         public bool DelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did) {
             return base.Channel.DelDirectory(c, mid, did);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginDelDirectory(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDelDirectory(c, mid, did, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndDelDirectory(System.IAsyncResult result) {
+            return base.Channel.EndDelDirectory(result);
+        }
+        
+        private System.IAsyncResult OnBeginDelDirectory(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineIdentity mid = ((FileSyncObjects.MachineIdentity)(inValues[1]));
+            FileSyncObjects.DirectoryIdentity did = ((FileSyncObjects.DirectoryIdentity)(inValues[2]));
+            return this.BeginDelDirectory(c, mid, did, callback, asyncState);
+        }
+        
+        private object[] OnEndDelDirectory(System.IAsyncResult result) {
+            bool retVal = this.EndDelDirectory(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnDelDirectoryCompleted(object state) {
+            if ((this.DelDirectoryCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DelDirectoryCompleted(this, new DelDirectoryCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DelDirectoryAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did) {
+            this.DelDirectoryAsync(c, mid, did, null);
+        }
+        
+        public void DelDirectoryAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, object userState) {
+            if ((this.onBeginDelDirectoryDelegate == null)) {
+                this.onBeginDelDirectoryDelegate = new BeginOperationDelegate(this.OnBeginDelDirectory);
+            }
+            if ((this.onEndDelDirectoryDelegate == null)) {
+                this.onEndDelDirectoryDelegate = new EndOperationDelegate(this.OnEndDelDirectory);
+            }
+            if ((this.onDelDirectoryCompletedDelegate == null)) {
+                this.onDelDirectoryCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDelDirectoryCompleted);
+            }
+            base.InvokeAsync(this.onBeginDelDirectoryDelegate, new object[] {
+                        c,
+                        mid,
+                        did}, this.onEndDelDirectoryDelegate, this.onDelDirectoryCompletedDelegate, userState);
+        }
+        
         public bool AddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f) {
             return base.Channel.AddFile(c, m, d, f);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginAddFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginAddFile(c, m, d, f, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndAddFile(System.IAsyncResult result) {
+            return base.Channel.EndAddFile(result);
+        }
+        
+        private System.IAsyncResult OnBeginAddFile(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.DirectoryContents d = ((FileSyncObjects.DirectoryContents)(inValues[2]));
+            FileSyncObjects.FileContents f = ((FileSyncObjects.FileContents)(inValues[3]));
+            return this.BeginAddFile(c, m, d, f, callback, asyncState);
+        }
+        
+        private object[] OnEndAddFile(System.IAsyncResult result) {
+            bool retVal = this.EndAddFile(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnAddFileCompleted(object state) {
+            if ((this.AddFileCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.AddFileCompleted(this, new AddFileCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void AddFileAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f) {
+            this.AddFileAsync(c, m, d, f, null);
+        }
+        
+        public void AddFileAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileContents f, object userState) {
+            if ((this.onBeginAddFileDelegate == null)) {
+                this.onBeginAddFileDelegate = new BeginOperationDelegate(this.OnBeginAddFile);
+            }
+            if ((this.onEndAddFileDelegate == null)) {
+                this.onEndAddFileDelegate = new EndOperationDelegate(this.OnEndAddFile);
+            }
+            if ((this.onAddFileCompletedDelegate == null)) {
+                this.onAddFileCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAddFileCompleted);
+            }
+            base.InvokeAsync(this.onBeginAddFileDelegate, new object[] {
+                        c,
+                        m,
+                        d,
+                        f}, this.onEndAddFileDelegate, this.onAddFileCompletedDelegate, userState);
         }
         
         public FileSyncObjects.FileContents GetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f) {
             return base.Channel.GetFileWithContent(c, m, d, f);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetFileWithContent(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetFileWithContent(c, m, d, f, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public FileSyncObjects.FileContents EndGetFileWithContent(System.IAsyncResult result) {
+            return base.Channel.EndGetFileWithContent(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetFileWithContent(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineContents m = ((FileSyncObjects.MachineContents)(inValues[1]));
+            FileSyncObjects.DirectoryContents d = ((FileSyncObjects.DirectoryContents)(inValues[2]));
+            FileSyncObjects.FileIdentity f = ((FileSyncObjects.FileIdentity)(inValues[3]));
+            return this.BeginGetFileWithContent(c, m, d, f, callback, asyncState);
+        }
+        
+        private object[] OnEndGetFileWithContent(System.IAsyncResult result) {
+            FileSyncObjects.FileContents retVal = this.EndGetFileWithContent(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetFileWithContentCompleted(object state) {
+            if ((this.GetFileWithContentCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetFileWithContentCompleted(this, new GetFileWithContentCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetFileWithContentAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f) {
+            this.GetFileWithContentAsync(c, m, d, f, null);
+        }
+        
+        public void GetFileWithContentAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineContents m, FileSyncObjects.DirectoryContents d, FileSyncObjects.FileIdentity f, object userState) {
+            if ((this.onBeginGetFileWithContentDelegate == null)) {
+                this.onBeginGetFileWithContentDelegate = new BeginOperationDelegate(this.OnBeginGetFileWithContent);
+            }
+            if ((this.onEndGetFileWithContentDelegate == null)) {
+                this.onEndGetFileWithContentDelegate = new EndOperationDelegate(this.OnEndGetFileWithContent);
+            }
+            if ((this.onGetFileWithContentCompletedDelegate == null)) {
+                this.onGetFileWithContentCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetFileWithContentCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetFileWithContentDelegate, new object[] {
+                        c,
+                        m,
+                        d,
+                        f}, this.onEndGetFileWithContentDelegate, this.onGetFileWithContentCompletedDelegate, userState);
+        }
+        
         public bool DelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f) {
             return base.Channel.DelFile(c, mid, did, f);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginDelFile(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDelFile(c, mid, did, f, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public bool EndDelFile(System.IAsyncResult result) {
+            return base.Channel.EndDelFile(result);
+        }
+        
+        private System.IAsyncResult OnBeginDelFile(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            FileSyncObjects.Credentials c = ((FileSyncObjects.Credentials)(inValues[0]));
+            FileSyncObjects.MachineIdentity mid = ((FileSyncObjects.MachineIdentity)(inValues[1]));
+            FileSyncObjects.DirectoryIdentity did = ((FileSyncObjects.DirectoryIdentity)(inValues[2]));
+            FileSyncObjects.FileIdentity f = ((FileSyncObjects.FileIdentity)(inValues[3]));
+            return this.BeginDelFile(c, mid, did, f, callback, asyncState);
+        }
+        
+        private object[] OnEndDelFile(System.IAsyncResult result) {
+            bool retVal = this.EndDelFile(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnDelFileCompleted(object state) {
+            if ((this.DelFileCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DelFileCompleted(this, new DelFileCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DelFileAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f) {
+            this.DelFileAsync(c, mid, did, f, null);
+        }
+        
+        public void DelFileAsync(FileSyncObjects.Credentials c, FileSyncObjects.MachineIdentity mid, FileSyncObjects.DirectoryIdentity did, FileSyncObjects.FileIdentity f, object userState) {
+            if ((this.onBeginDelFileDelegate == null)) {
+                this.onBeginDelFileDelegate = new BeginOperationDelegate(this.OnBeginDelFile);
+            }
+            if ((this.onEndDelFileDelegate == null)) {
+                this.onEndDelFileDelegate = new EndOperationDelegate(this.OnEndDelFile);
+            }
+            if ((this.onDelFileCompletedDelegate == null)) {
+                this.onDelFileCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDelFileCompleted);
+            }
+            base.InvokeAsync(this.onBeginDelFileDelegate, new object[] {
+                        c,
+                        mid,
+                        did,
+                        f}, this.onEndDelFileDelegate, this.onDelFileCompletedDelegate, userState);
         }
     }
 }

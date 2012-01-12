@@ -248,6 +248,7 @@ namespace FileSyncGui {
 
 		#region File (local)
 
+
 		public bool UploadFile(IFileSyncModel connection, Credentials c, MachineIdentity m,
 				DirectoryIdentity d, FileContents f) {
 			return connection.AddFile(c, new MachineContents(m), new DirectoryContents(d), f);

@@ -419,7 +419,7 @@ namespace FileSyncWcfService {
 
 		public bool AddFile(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
-			GetDirList(c, m);
+					m.Directories = GetDirList(c, m);
 			f.Dir = (from o in m.Directories where o.Name == d.Name select o.Id).Single();
         
 			if (!CheckFileExistence(c, m, d, f)) {
@@ -452,7 +452,7 @@ namespace FileSyncWcfService {
 
 		public void GetFileContent(Credentials c, MachineContents m, DirectoryContents d,
 				FileContents f) {
-			GetFileContentId(c, m, d, f);
+			f.Id = GetFileContentId(c, m, d, f);
 			using (filesyncEntitiesNew context = new filesyncEntitiesNew()) {
 				Content c1 = (from o in context.Contents
 							  where o.content_id == f.Content

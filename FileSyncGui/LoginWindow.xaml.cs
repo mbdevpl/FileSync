@@ -160,7 +160,7 @@ namespace FileSyncGui {
 					this.DialogResult = true;
 					this.Close();
 				} else
-					new SystemMessage("FileSync", "Sorry..", "Login attempt failed.").ShowDialog();
+					new SystemMessage("FileSync", "Sorry..", "Login attempt failed.", MemeType.AreYouFuckingKiddingMe).ShowDialog();
 			} catch (ActionException ex) {
 				new SystemMessage(ex).ShowDialog();
 			}
